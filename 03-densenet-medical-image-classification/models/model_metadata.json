@@ -1,0 +1,182 @@
+{
+  "project_name": "DenseNet Medical Image Classification",
+  "artifact_filename": "densenet121_medical.keras",
+  "artifact_sha256": "7f1ae8893bb4811e0fee1940f30ae7d21dd45ed1442cfee3bfd499a2369d36d0",
+  "keras_version_when_saved": "3.13.2",
+  "date_saved": "2026-03-30@14:07:00",
+  "architecture": "DenseNet121 transfer-learning backbone with a custom 2-class softmax head",
+  "task_type": "binary classification prototype",
+  "classes": [
+    "normal_like",
+    "pneumonia_like"
+  ],
+  "class_to_index": {
+    "normal_like": 0,
+    "pneumonia_like": 1
+  },
+  "input_shape": [
+    28,
+    28,
+    3
+  ],
+  "internal_resize": [
+    96,
+    96
+  ],
+  "color_mode": "RGB",
+  "external_preprocessing": "Convert to RGB, resize to 28x28, cast to float32, scale pixels to [0, 1].",
+  "internal_preprocessing": "Saved model resizes to 96x96 and applies DenseNet preprocess_input after multiplying by 255.",
+  "output_format": "2-value softmax probability vector",
+  "dataset_name": "Fashion-MNIST-derived synthetic proxy",
+  "dataset_status": "synthetic_proxy_not_clinical",
+  "dataset_details": {
+    "source_used_by_attached_notebook": "tf.keras.datasets.fashion_mnist",
+    "proxy_positive_source_classes": [
+      2,
+      4,
+      6
+    ],
+    "train_count": 52000,
+    "validation_count": 8000,
+    "test_count": 10000,
+    "train_class_distribution": {
+      "normal_like": 36419,
+      "pneumonia_like": 15581
+    },
+    "test_class_distribution": {
+      "normal_like": 7000,
+      "pneumonia_like": 3000
+    },
+    "important_note": "The attached notebook narrative references chest X-rays, but its executable cells train on Fashion-MNIST. Therefore, the bundled model and metrics must not be presented as pneumonia-detection results."
+  },
+  "training": {
+    "seed": 42,
+    "epochs_requested": 12,
+    "batch_size": 128,
+    "backbone_trainable": false,
+    "optimizer": "Adam",
+    "final_recorded_learning_rate": 0.0005,
+    "loss": "categorical_crossentropy",
+    "metrics": [
+      "accuracy",
+      "AUC"
+    ],
+    "augmentation": [
+      "horizontal flip",
+      "rotation factor 0.04",
+      "zoom factor 0.08"
+    ]
+  },
+  "evaluation": {
+    "baseline_validation_accuracy": 0.93125,
+    "baseline_test_accuracy": 0.9282,
+    "baseline_test_auc": 0.9739725714285714,
+    "densenet_validation_accuracy": 0.9598749876022339,
+    "densenet_test_accuracy": 0.9563999772071838,
+    "densenet_test_auc": 0.9933711290359497,
+    "seed": 42
+  },
+  "limitations": [
+    "Bundled artifact was not trained on clinical chest X-rays.",
+    "Labels are synthetic normal-like and pneumonia-like proxy labels.",
+    "Clinical use is prohibited.",
+    "Chest X-rays are out-of-distribution for the bundled artifact.",
+    "Run the Kaggle notebook on a licensed public chest X-ray dataset and replace the model/metadata before presenting a true chest X-ray classifier."
+  ],
+  "medical_disclaimer": "This project is for educational and portfolio demonstration purposes only. It is not a medical diagnostic tool. The model must not be used to diagnose, treat, prevent, or manage any medical condition. Medical image interpretation requires clinical validation, domain expertise, and review by qualified healthcare professionals. Do not upload private, sensitive, confidential, or personally identifiable medical images. Predictions are machine-learning outputs, not medical advice.",
+  "kaggle_notebook": "notebooks/densenet_medical_image_classification_kaggle.ipynb",
+  "live_demo": "Hugging Face Spaces link to be added after deployment",
+  "top_level_layers": [
+    {
+      "class_name": "InputLayer",
+      "name": "input_layer_2",
+      "trainable": null,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Resizing",
+      "name": "resizing",
+      "trainable": true,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Sequential",
+      "name": "data_augmentation_model",
+      "trainable": true,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Multiply",
+      "name": "multiply",
+      "trainable": null,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "TrueDivide",
+      "name": "true_divide",
+      "trainable": null,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Add",
+      "name": "add",
+      "trainable": null,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "TrueDivide",
+      "name": "true_divide_1",
+      "trainable": null,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Functional",
+      "name": "densenet121",
+      "trainable": false,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "GlobalAveragePooling2D",
+      "name": "global_average_pooling2d",
+      "trainable": true,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Dense",
+      "name": "dense",
+      "trainable": true,
+      "units": 256,
+      "activation": "relu"
+    },
+    {
+      "class_name": "BatchNormalization",
+      "name": "batch_normalization",
+      "trainable": true,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Dropout",
+      "name": "dropout",
+      "trainable": true,
+      "units": null,
+      "activation": null
+    },
+    {
+      "class_name": "Dense",
+      "name": "dense_1",
+      "trainable": true,
+      "units": 2,
+      "activation": "softmax"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+class,precision,recall,f1_score,support
+normal_like,0.969394,0.968286,0.968839,7000
+pneumonia_like,0.926197,0.928667,0.92743,3000
+macro_avg,0.9478,0.9485,0.9481,10000
+weighted_avg,0.9564,0.9564,0.9564,10000

@@ -1,0 +1,32 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+.DS_Store
+Thumbs.db
+
+# Full datasets and private/clinical material
+data/full_dataset/
+data/raw/
+data/train/
+data/val/
+data/validation/
+data/test/
+*.dcm
+*.dicom
+
+# Generated training artifacts
+outputs/training/
+outputs/evaluation/
+models/best_model.keras
+models/densenet_medical_classification_model.keras
+
+# Keep the audited bundled portfolio model and metadata
+!models/densenet121_medical.keras
+!models/model_metadata.json
+!models/metrics.json
+!models/label_encoder.pkl

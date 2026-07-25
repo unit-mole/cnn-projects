@@ -1,0 +1,3 @@
+model,validation_accuracy,test_accuracy,test_auc
+Logistic Regression,0.93125,0.9282,0.9739725714285714
+DenseNet121,0.9598749876022339,0.9563999772071838,0.9933711290359497

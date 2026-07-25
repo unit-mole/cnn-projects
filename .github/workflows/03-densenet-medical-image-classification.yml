@@ -1,0 +1,47 @@
+name: 03 DenseNet Medical Image Classification CI
+
+on:
+  push:
+    paths:
+      - "03-densenet-medical-image-classification/**"
+      - ".github/workflows/03-densenet-medical-image-classification.yml"
+  pull_request:
+    paths:
+      - "03-densenet-medical-image-classification/**"
+      - ".github/workflows/03-densenet-medical-image-classification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lightweight-validation:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 03-densenet-medical-image-classification
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: 03-densenet-medical-image-classification/requirements-ci.txt
+
+      - name: Install lightweight CI dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-ci.txt
+
+      - name: Validate project structure and Keras archive
+        run: python scripts/validate_project.py
+
+      - name: Run unit tests without model training
+        run: pytest
+
+      - name: Validate application imports
+        run: |
+          python -c "import app; import gradio_app; import src.inference_pipeline; print('Imports successful')"

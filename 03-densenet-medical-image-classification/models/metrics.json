@@ -1,0 +1,9 @@
+{
+    "baseline_validation_accuracy": 0.93125,
+    "baseline_test_accuracy": 0.9282,
+    "baseline_test_auc": 0.9739725714285714,
+    "densenet_validation_accuracy": 0.9598749876022339,
+    "densenet_test_accuracy": 0.9563999772071838,
+    "densenet_test_auc": 0.9933711290359497,
+    "seed": 42
+}
