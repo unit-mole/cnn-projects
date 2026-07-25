@@ -1,8 +1,9 @@
-"""Create the tiny, explicitly untrained TensorFlow.js browser wiring model.
+"""Create a tiny TensorFlow.js-compatible browser wiring model.
 
-This artifact exists only so the static UI can be validated before the real
-AlexNet-style classifier is trained and converted. It must not be presented as
-classification performance.
+The artifact is intentionally untrained. It verifies static hosting, model
+loading, image preprocessing, inference, and result rendering before a trained
+AlexNet-style model is exported. The JSON uses the Keras-v2-compatible field
+names expected by TensorFlow.js Layers (not the Keras 3 ``batch_shape`` form).
 """
 from __future__ import annotations
 
@@ -12,31 +13,39 @@ import struct
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+INPUT_SHAPE = [None, 227, 227, 3]
+MODEL_NAME = "browser_smoke_test_global_rgb"
+
+# Three global RGB features feed ten demo logits. These values are fixed and
+# only make the browser workflow deterministic; they are not learned weights.
+KERNEL = [
+    0.8, -0.3, 0.1, 0.6, -0.2, 0.2, -0.4, 0.3, -0.1, 0.5,
+    -0.2, 0.7, 0.4, -0.3, 0.8, -0.1, 0.6, 0.2, 0.4, -0.5,
+    0.1, 0.2, 0.7, 0.3, 0.1, 0.8, 0.5, -0.2, 0.6, 0.4,
+]
+BIAS = [0.00, 0.02, -0.01, 0.01, -0.02, 0.00, 0.015, -0.015, 0.005, -0.005]
+
+
+def _initializer(class_name: str) -> dict:
+    return {"class_name": class_name, "config": {}}
 
 
 def build_payload() -> tuple[dict, list[float]]:
+    """Return a TensorFlow.js Layers manifest and its flattened float weights."""
     model_topology = {
-        "keras_version": "3.0.0",
+        "keras_version": "2.15.0",
         "backend": "tensorflow",
         "model_config": {
             "class_name": "Sequential",
             "config": {
-                "name": "browser_smoke_test_global_rgb",
-                "trainable": False,
-                "dtype": {
-                    "module": "keras",
-                    "class_name": "DTypePolicy",
-                    "config": {"name": "float32"},
-                    "registered_name": None,
-                },
+                "name": MODEL_NAME,
                 "layers": [
                     {
                         "class_name": "InputLayer",
                         "config": {
-                            "batch_shape": [None, 227, 227, 3],
+                            "batch_input_shape": INPUT_SHAPE,
                             "dtype": "float32",
                             "sparse": False,
-                            "ragged": False,
                             "name": "image",
                         },
                     },
@@ -45,12 +54,7 @@ def build_payload() -> tuple[dict, list[float]]:
                         "config": {
                             "name": "global_average_pooling",
                             "trainable": False,
-                            "dtype": {
-                                "module": "keras",
-                                "class_name": "DTypePolicy",
-                                "config": {"name": "float32"},
-                                "registered_name": None,
-                            },
+                            "dtype": "float32",
                             "data_format": "channels_last",
                             "keepdims": False,
                         },
@@ -60,79 +64,56 @@ def build_payload() -> tuple[dict, list[float]]:
                         "config": {
                             "name": "classifier",
                             "trainable": False,
-                            "dtype": {
-                                "module": "keras",
-                                "class_name": "DTypePolicy",
-                                "config": {"name": "float32"},
-                                "registered_name": None,
-                            },
+                            "dtype": "float32",
                             "units": 10,
                             "activation": "softmax",
                             "use_bias": True,
-                            "kernel_initializer": {
-                                "module": "keras.initializers",
-                                "class_name": "Zeros",
-                                "config": {},
-                                "registered_name": None,
-                            },
-                            "bias_initializer": {
-                                "module": "keras.initializers",
-                                "class_name": "Zeros",
-                                "config": {},
-                                "registered_name": None,
-                            },
+                            "kernel_initializer": _initializer("Zeros"),
+                            "bias_initializer": _initializer("Zeros"),
                             "kernel_regularizer": None,
                             "bias_regularizer": None,
+                            "activity_regularizer": None,
                             "kernel_constraint": None,
                             "bias_constraint": None,
                         },
                     },
                 ],
-                "build_input_shape": [None, 227, 227, 3],
             },
         },
     }
-    weights = [
-        0.8, -0.3, 0.1, 0.6, -0.2, 0.2, -0.4, 0.3, -0.1, 0.5,
-        -0.2, 0.7, 0.4, -0.3, 0.8, -0.1, 0.6, 0.2, 0.4, -0.5,
-        0.1, 0.2, 0.7, 0.3, 0.1, 0.8, 0.5, -0.2, 0.6, 0.4,
-    ]
-    bias = [0.00, 0.02, -0.01, 0.01, -0.02, 0.00, 0.015, -0.015, 0.005, -0.005]
+
     payload = {
         "format": "layers-model",
-        "generatedBy": "Portfolio smoke-test generator; not trained",
-        "convertedBy": "Manual TensorFlow.js-compatible artifact for interface validation",
+        "generatedBy": "Portfolio TensorFlow.js smoke-test generator; not trained",
+        "convertedBy": "Manual TensorFlow.js 4.x-compatible artifact",
         "modelTopology": model_topology,
         "weightsManifest": [
             {
                 "paths": ["group1-shard1of1.bin"],
                 "weights": [
-                    {
-                        "name": "browser_smoke_test_global_rgb/classifier/kernel",
-                        "shape": [3, 10],
-                        "dtype": "float32",
-                    },
-                    {
-                        "name": "browser_smoke_test_global_rgb/classifier/bias",
-                        "shape": [10],
-                        "dtype": "float32",
-                    },
+                    {"name": "classifier/kernel", "shape": [3, 10], "dtype": "float32"},
+                    {"name": "classifier/bias", "shape": [10], "dtype": "float32"},
                 ],
             }
         ],
     }
-    return payload, weights + bias
+    return payload, KERNEL + BIAS
 
 
 def write_model(directory: Path) -> None:
     payload, values = build_payload()
     directory.mkdir(parents=True, exist_ok=True)
-    (directory / "model.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    (directory / "group1-shard1of1.bin").write_bytes(struct.pack("<" + "f" * len(values), *values))
+    (directory / "model.json").write_text(
+        json.dumps(payload, indent=2) + "\n", encoding="utf-8"
+    )
+    (directory / "group1-shard1of1.bin").write_bytes(
+        struct.pack("<" + "f" * len(values), *values)
+    )
     (directory / "SMOKE_TEST_ONLY.md").write_text(
         "# Smoke-test-only artifact\n\n"
-        "This model is handcrafted and untrained. Replace it with the output of "
-        "`scripts/convert_to_tfjs.py` before publishing classification claims.\n",
+        "This model is handcrafted and untrained. It only verifies the browser "
+        "workflow. Replace it with the output of `scripts/convert_to_tfjs.py` "
+        "before publishing model-performance claims.\n",
         encoding="utf-8",
     )
 
@@ -140,13 +121,12 @@ def write_model(directory: Path) -> None:
 def main() -> None:
     models_dir = PROJECT_ROOT / "models" / "tfjs_model"
     web_dir = PROJECT_ROOT / "web" / "tfjs_model"
-    if models_dir.exists():
-        shutil.rmtree(models_dir)
-    if web_dir.exists():
-        shutil.rmtree(web_dir)
+    for directory in (models_dir, web_dir):
+        if directory.exists():
+            shutil.rmtree(directory)
     write_model(models_dir)
     shutil.copytree(models_dir, web_dir)
-    print(f"Created smoke-test artifacts in {models_dir} and {web_dir}")
+    print(f"Created TensorFlow.js-compatible smoke-test artifacts in {models_dir} and {web_dir}")
 
 
 if __name__ == "__main__":

@@ -14,6 +14,22 @@ def validate_tfjs_model(model_dir: str | Path) -> dict[str, Any]:
     payload = json.loads(model_json.read_text(encoding="utf-8"))
     if payload.get("format") != "layers-model":
         raise ValueError("Expected a TensorFlow.js layers-model export.")
+    topology = payload.get("modelTopology", {})
+    model_config = topology.get("model_config", {})
+    layers = model_config.get("config", {}).get("layers", [])
+    input_layers = [layer for layer in layers if layer.get("class_name") == "InputLayer"]
+    if input_layers:
+        input_config = input_layers[0].get("config", {})
+        if "batch_shape" in input_config:
+            raise ValueError(
+                "TensorFlow.js-incompatible InputLayer: replace Keras 3 'batch_shape' "
+                "with 'batch_input_shape' or regenerate the model with the TFJS converter."
+            )
+        if not ({"batch_input_shape", "input_shape"} & input_config.keys()):
+            raise ValueError(
+                "TensorFlow.js InputLayer must define 'batch_input_shape' or 'input_shape'."
+            )
+
     manifests = payload.get("weightsManifest", [])
     if not manifests:
         raise ValueError("TensorFlow.js model has no weights manifest.")

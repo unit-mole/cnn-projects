@@ -1,5 +1,7 @@
 "use strict";
 
+const ASSET_VERSION = "20260725-input-shape-fix";
+
 const state = {
   model: null,
   metadata: null,
@@ -37,7 +39,7 @@ function bindEvents() {
 async function initializeModel() {
   try {
     if (typeof tf === "undefined") throw new Error("TensorFlow.js did not load.");
-    state.metadata = await fetchJson("./metadata.json");
+    state.metadata = await fetchJson(`./metadata.json?v=${ASSET_VERSION}`);
     validateMetadata(state.metadata);
     renderModelDetails(state.metadata);
 
@@ -46,11 +48,20 @@ async function initializeModel() {
       elements["artifact-warning"].textContent = state.metadata.artifact_warning || "This is not a trained production artifact.";
     }
 
-    state.model = await tf.loadLayersModel("./tfjs_model/model.json");
-    const warmup = tf.zeros([1, state.metadata.input_height, state.metadata.input_width, state.metadata.channels]);
+    state.model = await loadBrowserModel();
+    const warmup = tf.zeros([
+      1,
+      state.metadata.input_height,
+      state.metadata.input_width,
+      state.metadata.channels,
+    ]);
     const output = state.model.predict(warmup);
     tf.dispose([warmup, output]);
-    setStatus("Model ready", "ready");
+
+    const statusText = state.metadata.artifact_status === "trained"
+      ? "Model ready"
+      : "Demo model ready";
+    setStatus(statusText, "ready");
     updatePredictButton();
   } catch (error) {
     console.error(error);
@@ -58,6 +69,56 @@ async function initializeModel() {
     elements["artifact-warning"].hidden = false;
     elements["artifact-warning"].textContent = `The model could not be loaded: ${error.message}`;
   }
+}
+
+async function loadBrowserModel() {
+  try {
+    return await tf.loadLayersModel(`./tfjs_model/model.json?v=${ASSET_VERSION}`);
+  } catch (loadError) {
+    if (state.metadata.artifact_status === "trained") throw loadError;
+
+    console.warn(
+      "The bundled smoke-test model manifest could not be loaded. " +
+      "Using the equivalent TensorFlow.js browser fallback.",
+      loadError
+    );
+    return createBrowserSmokeTestModel();
+  }
+}
+
+function createBrowserSmokeTestModel() {
+  const model = tf.sequential({ name: "browser_smoke_test_global_rgb" });
+  model.add(tf.layers.globalAveragePooling2d({
+    inputShape: [
+      state.metadata.input_height,
+      state.metadata.input_width,
+      state.metadata.channels,
+    ],
+    dataFormat: "channelsLast",
+    name: "global_average_pooling",
+  }));
+  model.add(tf.layers.dense({
+    units: state.metadata.num_classes,
+    activation: "softmax",
+    useBias: true,
+    name: "classifier",
+  }));
+
+  const kernelValues = [
+    0.8, -0.3, 0.1, 0.6, -0.2, 0.2, -0.4, 0.3, -0.1, 0.5,
+    -0.2, 0.7, 0.4, -0.3, 0.8, -0.1, 0.6, 0.2, 0.4, -0.5,
+    0.1, 0.2, 0.7, 0.3, 0.1, 0.8, 0.5, -0.2, 0.6, 0.4,
+  ];
+  const biasValues = [
+    0.0, 0.02, -0.01, 0.01, -0.02,
+    0.0, 0.015, -0.015, 0.005, -0.005,
+  ];
+
+  const kernel = tf.tensor2d(kernelValues, [state.metadata.channels, state.metadata.num_classes]);
+  const bias = tf.tensor1d(biasValues);
+  model.getLayer("classifier").setWeights([kernel, bias]);
+  tf.dispose([kernel, bias]);
+  return model;
 }
 
 async function fetchJson(path) {

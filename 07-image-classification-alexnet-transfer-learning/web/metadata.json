@@ -31,5 +31,7 @@
   "responsible_use": "Educational portfolio demonstration only. Do not use as the sole basis for medical, legal, safety-critical, security, hiring, insurance, financial, quality-release, or production decisions.",
   "primary_hosting": "GitHub Pages",
   "live_demo_url": "https://unit-mole.github.io/cnn-projects/07-image-classification-alexnet-transfer-learning/",
-  "cloudflare_fallback_url": "https://YOUR-PROJECT.pages.dev"
+  "cloudflare_fallback_url": "https://YOUR-PROJECT.pages.dev",
+  "browser_runtime_fix": "TensorFlow.js InputLayer uses batch_input_shape; app includes a smoke-only programmatic fallback.",
+  "asset_version": "20260725-input-shape-fix"
 }

@@ -226,7 +226,36 @@ You can also run `npm run deploy` after authenticating Wrangler. See `README_CLO
 
 ## GitHub Pages deployment
 
-The root workflow `.github/workflows/04-image-classification-resnet.yml` automatically assembles and deploys both the existing ResNet demo and this project. The AlexNet-style app is published at `/07-image-classification-alexnet-transfer-learning/`. See `README_GITHUB_PAGES.md` and the root `GITHUB_PAGES_DEPLOYMENT.md`.
+Project 07 uses its own root-level workflow:
+
+```text
+.github/workflows/07-image-classification-alexnet-transfer-learning.yml
+```
+
+The workflow validates the project and publishes `web/` to the existing `gh-pages` branch under:
+
+```text
+07-image-classification-alexnet-transfer-learning/
+```
+
+Live demo:
+
+```text
+https://unit-mole.github.io/cnn-projects/07-image-classification-alexnet-transfer-learning/
+```
+
+Project 04 remains available at the repository Pages root. See `README_GITHUB_PAGES.md` for deployment and troubleshooting instructions.
+
+
+## Browser model-loading compatibility fix
+
+The bundled smoke-test manifest uses the TensorFlow.js-compatible InputLayer field `batch_input_shape`. Keras 3 may serialize the same value as `batch_shape`, which TensorFlow.js Layers can reject with:
+
+```text
+An InputLayer should be passed either a batchInputShape or an inputShape.
+```
+
+The browser app also includes an equivalent TensorFlow.js programmatic fallback for the explicitly untrained smoke-test artifact. A real trained export is still loaded from `web/tfjs_model/model.json`; the fallback is never used when `artifact_status` is `trained`.
 
 ## Folder structure
 

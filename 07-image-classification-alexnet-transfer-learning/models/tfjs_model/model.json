@@ -1,28 +1,19 @@
 {
   "format": "layers-model",
-  "generatedBy": "Portfolio smoke-test generator; not trained",
-  "convertedBy": "Manual TensorFlow.js-compatible artifact for interface validation",
+  "generatedBy": "Portfolio TensorFlow.js smoke-test generator; not trained",
+  "convertedBy": "Manual TensorFlow.js 4.x-compatible artifact",
   "modelTopology": {
-    "keras_version": "3.0.0",
+    "keras_version": "2.15.0",
     "backend": "tensorflow",
     "model_config": {
       "class_name": "Sequential",
       "config": {
         "name": "browser_smoke_test_global_rgb",
-        "trainable": false,
-        "dtype": {
-          "module": "keras",
-          "class_name": "DTypePolicy",
-          "config": {
-            "name": "float32"
-          },
-          "registered_name": null
-        },
         "layers": [
           {
             "class_name": "InputLayer",
             "config": {
-              "batch_shape": [
+              "batch_input_shape": [
                 null,
                 227,
                 227,
@@ -30,7 +21,6 @@
               ],
               "dtype": "float32",
               "sparse": false,
-              "ragged": false,
               "name": "image"
             }
           },
@@ -39,14 +29,7 @@
             "config": {
               "name": "global_average_pooling",
               "trainable": false,
-              "dtype": {
-                "module": "keras",
-                "class_name": "DTypePolicy",
-                "config": {
-                  "name": "float32"
-                },
-                "registered_name": null
-              },
+              "dtype": "float32",
               "data_format": "channels_last",
               "keepdims": false
             }
@@ -56,41 +39,25 @@
             "config": {
               "name": "classifier",
               "trainable": false,
-              "dtype": {
-                "module": "keras",
-                "class_name": "DTypePolicy",
-                "config": {
-                  "name": "float32"
-                },
-                "registered_name": null
-              },
+              "dtype": "float32",
               "units": 10,
               "activation": "softmax",
               "use_bias": true,
               "kernel_initializer": {
-                "module": "keras.initializers",
                 "class_name": "Zeros",
-                "config": {},
-                "registered_name": null
+                "config": {}
               },
               "bias_initializer": {
-                "module": "keras.initializers",
                 "class_name": "Zeros",
-                "config": {},
-                "registered_name": null
+                "config": {}
               },
               "kernel_regularizer": null,
               "bias_regularizer": null,
+              "activity_regularizer": null,
               "kernel_constraint": null,
               "bias_constraint": null
             }
           }
-        ],
-        "build_input_shape": [
-          null,
-          227,
-          227,
-          3
         ]
       }
     }
@@ -102,7 +69,7 @@
       ],
       "weights": [
         {
-          "name": "browser_smoke_test_global_rgb/classifier/kernel",
+          "name": "classifier/kernel",
           "shape": [
             3,
             10
@@ -110,7 +77,7 @@
           "dtype": "float32"
         },
         {
-          "name": "browser_smoke_test_global_rgb/classifier/bias",
+          "name": "classifier/bias",
           "shape": [
             10
           ],

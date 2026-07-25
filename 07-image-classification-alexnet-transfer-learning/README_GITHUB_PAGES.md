@@ -6,31 +6,38 @@
 https://unit-mole.github.io/cnn-projects/07-image-classification-alexnet-transfer-learning/
 ```
 
-## Combined repository deployment
+## Publishing arrangement
 
-The repository has one GitHub Pages site, so one combined workflow publishes both browser demos:
+The repository uses one `gh-pages` branch for the GitHub Pages website:
 
 - Project 04 remains at the repository Pages root.
-- Project 04 is also available at `/04-image-classification-resnet/`.
-- Project 07 is available at `/07-image-classification-alexnet-transfer-learning/`.
+- Project 07 is published into its own subdirectory.
+- Project 07's workflow uses `keep_files: true`, so publishing Project 07 does not remove Project 04.
 
-No separate root-level `github-pages/` folder is needed.
+No root-level `github-pages/` folder is required.
 
-## Workflow files
+## Project 07 workflow
 
 ```text
-.github/workflows/04-image-classification-resnet.yml
 .github/workflows/07-image-classification-alexnet-transfer-learning.yml
 ```
 
-The first workflow deploys the combined static site. The second performs lightweight Project 07 code and asset validation without retraining the model.
+On a push to `main`, the workflow:
 
-## One-time GitHub setup
+1. validates Python and browser files,
+2. checks the TensorFlow.js manifest and binary shard,
+3. runs the unit tests,
+4. publishes `07-image-classification-alexnet-transfer-learning/web/` to the matching directory on `gh-pages`.
 
-1. Open the repository on GitHub.
-2. Select **Settings → Pages**.
-3. Set the publishing source to **GitHub Actions**.
-4. Push to `main` or manually run **Deploy ResNet and AlexNet Browser Demos**.
+## GitHub Pages setting
+
+Under **Settings → Pages**, use:
+
+```text
+Source: Deploy from a branch
+Branch: gh-pages
+Folder: /(root)
+```
 
 ## Local verification
 
@@ -41,6 +48,18 @@ python -m http.server 8000
 
 Open `http://localhost:8000`. Do not open `index.html` directly using `file://`, because browser security rules can block model and metadata requests.
 
+## Browser InputLayer fix
+
+The bundled demo model must use this TensorFlow.js-compatible field:
+
+```json
+"batch_input_shape": [null, 227, 227, 3]
+```
+
+Do not change it to the Keras 3 field `batch_shape`. The validation script rejects that incompatible field before deployment.
+
+The browser app also contains a programmatic smoke-model fallback. It is used only when the bundled untrained smoke manifest cannot be loaded. A trained artifact does not use the fallback.
+
 ## Replace the smoke-test model
 
 After training, run:
@@ -49,11 +68,20 @@ After training, run:
 python scripts/convert_to_tfjs.py
 ```
 
-Commit `web/tfjs_model/model.json`, every generated `.bin` shard, and `web/metadata.json`.
+Commit:
+
+```text
+web/tfjs_model/model.json
+web/tfjs_model/*.bin
+web/metadata.json
+```
+
+The conversion script changes `artifact_status` to `trained`, so the browser loads the trained TensorFlow.js export directly.
 
 ## Troubleshooting
 
-- A 404 usually means the combined deployment workflow has not completed or Pages is not set to GitHub Actions.
-- A model-loading error usually means a shard referenced by `model.json` is missing or has different letter casing.
-- Keep relative paths such as `./metadata.json`, `./tfjs_model/model.json`, and `./sample_images/...`.
-- Only the combined Project 04 workflow should deploy to the `github-pages` environment.
+- A 404 means the Project 07 publishing job has not completed or Pages is not serving `gh-pages` from `/(root)`.
+- An InputLayer error means `model.json` probably contains `batch_shape` instead of `batch_input_shape` or `input_shape`.
+- A shard error means a `.bin` file referenced by `model.json` is absent or has different letter casing.
+- Use `Ctrl + F5` after deployment to bypass an older cached `app.js` or model manifest.
+- Keep all browser paths relative: `./metadata.json`, `./tfjs_model/model.json`, and `./sample_images/...`.
