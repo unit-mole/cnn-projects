@@ -1,0 +1,8 @@
+{
+    "baseline_test_class_acc": 0.177,
+    "baseline_test_iou": 0.36787545680999756,
+    "detector_test_class_acc": 0.9323333333333333,
+    "detector_test_iou": 0.3486437499523163,
+    "top3_accuracy": 0.989,
+    "seed": 42
+}

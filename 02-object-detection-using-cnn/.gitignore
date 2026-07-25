@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+.DS_Store
+Thumbs.db
+outputs/*
+!outputs/.gitkeep
+data/raw/
+data/private/
+*.h5
+*.ckpt
