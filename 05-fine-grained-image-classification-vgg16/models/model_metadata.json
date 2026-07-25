@@ -1,0 +1,112 @@
+{
+  "project_name": "Fine-Grained Image Classification using VGG16",
+  "project_slug": "05-fine-grained-image-classification-vgg16",
+  "task_type": "binary image classification",
+  "fine_grained_framing": "distinguishing two visually similar animal categories",
+  "dataset": {
+    "name": "CIFAR-10 (filtered)",
+    "source_classes": {
+      "3": "cat",
+      "5": "dog"
+    },
+    "classes": [
+      "cat",
+      "dog"
+    ],
+    "image_format": "RGB arrays",
+    "source_image_size": [
+      32,
+      32,
+      3
+    ],
+    "train_images": 8000,
+    "validation_images": 2000,
+    "test_images": 2000,
+    "train_class_distribution": {
+      "cat": 4005,
+      "dog": 3995
+    },
+    "redistribution_allowed": "CIFAR-10 terms apply"
+  },
+  "model": {
+    "architecture": "VGG16 transfer learning",
+    "backbone_weights": "ImageNet",
+    "backbone_trainable": false,
+    "source_input_shape": [
+      32,
+      32,
+      3
+    ],
+    "browser_input_shape": [
+      96,
+      96,
+      3
+    ],
+    "output_units": 2,
+    "activation": "softmax",
+    "total_parameters": 15928770,
+    "trainable_parameters": 1213570,
+    "non_trainable_parameters": 14715200,
+    "training_epochs_requested": 15,
+    "batch_size": 128,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "categorical_crossentropy"
+  },
+  "preprocessing": {
+    "python_source_model": [
+      "RGB resize to 32x32",
+      "normalize to [0,1]",
+      "model resizes to 96x96",
+      "VGG16 preprocess_input"
+    ],
+    "browser_model": [
+      "RGB resize to 32x32",
+      "bilinear resize to 96x96",
+      "RGB to BGR",
+      "subtract ImageNet VGG16 means"
+    ],
+    "vgg16_bgr_means": [
+      103.939,
+      116.779,
+      123.68
+    ]
+  },
+  "augmentation": [
+    "horizontal flip",
+    "rotation \u00b10.06 fraction",
+    "zoom \u00b110%"
+  ],
+  "metrics": {
+    "baseline_validation_accuracy": 0.5665,
+    "baseline_test_accuracy": 0.572,
+    "vgg16_validation_accuracy": 0.8554999828338623,
+    "vgg16_test_accuracy": 0.8694999814033508,
+    "top2_accuracy": 1.0,
+    "seed": 42
+  },
+  "confusion_matrix": {
+    "cat_as_cat": 861,
+    "cat_as_dog": 139,
+    "dog_as_cat": 122,
+    "dog_as_dog": 878
+  },
+  "per_class_metrics": {
+    "cat": {
+      "precision": 0.87589,
+      "recall": 0.861,
+      "f1_score": 0.868381,
+      "support": 1000
+    },
+    "dog": {
+      "precision": 0.863324,
+      "recall": 0.878,
+      "f1_score": 0.8706,
+      "support": 1000
+    }
+  },
+  "similar_class_warning_threshold": 0.15,
+  "available_top_k": 2,
+  "parity_validation_max_abs_difference": 0.0,
+  "responsible_use": "Educational and portfolio demonstration only; not for high-stakes decisions."
+}

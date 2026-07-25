@@ -1,0 +1,16 @@
+{
+  "source_model": "vgg16_finegrained.keras",
+  "browser_model": "models/vgg16_browser_inference.keras",
+  "tfjs_model": "web/tfjs_model/model.json",
+  "format": "TensorFlow.js Layers",
+  "float_weight_bytes": 63715080,
+  "shard_size_bytes": 4194304,
+  "number_of_shards": 16,
+  "number_of_weight_tensors": 36,
+  "source_and_browser_parity_max_abs_difference": 0.0,
+  "direct_conversion_avoided_because": [
+    "training-only augmentation layers",
+    "Keras 3 preprocessing ops embedded in source graph"
+  ],
+  "validation": "Topology, manifest, shard sizes, and Python model parity validated during packaging. Browser runtime should be smoke-tested after deployment."
+}

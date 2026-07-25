@@ -1,0 +1,6 @@
+# Lightweight CI intentionally does not install TensorFlow or retrain VGG16.
+numpy>=1.26,<3
+Pillow>=10,<12
+pytest>=8.2,<10
+PyYAML>=6,<7
+jsonschema>=4.23,<5

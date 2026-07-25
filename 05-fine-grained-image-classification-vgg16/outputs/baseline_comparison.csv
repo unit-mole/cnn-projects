@@ -1,0 +1,3 @@
+model,validation_accuracy,test_accuracy
+Logistic Regression Baseline,0.5665,0.5720
+VGG16 Transfer Model,0.8555,0.8695

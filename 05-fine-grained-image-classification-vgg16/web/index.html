@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="VGG16 TensorFlow.js browser classifier for CIFAR-10 cats and dogs." />
+  <title>VGG16 Fine-Grained Image Classifier</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="./style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script defer type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to classifier</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <div>
+        <p class="eyebrow">CNN portfolio · browser machine learning</p>
+        <h1>VGG16 Fine-Grained Image Classifier</h1>
+        <p class="hero-copy">
+          Distinguish CIFAR-10 cats and dogs with a transfer-learned VGG16 model that runs entirely in your browser.
+        </p>
+      </div>
+      <div class="header-badges" aria-label="Project highlights">
+        <span>TensorFlow.js</span><span>VGG16</span><span>No backend</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="shell layout">
+    <section class="panel upload-panel" aria-labelledby="upload-title">
+      <div class="section-heading">
+        <div>
+          <p class="step">Step 1</p>
+          <h2 id="upload-title">Choose an image</h2>
+        </div>
+        <div id="model-status" class="status status-loading" role="status" aria-live="polite">
+          Loading model…
+        </div>
+      </div>
+
+      <label id="drop-zone" class="drop-zone" for="image-input" tabindex="0">
+        <input id="image-input" type="file" accept="image/png,image/jpeg,image/webp,image/bmp" hidden />
+        <span class="drop-icon" aria-hidden="true">↥</span>
+        <strong>Drop an image here or browse</strong>
+        <span>PNG, JPEG, WebP, or BMP · maximum 10 MB</span>
+      </label>
+
+      <div class="sample-row">
+        <span>Try a packaged sample:</span>
+        <button class="text-button sample-button" data-sample="./sample_images/cat_sample.png">Cat sample</button>
+        <button class="text-button sample-button" data-sample="./sample_images/dog_sample.png">Dog sample</button>
+      </div>
+
+      <div id="preview-card" class="preview-card is-hidden">
+        <img id="image-preview" alt="Selected image preview" />
+        <div class="preview-details">
+          <span id="file-name">Selected image</span>
+          <span id="file-details"></span>
+        </div>
+      </div>
+
+      <button id="predict-button" class="primary-button" disabled>
+        Run browser inference
+      </button>
+      <p id="error-message" class="error-message is-hidden" role="alert"></p>
+    </section>
+
+    <section class="panel results-panel" aria-labelledby="results-title">
+      <div class="section-heading">
+        <div>
+          <p class="step">Step 2</p>
+          <h2 id="results-title">Prediction</h2>
+        </div>
+        <span id="inference-time" class="inference-time"></span>
+      </div>
+
+      <div id="empty-results" class="empty-results">
+        <span aria-hidden="true">◎</span>
+        <p>Select an image and run inference to see the model output.</p>
+      </div>
+
+      <div id="prediction-results" class="prediction-results is-hidden" aria-live="polite">
+        <div class="headline-result">
+          <div>
+            <span class="label">Predicted class</span>
+            <strong id="predicted-class">—</strong>
+          </div>
+          <div class="confidence-ring" id="confidence-ring">
+            <span id="confidence-value">—</span>
+            <small>confidence</small>
+          </div>
+        </div>
+
+        <div id="uncertainty-warning" class="warning is-hidden"></div>
+
+        <div class="probability-section">
+          <h3>Class probabilities</h3>
+          <div id="probability-list" class="probability-list"></div>
+        </div>
+
+        <div class="interpretation">
+          <h3>Interpretation</h3>
+          <p id="prediction-summary"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel full-width metrics-panel" aria-labelledby="model-title">
+      <div class="section-heading">
+        <div>
+          <p class="step">Model card</p>
+          <h2 id="model-title">What powers this demo</h2>
+        </div>
+      </div>
+      <div class="metric-grid">
+        <article><strong>86.95%</strong><span>Test accuracy</span></article>
+        <article><strong>86.95%</strong><span>Macro F1</span></article>
+        <article><strong>57.20%</strong><span>Baseline test accuracy</span></article>
+        <article><strong>15.9M</strong><span>Model parameters</span></article>
+      </div>
+      <div class="model-notes">
+        <p><strong>Architecture:</strong> frozen ImageNet VGG16 feature extractor with a dense two-class head.</p>
+        <p><strong>Input path:</strong> image → 32×32 RGB → 96×96 → VGG16 BGR mean subtraction → softmax.</p>
+        <p><strong>Dataset:</strong> balanced CIFAR-10 cat and dog subsets: 8,000 training, 2,000 validation, and 2,000 test images.</p>
+      </div>
+    </section>
+
+    <section class="panel full-width disclaimer" aria-labelledby="responsible-title">
+      <h2 id="responsible-title">Responsible use</h2>
+      <p>
+        This project is for educational and portfolio demonstration purposes only. Fine-grained image models may confuse visually similar categories, especially when images are unclear, cropped, low-quality, or outside the training distribution. Do not use this model as the sole basis for medical, legal, safety-critical, security, hiring, insurance, financial, or production decisions.
+      </p>
+      <p>
+        Processing occurs locally in the browser, but do not upload private, sensitive, confidential, copyrighted, or personally identifiable images into a public demo. Predictions are machine-learning outputs, not guaranteed truth.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>05 · Fine-Grained Image Classification using VGG16</span>
+      <nav aria-label="Project links">
+        <a href="ADD_GITHUB_PROJECT_URL" rel="noreferrer">GitHub</a>
+        <a href="ADD_NOTEBOOK_URL" rel="noreferrer">Notebook</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

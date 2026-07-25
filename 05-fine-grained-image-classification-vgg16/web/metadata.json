@@ -1,0 +1,48 @@
+{
+  "project": "VGG16 Fine-Grained Cat vs Dog Classifier",
+  "version": "1.0.0",
+  "classes": [
+    "cat",
+    "dog"
+  ],
+  "input": {
+    "source_size": [
+      32,
+      32
+    ],
+    "model_size": [
+      96,
+      96
+    ],
+    "channels": 3,
+    "color_mode": "RGB"
+  },
+  "preprocessing": {
+    "resize_sequence": [
+      [
+        32,
+        32
+      ],
+      [
+        96,
+        96
+      ]
+    ],
+    "channel_order_for_model": "BGR",
+    "mean_subtraction": [
+      103.939,
+      116.779,
+      123.68
+    ],
+    "normalization": "No 1/255 scaling after tf.browser.fromPixels; use 0-255 values."
+  },
+  "model": {
+    "architecture": "VGG16 frozen ImageNet backbone + dense classification head",
+    "output": "2-class softmax",
+    "test_accuracy": 0.8694999814033508,
+    "parameters": 15928770
+  },
+  "similar_class_warning_threshold": 0.15,
+  "top_k": 2,
+  "responsible_use": "Educational portfolio demo only. Do not upload private, sensitive, confidential, copyrighted, or personally identifiable images. Predictions are not guaranteed truth."
+}

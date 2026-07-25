@@ -1,0 +1,17 @@
+{
+  "name": "vgg16-fine-grained-browser-classifier",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static TensorFlow.js demo for a VGG16 cat-versus-dog classifier.",
+  "scripts": {
+    "dev": "npx serve web -l 8000",
+    "build": "node scripts/validate-web.mjs",
+    "validate": "node scripts/validate-web.mjs"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

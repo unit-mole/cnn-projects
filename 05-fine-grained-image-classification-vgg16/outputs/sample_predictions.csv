@@ -1,0 +1,6 @@
+index,true_class,predicted_class,confidence,category
+1026,cat,dog,0.999992,high_confidence_error
+336,cat,dog,0.999895,high_confidence_error
+253,dog,cat,0.999626,high_confidence_error
+1447,cat,dog,0.999319,high_confidence_error
+922,dog,cat,0.996214,high_confidence_error
