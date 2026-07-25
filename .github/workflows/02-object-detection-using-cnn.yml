@@ -16,17 +16,23 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: object-detection-cnn-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PROJECT_DIR: 02-object-detection-using-cnn
+  PYTHONUNBUFFERED: "1"
+  TF_CPP_MIN_LOG_LEVEL: "2"
+  CUDA_VISIBLE_DEVICES: "-1"
+
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
-    defaults:
-      run:
-        working-directory: 02-object-detection-using-cnn
+    timeout-minutes: 20
 
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -39,17 +45,27 @@ jobs:
             02-object-detection-using-cnn/requirements-dev.txt
 
       - name: Install dependencies
+        working-directory: ${{ env.PROJECT_DIR }}
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
 
       - name: Compile Python files
-        run: python -m compileall app.py gradio_app.py src scripts tests
+        working-directory: ${{ env.PROJECT_DIR }}
+        env:
+          PYTHONPATH: ${{ github.workspace }}/${{ env.PROJECT_DIR }}
+        run: python -m compileall -q app.py gradio_app.py src scripts tests
 
       - name: Run tests
-        run: pytest -q
+        working-directory: ${{ env.PROJECT_DIR }}
+        env:
+          PYTHONPATH: ${{ github.workspace }}/${{ env.PROJECT_DIR }}
+        run: python -m pytest -q
 
       - name: Validate application imports
+        working-directory: ${{ env.PROJECT_DIR }}
+        env:
+          PYTHONPATH: ${{ github.workspace }}/${{ env.PROJECT_DIR }}
         run: |
-          python -c "import app; print('Gradio app import passed')"
-          python -c "from src.inference_pipeline import load_detection_model; load_detection_model(); print('Model load passed')"
+          python -c "import app; assert app.demo is not None; print('Gradio app import: OK')"
+          python -c "from src.inference_pipeline import load_detection_model; load_detection_model(); print('Model load: OK')"
