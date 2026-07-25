@@ -1,17 +1,22 @@
-# Hosting summary
+# Hosting Guide
 
-## Primary deployment
+Project 06 now supports three complementary presentation layers:
 
-- **Platform:** Hugging Face Spaces
-- **SDK:** Gradio
-- **Entry point:** `app.py`
-- **Model:** `models/satellite_unet_segmentation_model.keras`
-- **Training proof:** Kaggle notebook
+| Platform | Purpose |
+|---|---|
+| **Vercel + TensorFlow.js** | Primary recruiter-facing browser demo with client-side U-Net inference |
+| **Hugging Face Spaces + Gradio** | Python/Keras interactive inference demo |
+| **Kaggle Notebook** | Training, metrics, visual evaluation, and reproducibility evidence |
 
-Detailed instructions:
+Use [`README_VERCEL.md`](README_VERCEL.md) for the primary Vercel browser deployment.
+Use [`README_HUGGINGFACE.md`](README_HUGGINGFACE.md) for the Gradio Space.
+Use [`kaggle/README_KAGGLE.md`](kaggle/README_KAGGLE.md) for notebook publishing.
 
-- Hugging Face: [`README_HUGGINGFACE.md`](README_HUGGINGFACE.md)
-- Kaggle: [`kaggle/README_KAGGLE.md`](kaggle/README_KAGGLE.md)
-- Local: see the main [`README.md`](README.md)
+Recommended portfolio presentation:
 
-The app loads a pre-trained model and never trains during startup.
+```text
+Live Demo: Vercel + TensorFlow.js
+Alternative Python Demo: Hugging Face Spaces + Gradio
+Training and Metrics: Kaggle Notebook
+Source Code: GitHub
+```

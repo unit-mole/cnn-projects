@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Client-side U-Net satellite image segmentation demo powered by TensorFlow.js and deployed on Vercel." />
+  <meta name="theme-color" content="#07111f" />
+  <title>Satellite Image Segmentation · U-Net + TensorFlow.js</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script defer src="./assets/js/app.js"></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Satellite U-Net home">
+      <span class="brand-mark" aria-hidden="true">🛰️</span>
+      <span>
+        <strong>Satellite U-Net</strong>
+        <small>Browser inference portfolio demo</small>
+      </span>
+    </a>
+    <nav class="header-actions" aria-label="Project links">
+      <a class="text-link" href="https://github.com/unit-mole/cnn-projects/tree/main/06-satellite-image-segmentation-unet" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="button button-quiet" href="#demo">Try the model</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section-shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse-dot"></span> Vercel + TensorFlow.js</div>
+        <h1>Pixel-level urban-region segmentation, directly in your browser.</h1>
+        <p class="hero-lead">
+          A compact U-Net analyzes a satellite-style RGB tile and produces a binary mask,
+          probability map, and visual overlay. Inference runs locally with TensorFlow.js—your
+          uploaded image is not sent to an application server.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#demo">Launch browser demo</a>
+          <a class="button button-secondary" href="#model-details">View model details</a>
+        </div>
+        <div class="trust-row" aria-label="Deployment features">
+          <span>✓ Client-side inference</span>
+          <span>✓ No model training at startup</span>
+          <span>✓ 64×64 RGB input</span>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="Model summary">
+        <div class="hero-card-top">
+          <div>
+            <span class="card-kicker">Compact U-Net</span>
+            <h2>Binary semantic segmentation</h2>
+          </div>
+          <span class="status-chip loading" id="modelStatusChip">Loading model</span>
+        </div>
+        <div class="architecture-mini" aria-hidden="true">
+          <div class="arch-block encoder">32</div>
+          <div class="arch-block encoder lower">64</div>
+          <div class="arch-block bottleneck">128</div>
+          <div class="arch-block decoder lower">64</div>
+          <div class="arch-block decoder">32</div>
+          <div class="arch-output">Mask</div>
+        </div>
+        <dl class="summary-grid">
+          <div><dt>Parameters</dt><dd>471,553</dd></div>
+          <div><dt>Model size</dt><dd>1.80 MB</dd></div>
+          <div><dt>Threshold</dt><dd id="summaryThreshold">0.50</dd></div>
+          <div><dt>Runtime</dt><dd id="backendValue">Initializing</dd></div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="metric-strip section-shell" aria-label="Reported test metrics">
+      <article><span>U-Net Dice</span><strong>0.999849</strong><small>Synthetic test set</small></article>
+      <article><span>U-Net IoU</span><strong>0.999698</strong><small>Synthetic test set</small></article>
+      <article><span>Pixel accuracy</span><strong>0.999992</strong><small>Background-dominant metric</small></article>
+      <article><span>Privacy mode</span><strong>Local</strong><small>Image stays in browser</small></article>
+    </section>
+
+    <section id="demo" class="demo-section section-shell">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow simple">Interactive segmentation</span>
+          <h2>Upload a tile or choose a safe synthetic example</h2>
+        </div>
+        <p>The model resizes the image to 64×64, normalizes RGB values, predicts a probability mask, and restores the visualization to the preview size.</p>
+      </div>
+
+      <div class="demo-grid">
+        <aside class="control-panel">
+          <div class="panel-heading">
+            <span class="step-number">1</span>
+            <div><h3>Select an image</h3><p>PNG, JPG, or WebP · up to 12 MB</p></div>
+          </div>
+
+          <label class="upload-zone" id="uploadZone" for="imageUpload">
+            <input id="imageUpload" type="file" accept="image/png,image/jpeg,image/webp" />
+            <span class="upload-icon" aria-hidden="true">↑</span>
+            <strong>Drop a satellite-style image here</strong>
+            <span>or click to browse</span>
+          </label>
+
+          <div class="sample-heading">
+            <span>Safe sample tiles</span>
+            <small>Generated locally—no coordinates</small>
+          </div>
+          <div class="sample-grid" id="sampleGrid">
+            <button class="sample-button" data-sample="01" type="button"><img src="./assets/samples/images/synthetic_tile_01.png" alt="Synthetic satellite sample 1" /><span>Tile 01</span></button>
+            <button class="sample-button" data-sample="02" type="button"><img src="./assets/samples/images/synthetic_tile_02.png" alt="Synthetic satellite sample 2" /><span>Tile 02</span></button>
+            <button class="sample-button" data-sample="03" type="button"><img src="./assets/samples/images/synthetic_tile_03.png" alt="Synthetic satellite sample 3" /><span>Tile 03</span></button>
+            <button class="sample-button" data-sample="04" type="button"><img src="./assets/samples/images/synthetic_tile_04.png" alt="Synthetic satellite sample 4" /><span>Tile 04</span></button>
+            <button class="sample-button" data-sample="05" type="button"><img src="./assets/samples/images/synthetic_tile_05.png" alt="Synthetic satellite sample 5" /><span>Tile 05</span></button>
+            <button class="sample-button" data-sample="06" type="button"><img src="./assets/samples/images/synthetic_tile_06.png" alt="Synthetic satellite sample 6" /><span>Tile 06</span></button>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="panel-heading compact">
+            <span class="step-number">2</span>
+            <div><h3>Adjust the decision threshold</h3><p>Higher values create more selective masks.</p></div>
+          </div>
+          <div class="threshold-control">
+            <input id="thresholdSlider" type="range" min="0.10" max="0.90" value="0.50" step="0.01" aria-label="Segmentation threshold" />
+            <output id="thresholdOutput" for="thresholdSlider">0.50</output>
+          </div>
+
+          <details class="ground-truth-details">
+            <summary>Optional ground-truth mask</summary>
+            <p>Upload a binary mask to calculate Dice, IoU, precision, recall, and F1 for this image.</p>
+            <label class="small-upload" for="maskUpload">
+              <input id="maskUpload" type="file" accept="image/png,image/jpeg,image/webp" />
+              <span id="maskUploadText">Choose mask</span>
+            </label>
+          </details>
+
+          <button class="button button-primary predict-button" id="predictButton" type="button" disabled>
+            <span id="predictButtonText">Waiting for model and image</span>
+          </button>
+
+          <div class="status-box" id="statusBox" role="status" aria-live="polite">
+            <span class="status-spinner" aria-hidden="true"></span>
+            <span id="statusText">Loading TensorFlow.js and model weights…</span>
+          </div>
+        </aside>
+
+        <div class="results-panel">
+          <div class="results-toolbar">
+            <div>
+              <span class="step-number">3</span>
+              <div><h3>Review the segmentation</h3><p id="selectedImageLabel">Choose an image to begin.</p></div>
+            </div>
+            <button class="button button-quiet" id="downloadButton" type="button" disabled>Download mask</button>
+          </div>
+
+          <div class="canvas-grid">
+            <figure class="canvas-card primary-canvas">
+              <figcaption><span>Input image</span><small>Model-resized preview</small></figcaption>
+              <div class="canvas-wrap"><canvas id="inputCanvas" width="512" height="512" aria-label="Input satellite image"></canvas><div class="empty-canvas" id="inputEmpty">Select an image</div></div>
+            </figure>
+            <figure class="canvas-card">
+              <figcaption><span>Predicted mask</span><small>Binary output</small></figcaption>
+              <div class="canvas-wrap"><canvas id="maskCanvas" width="512" height="512" aria-label="Predicted segmentation mask"></canvas><div class="empty-canvas" id="maskEmpty">Prediction appears here</div></div>
+            </figure>
+            <figure class="canvas-card">
+              <figcaption><span>Mask overlay</span><small>Target region in coral</small></figcaption>
+              <div class="canvas-wrap"><canvas id="overlayCanvas" width="512" height="512" aria-label="Segmentation overlay"></canvas><div class="empty-canvas" id="overlayEmpty">Overlay appears here</div></div>
+            </figure>
+            <figure class="canvas-card">
+              <figcaption><span>Probability map</span><small>Blue → yellow confidence</small></figcaption>
+              <div class="canvas-wrap"><canvas id="probabilityCanvas" width="512" height="512" aria-label="Segmentation probability map"></canvas><div class="empty-canvas" id="probabilityEmpty">Probability appears here</div></div>
+            </figure>
+          </div>
+
+          <div class="result-metrics" id="resultMetrics">
+            <article><span>Inference</span><strong id="inferenceTime">—</strong><small>Browser execution time</small></article>
+            <article><span>Segmented area</span><strong id="coverageValue">—</strong><small>Pixels above threshold</small></article>
+            <article><span>Mean target confidence</span><strong id="confidenceValue">—</strong><small>Within predicted region</small></article>
+            <article><span>Dice / IoU</span><strong id="overlapValue">—</strong><small id="overlapCaption">Add a ground-truth mask</small></article>
+          </div>
+
+          <div class="detailed-metrics hidden" id="detailedMetrics">
+            <span>Precision <strong id="precisionValue">—</strong></span>
+            <span>Recall <strong id="recallValue">—</strong></span>
+            <span>F1 <strong id="f1Value">—</strong></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="model-details" class="details-section section-shell">
+      <div class="section-heading">
+        <div><span class="eyebrow simple">Engineering details</span><h2>From Keras training to browser inference</h2></div>
+        <p>The original Keras model remains available for Python and Gradio. A browser export strips optimizer state and serves only the architecture and inference weights needed by TensorFlow.js.</p>
+      </div>
+
+      <div class="details-grid">
+        <article class="detail-card"><span class="detail-icon">01</span><h3>Preprocess</h3><p>Convert to RGB, resize with bilinear interpolation, cast to float32, and normalize pixel values to [0, 1].</p></article>
+        <article class="detail-card"><span class="detail-icon">02</span><h3>U-Net inference</h3><p>Encoder-decoder convolution blocks and skip connections produce a 64×64 sigmoid probability map.</p></article>
+        <article class="detail-card"><span class="detail-icon">03</span><h3>Postprocess</h3><p>Apply the selected threshold, resize the binary mask with nearest-neighbor interpolation, and generate visual overlays.</p></article>
+        <article class="detail-card"><span class="detail-icon">04</span><h3>Deploy</h3><p>Vercel serves the static interface and model files globally; TensorFlow.js performs computation on the visitor’s device.</p></article>
+      </div>
+
+      <div class="limitations-card">
+        <div>
+          <span class="eyebrow warning">Responsible use</span>
+          <h3>Educational synthetic benchmark—not operational geospatial analysis</h3>
+        </div>
+        <p>
+          The model was trained on procedurally generated 64×64 tiles with simple rectangular targets. Near-perfect test metrics do not demonstrate generalization to real satellite imagery. Do not use predictions as the sole basis for emergency response, environmental enforcement, land ownership, military, legal, financial, agricultural, infrastructure, or public-policy decisions. Do not upload restricted or sensitive imagery.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section-shell">
+    <div><strong>06 · Satellite Image Segmentation U-Net</strong><span>Part of the cnn-projects computer vision portfolio.</span></div>
+    <div class="footer-links"><a href="https://github.com/unit-mole/cnn-projects" target="_blank" rel="noreferrer">Repository</a><a href="#top">Back to top</a></div>
+  </footer>
+
+  <canvas id="modelCanvas" width="64" height="64" hidden></canvas>
+  <canvas id="groundTruthCanvas" width="64" height="64" hidden></canvas>
+</body>
+</html>

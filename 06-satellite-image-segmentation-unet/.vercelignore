@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.vercel/
+archive/
+notebooks/
+outputs/
+tests/
+.streamlit/
+*.pyc
+*.ipynb
+models/*.keras
+Dockerfile
+.dockerignore
+requirements*.txt

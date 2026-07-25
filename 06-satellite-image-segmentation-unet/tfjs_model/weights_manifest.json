@@ -1,0 +1,196 @@
+[
+  {
+    "paths": [
+      "weights.bin"
+    ],
+    "weights": [
+      {
+        "name": "conv2d/kernel",
+        "shape": [
+          3,
+          3,
+          3,
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d/bias",
+        "shape": [
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_1/kernel",
+        "shape": [
+          3,
+          3,
+          32,
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_1/bias",
+        "shape": [
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_2/kernel",
+        "shape": [
+          3,
+          3,
+          32,
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_2/bias",
+        "shape": [
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_3/kernel",
+        "shape": [
+          3,
+          3,
+          64,
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_3/bias",
+        "shape": [
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_4/kernel",
+        "shape": [
+          3,
+          3,
+          64,
+          128
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_4/bias",
+        "shape": [
+          128
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_5/kernel",
+        "shape": [
+          3,
+          3,
+          128,
+          128
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_5/bias",
+        "shape": [
+          128
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_6/kernel",
+        "shape": [
+          3,
+          3,
+          192,
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_6/bias",
+        "shape": [
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_7/kernel",
+        "shape": [
+          3,
+          3,
+          64,
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_7/bias",
+        "shape": [
+          64
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_8/kernel",
+        "shape": [
+          3,
+          3,
+          96,
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_8/bias",
+        "shape": [
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_9/kernel",
+        "shape": [
+          3,
+          3,
+          32,
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_9/bias",
+        "shape": [
+          32
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_10/kernel",
+        "shape": [
+          1,
+          1,
+          32,
+          1
+        ],
+        "dtype": "float32"
+      },
+      {
+        "name": "conv2d_10/bias",
+        "shape": [
+          1
+        ],
+        "dtype": "float32"
+      }
+    ]
+  }
+]

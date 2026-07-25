@@ -48,7 +48,12 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Validate repository artifacts
-        run: python scripts/validate_project.py
+        run: |
+          python scripts/validate_project.py
+          python scripts/validate_tfjs_export.py
+
+      - name: Validate browser JavaScript syntax
+        run: node --check assets/js/app.js
 
       - name: Run tests
         run: pytest -q

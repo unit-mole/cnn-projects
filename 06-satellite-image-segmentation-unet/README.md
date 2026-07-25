@@ -14,13 +14,15 @@ short_description: U-Net binary segmentation demo for synthetic satellite-style 
 
 # Satellite Image Segmentation using U-Net
 
-[![CI](https://github.com/YOUR_USERNAME/cnn-projects/actions/workflows/06-satellite-image-segmentation-unet.yml/badge.svg)](https://github.com/YOUR_USERNAME/cnn-projects/actions/workflows/06-satellite-image-segmentation-unet.yml)
-[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Live%20Demo-yellow)](https://huggingface.co/spaces/YOUR_USERNAME/satellite-image-segmentation-unet)
+[![CI](https://github.com/unit-mole/cnn-projects/actions/workflows/06-satellite-image-segmentation-unet.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/06-satellite-image-segmentation-unet.yml)
+[![Vercel](https://img.shields.io/badge/Vercel-TensorFlow.js%20Demo-black)](#vercel--tensorflowjs-browser-deployment)
+[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-4.22.0-orange)](https://www.tensorflow.org/js)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Gradio%20Demo-yellow)](https://huggingface.co/spaces/YOUR_USERNAME/satellite-image-segmentation-unet)
 [![Kaggle](https://img.shields.io/badge/Kaggle-Training%20Notebook-blue)](https://www.kaggle.com/code/YOUR_USERNAME/satellite-image-segmentation-unet)
 
-A complete CNN portfolio project that trains, evaluates, packages, tests, and deploys a compact **U-Net** for binary semantic segmentation of synthetic satellite-style urban tiles.
+A complete CNN portfolio project that trains, evaluates, packages, tests, and deploys a compact **U-Net** for binary semantic segmentation of synthetic satellite-style urban tiles. The primary portfolio demo runs directly in the browser using **Vercel + TensorFlow.js**, while the Python version remains deployable through Hugging Face Spaces + Gradio.
 
-> **Portfolio one-liner:** Built and deployed an end-to-end U-Net semantic-segmentation pipeline with reproducible training, Dice/IoU evaluation, visual error analysis, a Gradio app on Hugging Face Spaces, and a Kaggle-ready notebook.
+> **Portfolio one-liner:** Built an end-to-end U-Net semantic-segmentation pipeline with reproducible training, Dice/IoU evaluation, visual error analysis, and private client-side inference deployed with Vercel + TensorFlow.js, supported by Gradio and Kaggle workflows.
 
 ## Responsible-use notice
 
@@ -30,9 +32,10 @@ Do not use this model as the sole basis for emergency response, environmental en
 
 ## Live project links
 
-- **Hugging Face Spaces demo:** [Replace with your public Space URL](https://huggingface.co/spaces/YOUR_USERNAME/satellite-image-segmentation-unet)
+- **Primary browser demo — Vercel + TensorFlow.js:** Add the production Vercel URL after deployment
+- **Alternative Python demo — Hugging Face Spaces + Gradio:** [Replace with your public Space URL](https://huggingface.co/spaces/YOUR_USERNAME/satellite-image-segmentation-unet)
 - **Kaggle training notebook:** [Replace with your public Kaggle URL](https://www.kaggle.com/code/YOUR_USERNAME/satellite-image-segmentation-unet)
-- **CNN monorepo:** [Replace with your GitHub URL](https://github.com/YOUR_USERNAME/cnn-projects)
+- **CNN monorepo:** [unit-mole/cnn-projects](https://github.com/unit-mole/cnn-projects)
 
 ## Problem statement
 
@@ -153,6 +156,42 @@ For real imagery, likely error sources would include:
 - annotation misalignment,
 - train/test geographic leakage.
 
+## Vercel + TensorFlow.js browser deployment
+
+The repository now includes a polished static web application at the project root:
+
+```text
+index.html
+assets/css/styles.css
+assets/js/app.js
+assets/samples/
+tfjs_model/model.json
+tfjs_model/weights_manifest.json
+tfjs_model/weights.bin
+vercel.json
+```
+
+The application performs the complete inference workflow in the browser:
+
+1. loads TensorFlow.js 4.22.0,
+2. loads the 471,553-parameter compact U-Net,
+3. preprocesses an uploaded image to 64×64 RGB and `[0, 1]`,
+4. predicts a sigmoid probability mask,
+5. applies an adjustable threshold,
+6. renders a binary mask, probability map, and colored overlay,
+7. optionally calculates Dice, IoU, precision, recall, and F1 from a supplied ground-truth mask,
+8. downloads the predicted mask as PNG.
+
+Uploaded images are processed locally and are not sent to a Python server. The browser weight artifact is approximately 1.8 MB because optimizer state is excluded. The app first tries the conventional `tf.loadLayersModel` path and includes a deterministic `tf.io.loadWeights` fallback for Keras 3 serialization compatibility.
+
+Run locally:
+
+```bash
+python -m http.server 8000
+```
+
+Then visit `http://localhost:8000`. Full Vercel instructions are in [`README_VERCEL.md`](README_VERCEL.md).
+
 ## Gradio demo
 
 Run locally:
@@ -222,7 +261,7 @@ The repository-level workflow is correctly stored at:
 cnn-projects/.github/workflows/06-satellite-image-segmentation-unet.yml
 ```
 
-It validates files, runs unit tests, imports the Gradio and inference modules, and performs one pre-trained-model smoke inference. It does not retrain the U-Net.
+It validates files, runs unit tests, checks the browser JavaScript syntax, validates the TensorFlow.js manifest and weight integrity, imports the Gradio and inference modules, and performs one pre-trained Python-model smoke inference. It does not retrain the U-Net.
 
 ## Project structure
 
@@ -236,6 +275,7 @@ It validates files, runs unit tests, imports the Gradio and inference modules, a
 │   ├── sample_masks/
 │   ├── README_data.md
 │   └── sample_manifest.csv
+├── assets/                      # Vercel browser UI, JS, CSS, and safe samples
 ├── images/
 ├── kaggle/
 ├── models/
@@ -248,6 +288,9 @@ It validates files, runs unit tests, imports the Gradio and inference modules, a
 ├── scripts/
 ├── src/
 ├── tests/
+├── tfjs_model/                  # browser model JSON, manifest, and weights
+├── index.html                   # Vercel static entrypoint
+├── vercel.json                  # Vercel configuration
 ├── app.py
 ├── gradio_app.py
 ├── train_model.py
@@ -260,11 +303,14 @@ It validates files, runs unit tests, imports the Gradio and inference modules, a
 ├── README.md
 ├── README_HOSTING.md
 ├── README_HUGGINGFACE.md
+├── README_VERCEL.md
 ├── requirements.txt
 ├── requirements-training.txt
 ├── requirements-dev.txt
 ├── run_local.bat
-└── run_local.sh
+├── run_local.sh
+├── run_vercel_local.bat
+└── run_vercel_local.sh
 ```
 
 ## Portfolio positioning
@@ -281,6 +327,9 @@ It validates files, runs unit tests, imports the Gradio and inference modules, a
 - synchronized spatial augmentation
 - Dice, IoU, precision, recall, F1, and visual evaluation
 - Keras model serialization and lazy inference loading
+- TensorFlow.js client-side model inference
+- responsive static web application development
+- Vercel monorepo deployment
 - Gradio application development
 - Hugging Face Spaces deployment
 - Kaggle notebook reproducibility
@@ -298,7 +347,9 @@ Semantic segmentation maps naturally to visual inspection and quality workflows:
 4. Add multispectral band support and documented band selection.
 5. Compare compact U-Net with U-Net++, DeepLabV3+, and a pretrained encoder.
 6. Add boundary IoU, calibration, uncertainty, and robustness tests.
-7. Quantize or export the model for faster CPU inference.
+7. Add float16 or uint8 weight quantization for faster browser loading.
+8. Add automated Playwright browser inference tests in CI.
+9. Compare WebGL, WebGPU, and CPU execution across devices.
 
 ## License
 

@@ -7,6 +7,26 @@
 ├── archive/
 │   ├── README.md
 │   └── Satellite_Image_Segmentation_UNet_Urban_Mapping_FULL_ELITE_original.ipynb
+├── assets/
+│   ├── css/
+│   │   └── styles.css
+│   ├── js/
+│   │   └── app.js
+│   └── samples/
+│       ├── images/
+│       │   ├── synthetic_tile_01.png
+│       │   ├── synthetic_tile_02.png
+│       │   ├── synthetic_tile_03.png
+│       │   ├── synthetic_tile_04.png
+│       │   ├── synthetic_tile_05.png
+│       │   └── synthetic_tile_06.png
+│       └── masks/
+│           ├── synthetic_tile_01_mask.png
+│           ├── synthetic_tile_02_mask.png
+│           ├── synthetic_tile_03_mask.png
+│           ├── synthetic_tile_04_mask.png
+│           ├── synthetic_tile_05_mask.png
+│           └── synthetic_tile_06_mask.png
 ├── data/
 │   ├── sample_images/
 │   │   ├── synthetic_tile_01.png
@@ -62,9 +82,11 @@
 │   ├── create_demo_samples.py
 │   ├── evaluate_model.py
 │   ├── export_model.py
+│   ├── export_tfjs_assets.py
 │   ├── run_gradio.py
 │   ├── train_model.py
-│   └── validate_project.py
+│   ├── validate_project.py
+│   └── validate_tfjs_export.py
 ├── src/
 │   ├── __init__.py
 │   ├── artifact_utils.py
@@ -90,15 +112,23 @@
 │   ├── test_inference_pipeline.py
 │   ├── test_mask_preprocessing.py
 │   ├── test_metrics.py
-│   └── test_model_artifact.py
+│   ├── test_model_artifact.py
+│   └── test_tfjs_export.py
+├── tfjs_model/
+│   ├── model.json
+│   ├── model_metadata.json
+│   ├── weights.bin
+│   └── weights_manifest.json
 ├── .dockerignore
 ├── .gitignore
+├── .vercelignore
 ├── __init__.py
 ├── app.py
 ├── Dockerfile
 ├── FILE_MANIFEST.csv
 ├── gradio_app.py
 ├── IMPROVEMENTS.md
+├── index.html
 ├── LICENSE
 ├── MONOREPO_INTEGRATION.md
 ├── PROJECT_AUDIT.md
@@ -107,9 +137,13 @@
 ├── README.md
 ├── README_HOSTING.md
 ├── README_HUGGINGFACE.md
+├── README_VERCEL.md
 ├── requirements-dev.txt
 ├── requirements-training.txt
 ├── requirements.txt
 ├── run_local.bat
 ├── run_local.sh
-└── train_model.py
+├── run_vercel_local.bat
+├── run_vercel_local.sh
+├── train_model.py
+└── vercel.json

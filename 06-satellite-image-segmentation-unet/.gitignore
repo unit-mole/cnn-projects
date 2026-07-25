@@ -16,3 +16,5 @@ data/private/
 *.h5
 *.ckpt
 # The supplied 5.5 MB .keras demo model is intentionally tracked.
+
+.vercel/

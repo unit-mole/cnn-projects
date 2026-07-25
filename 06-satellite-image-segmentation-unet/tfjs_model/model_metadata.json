@@ -1,0 +1,32 @@
+{
+  "project": "06-satellite-image-segmentation-unet",
+  "runtime": "TensorFlow.js browser inference",
+  "tfjs_version": "4.22.0",
+  "model_type": "LayersModel / deterministic fallback loader",
+  "architecture": "compact U-Net",
+  "input_shape": [
+    1,
+    64,
+    64,
+    3
+  ],
+  "output_shape": [
+    1,
+    64,
+    64,
+    1
+  ],
+  "parameter_count": 471553,
+  "weight_bytes": 1886212,
+  "weights_sha256": "8fac5ed886aaccab4f40edc28a1e951f72e97859a0982ba72a90c9ea0f073ecc",
+  "normalization": "RGB uint8 divided by 255.0",
+  "threshold": 0.5,
+  "classes": {
+    "0": "background",
+    "1": "synthetic urban structure"
+  },
+  "source_model": "models/satellite_unet_segmentation_model.keras",
+  "source_keras_version": "3.13.2",
+  "deployment": "Vercel static site; inference runs entirely in the browser",
+  "privacy": "Uploaded images remain in the browser and are not sent to a server."
+}

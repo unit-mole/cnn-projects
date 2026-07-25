@@ -29,3 +29,11 @@
 - add cached model download from the Hugging Face Model Hub,
 - add app analytics that do not retain uploaded images,
 - add end-to-end browser tests.
+
+
+## Browser deployment roadmap
+
+- Add browser weight quantization after verifying metric parity.
+- Add Playwright tests that load a sample, run inference, and compare summary statistics.
+- Evaluate WebGPU when browser support is sufficiently consistent.
+- Add a side-by-side threshold-baseline browser comparison for educational value.

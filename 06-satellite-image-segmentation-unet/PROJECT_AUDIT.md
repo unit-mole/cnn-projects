@@ -45,3 +45,13 @@
 ## Residual limitation
 
 The supplied model has not been retrained on a real satellite dataset. That is the largest remaining technical gap and should be the first major future improvement.
+
+
+## Vercel + TensorFlow.js deployment audit
+
+- Added a static `index.html` entrypoint and responsive recruiter-facing interface.
+- Exported 471,553 inference parameters into a 1,886,212-byte browser weight file.
+- Added both conventional LayersModel loading and a deterministic architecture/weight fallback.
+- Added browser-side preprocessing, mask thresholding, probability rendering, overlays, optional overlap metrics, and PNG download.
+- Added `vercel.json`, `.vercelignore`, local web launchers, export tooling, validation, tests, and CI checks.
+- Browser uploads remain on-device; no image API or server-side storage is used.
