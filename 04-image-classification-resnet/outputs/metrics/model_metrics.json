@@ -1,0 +1,8 @@
+{
+  "baseline_validation_accuracy": 0.1262,
+  "baseline_test_accuracy": 0.1257,
+  "resnet_validation_accuracy": 0.6707000136375427,
+  "resnet_test_accuracy": 0.6708999872207642,
+  "top5_accuracy": 0.912,
+  "seed": 42
+}

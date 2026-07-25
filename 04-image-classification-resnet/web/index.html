@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ResNet50 CIFAR-100 image classification running locally in the browser with TensorFlow.js.">
+  <title>ResNet50 Browser Image Classifier</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="#top" aria-label="ResNet project home">
+        <span class="brand-mark">RN</span>
+        <span><strong>ResNet50</strong><small>Browser ML Portfolio</small></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#demo">Demo</a>
+        <a href="#model">Model</a>
+        <a href="#responsible-use">Responsible use</a>
+        <a class="button button-small button-secondary" href="https://github.com/<your-github-username>/cnn-projects" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">CNN portfolio project 04</p>
+          <h1>100-class image classification, directly in your browser.</h1>
+          <p class="hero-copy">A ResNet50 transfer-learning model trained on CIFAR-100, converted into TensorFlow.js, and served as a static GitHub Pages application. Images stay on this device.</p>
+          <div class="hero-actions">
+            <a class="button" href="#demo">Try the classifier</a>
+            <a class="button button-secondary" href="#model">View model details</a>
+          </div>
+          <div class="metric-strip" aria-label="Verified model metrics">
+            <div><strong>67.09%</strong><span>Test accuracy</span></div>
+            <div><strong>91.2%</strong><span>Top-5 accuracy</span></div>
+            <div><strong>100</strong><span>Fine classes</span></div>
+          </div>
+        </div>
+        <div class="architecture-card" aria-label="Architecture overview">
+          <span>32×32 RGB</span><i>↓</i><span>Resize + preprocess</span><i>↓</i><span>ResNet50 backbone</span><i>↓</i><span>Pooling + dense head</span><i>↓</i><span>100-class softmax</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <div><p class="eyebrow">Interactive inference</p><h2>Classify an image</h2></div>
+          <div id="modelStatus" class="status" role="status" aria-live="polite"><span class="status-dot"></span><span>Waiting for TensorFlow.js…</span></div>
+        </div>
+
+        <div class="demo-grid">
+          <article class="panel upload-panel">
+            <h3>1. Select an image</h3>
+            <p>Use PNG, JPEG, WebP, or BMP. For privacy, the file is processed locally and is not uploaded.</p>
+            <label class="drop-zone" id="dropZone" for="imageInput">
+              <input id="imageInput" type="file" accept="image/png,image/jpeg,image/webp,image/bmp">
+              <span class="upload-icon" aria-hidden="true">＋</span>
+              <strong>Choose or drop an image</strong>
+              <span>Maximum recommended size: 10 MB</span>
+            </label>
+            <div class="sample-row">
+              <span>Generated test images:</span>
+              <button class="sample-button" data-sample="./sample_images/geometric_scene.png">Geometric scene</button>
+              <button class="sample-button" data-sample="./sample_images/nature_pattern.png">Nature pattern</button>
+            </div>
+          </article>
+
+          <article class="panel preview-panel">
+            <h3>2. Preview</h3>
+            <div class="preview-stage" id="previewStage">
+              <img id="previewImage" alt="Selected image preview" hidden>
+              <p id="previewPlaceholder">Your image preview will appear here.</p>
+            </div>
+            <button id="predictButton" class="button button-full" type="button" disabled>Run browser prediction</button>
+            <p id="inputMessage" class="message" role="alert" aria-live="polite"></p>
+          </article>
+
+          <article class="panel result-panel" aria-live="polite">
+            <h3>3. Prediction</h3>
+            <div id="resultEmpty" class="result-empty">Run inference to view the predicted class, confidence, and top probabilities.</div>
+            <div id="resultContent" hidden>
+              <span class="result-label">Predicted class</span>
+              <h4 id="predictedClass">—</h4>
+              <div class="confidence-line"><span>Confidence</span><strong id="confidenceValue">—</strong></div>
+              <div class="confidence-track"><span id="confidenceBar"></span></div>
+              <h5>Top three predictions</h5>
+              <ol id="topPredictions" class="probability-list"></ol>
+              <p id="predictionSummary" class="prediction-summary"></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="model" class="section section-muted">
+      <div class="container two-column">
+        <div>
+          <p class="eyebrow">Technical design</p>
+          <h2>Transfer learning with residual features</h2>
+          <p>ResNet skip connections help information and gradients move through deep networks. This project reuses ImageNet visual features, freezes the backbone during the supplied experiment, and trains a CIFAR-100 classification head.</p>
+          <div class="detail-grid">
+            <div><span>Backbone</span><strong>ResNet50</strong></div>
+            <div><span>Browser input</span><strong>96 × 96 × 3</strong></div>
+            <div><span>Output</span><strong>100 probabilities</strong></div>
+            <div><span>Runtime</span><strong>TensorFlow.js</strong></div>
+          </div>
+        </div>
+        <aside class="workflow-card">
+          <h3>Browser inference workflow</h3>
+          <ol>
+            <li>Decode the image as RGB.</li>
+            <li>Resize to 96×96 with bilinear interpolation.</li>
+            <li>Convert RGB to BGR and subtract ImageNet means.</li>
+            <li>Run the ResNet50 LayersModel.</li>
+            <li>Rank and explain the top three probabilities.</li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <section id="responsible-use" class="section">
+      <div class="container notice">
+        <div class="notice-icon" aria-hidden="true">!</div>
+        <div>
+          <p class="eyebrow">Responsible use</p>
+          <h2>Interpret predictions carefully</h2>
+          <p>This educational demo may classify images incorrectly, especially images that are unclear, low-quality, out of distribution, or unlike CIFAR-100. Do not use it as the sole basis for medical, legal, safety-critical, security, hiring, insurance, financial, or production decisions. Do not upload private, sensitive, confidential, copyrighted, or personally identifiable images.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span>ResNet50 CIFAR-100 · TensorFlow.js · GitHub Pages</span>
+      <span>Educational portfolio demonstration</span>
+    </div>
+  </footer>
+</body>
+</html>

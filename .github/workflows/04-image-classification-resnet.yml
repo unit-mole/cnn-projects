@@ -1,0 +1,93 @@
+name: 04 ResNet Image Classification CI and Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "04-image-classification-resnet/**"
+      - ".github/workflows/04-image-classification-resnet.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "04-image-classification-resnet/**"
+      - ".github/workflows/04-image-classification-resnet.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "pages-resnet-${{ github.ref }}"
+  cancel-in-progress: true
+
+env:
+  PROJECT_DIR: 04-image-classification-resnet
+
+jobs:
+  validate:
+    name: Lightweight project validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: 04-image-classification-resnet/requirements-ci.txt
+
+      - name: Install lightweight CI dependencies
+        run: python -m pip install --upgrade pip && pip install -r "$PROJECT_DIR/requirements-ci.txt"
+
+      - name: Compile Python source
+        run: python -m compileall -q "$PROJECT_DIR/src" "$PROJECT_DIR/scripts" "$PROJECT_DIR/tests"
+
+      - name: Run unit tests
+        run: pytest -q "$PROJECT_DIR/tests"
+
+      - name: Validate project and TensorFlow.js artifacts
+        run: python "$PROJECT_DIR/scripts/validate_project.py" --project-dir "$PROJECT_DIR"
+
+      - name: Confirm Python modules import without TensorFlow initialization
+        env:
+          PYTHONPATH: 04-image-classification-resnet
+        run: |
+          python - <<'PY'
+          from src.class_mapping import CIFAR100_FINE_LABELS
+          from src.config import ProjectConfig
+          from src.model_conversion import validate_tfjs_bundle
+          assert len(CIFAR100_FINE_LABELS) == 100
+          assert ProjectConfig().num_classes == 100
+          validate_tfjs_bundle("04-image-classification-resnet/web/tfjs_model")
+          print("Import and artifact checks passed.")
+          PY
+
+  deploy-pages:
+    name: Deploy browser demo to GitHub Pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload static web application
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: 04-image-classification-resnet/web
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,41 @@
+{
+  "status": "passed_with_browser_smoke_test_pending",
+  "unit_tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "python_compile": "passed",
+  "javascript_syntax": "passed",
+  "tfjs_structural_validation": {
+    "format": "layers-model",
+    "shard_count": 24,
+    "weight_count": 326,
+    "total_weight_bytes": 98760592,
+    "manifest_paths_exist": true,
+    "weight_stream_matches_source": true
+  },
+  "keras_browser_equivalence": {
+    "samples": 2,
+    "original_output_shape": [
+      2,
+      100
+    ],
+    "browser_output_shape": [
+      2,
+      100
+    ],
+    "max_absolute_difference": 0.0,
+    "mean_absolute_difference": 0.0,
+    "argmax_equal": true,
+    "probability_sum_original": [
+      1.0000001192092896,
+      1.0000001192092896
+    ],
+    "probability_sum_browser": [
+      1.0000001192092896,
+      1.0000001192092896
+    ],
+    "status": "passed"
+  },
+  "interactive_browser_smoke_test": "pending_on_user_machine"
+}

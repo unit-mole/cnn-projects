@@ -1,0 +1,18 @@
+{
+  "dataset": "CIFAR-100 fine labels",
+  "original_image_shape": [
+    32,
+    32,
+    3
+  ],
+  "split": {
+    "train": 40000,
+    "validation": 10000,
+    "test": 10000
+  },
+  "baseline": "LogisticRegression on first 12,000 flattened training images",
+  "model": "ImageNet ResNet50 frozen backbone, resized to 96x96, 512-unit classification head",
+  "epochs": 12,
+  "batch_size": 128,
+  "seed": 42
+}

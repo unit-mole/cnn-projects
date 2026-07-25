@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.ipynb_checkpoints/
+outputs/tmp/
+models/checkpoints/
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Keep these locally, in Git LFS, or as release assets.
+models/resnet50_cifar100.keras
+models/resnet50_cifar100_browser.h5

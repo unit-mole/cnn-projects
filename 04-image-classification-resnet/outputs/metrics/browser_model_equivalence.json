@@ -1,0 +1,23 @@
+{
+  "samples": 2,
+  "original_output_shape": [
+    2,
+    100
+  ],
+  "browser_output_shape": [
+    2,
+    100
+  ],
+  "max_absolute_difference": 0.0,
+  "mean_absolute_difference": 0.0,
+  "argmax_equal": true,
+  "probability_sum_original": [
+    1.0000001192092896,
+    1.0000001192092896
+  ],
+  "probability_sum_browser": [
+    1.0000001192092896,
+    1.0000001192092896
+  ],
+  "status": "passed"
+}

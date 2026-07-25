@@ -1,0 +1,11 @@
+# Full training, evaluation, and conversion environment
+# Python 3.10–3.12 is recommended for broad TensorFlow compatibility.
+tensorflow>=2.16,<2.21
+tensorflowjs>=4.22,<5
+numpy>=1.26,<3
+pandas>=2.2,<3
+scikit-learn>=1.4,<2
+matplotlib>=3.8,<4
+Pillow>=10,<13
+h5py>=3.10,<4
+jupyterlab>=4,<5
