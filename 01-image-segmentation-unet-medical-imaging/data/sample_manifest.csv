@@ -1,0 +1,9 @@
+sample_id,image_path,mask_path,generator_seed,contains_patient_data
+sample_01,data/sample_images/sample_01.png,data/sample_masks/sample_01.png,5042,no
+sample_02,data/sample_images/sample_02.png,data/sample_masks/sample_02.png,5043,no
+sample_03,data/sample_images/sample_03.png,data/sample_masks/sample_03.png,5044,no
+sample_04,data/sample_images/sample_04.png,data/sample_masks/sample_04.png,5045,no
+sample_05,data/sample_images/sample_05.png,data/sample_masks/sample_05.png,5046,no
+sample_06,data/sample_images/sample_06.png,data/sample_masks/sample_06.png,5047,no
+sample_07,data/sample_images/sample_07.png,data/sample_masks/sample_07.png,5048,no
+sample_08,data/sample_images/sample_08.png,data/sample_masks/sample_08.png,5049,no

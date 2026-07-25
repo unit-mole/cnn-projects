@@ -1,0 +1,8 @@
+{
+    "baseline_test_dice": 0.9659118056297302,
+    "baseline_test_iou": 0.9360320568084717,
+    "unet_test_dice": 0.9976925253868103,
+    "unet_test_iou": 0.9954063892364502,
+    "pixel_accuracy": 0.9998404947916667,
+    "seed": 42
+}

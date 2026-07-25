@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Generated datasets and large local artifacts
+**/data/raw/**
+**/data/processed/**
+**/data/private/**
+**/outputs/generated/**
+**/artifacts/**
+
+# Medical data safety
+**/*.dcm
+**/*.dicom
+**/patient_data/**
+**/clinical_data/**
+**/phi/**
+
+# Keep safe demo assets and committed model
+!01-image-segmentation-unet-medical-imaging/data/sample_images/**
+!01-image-segmentation-unet-medical-imaging/data/sample_masks/**
+!01-image-segmentation-unet-medical-imaging/models/unet_medical.keras

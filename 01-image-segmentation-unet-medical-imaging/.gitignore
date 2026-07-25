@@ -1,0 +1,35 @@
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Local training data and generated artifacts
+artifacts/
+data/raw/
+data/processed/
+data/private/
+outputs/generated/
+*.log
+
+# Medical data safety
+*.dcm
+*.dicom
+patient_data/
+clinical_data/
+phi/
+
+# Keep safe public demo assets and committed model
+!data/sample_images/**
+!data/sample_masks/**
+!models/unet_medical.keras
