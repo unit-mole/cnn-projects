@@ -1,15 +1,15 @@
 # AlexNet-Style Image Classification and Transfer-Learning Baseline
 
-[![CI](https://github.com/YOUR-USERNAME/cnn-projects/actions/workflows/07-image-classification-alexnet-transfer-learning.yml/badge.svg)](https://github.com/YOUR-USERNAME/cnn-projects/actions/workflows/07-image-classification-alexnet-transfer-learning.yml)
+[![CI](https://github.com/unit-mole/cnn-projects/actions/workflows/07-image-classification-alexnet-transfer-learning.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/07-image-classification-alexnet-transfer-learning.yml)
 
-A recruiter-friendly CNN portfolio project that trains a browser-aware **AlexNet-style convolutional neural network** for CIFAR-10 image classification, compares it with a **MobileNetV2 transfer-learning baseline**, converts the trained Keras model to **TensorFlow.js**, and serves predictions from a static **Cloudflare Pages** application with **GitHub Pages** as a fallback.
+A recruiter-friendly CNN portfolio project that trains a browser-aware **AlexNet-style convolutional neural network** for CIFAR-10 image classification, compares it with a **MobileNetV2 transfer-learning baseline**, converts the trained Keras model to **TensorFlow.js**, and serves predictions from a static **GitHub Pages** application with **Cloudflare Pages** as an optional fallback.
 
 > **Artifact status:** The uploaded source notebook was a neural-style-transfer notebook, not an AlexNet classifier. This package therefore contains a complete, honest classifier implementation and a tiny **smoke-test-only** TensorFlow.js model so the browser interface can be validated immediately. Train and export the actual model before presenting prediction quality or production metrics.
 
 ## Live demo links
 
-- **Primary — Cloudflare Pages:** `https://YOUR-PROJECT.pages.dev`
-- **Fallback — GitHub Pages:** `https://YOUR-USERNAME.github.io/cnn-projects/`
+- **Primary — GitHub Pages:** `https://unit-mole.github.io/cnn-projects/07-image-classification-alexnet-transfer-learning/`
+- **Fallback — Cloudflare Pages:** `https://YOUR-PROJECT.pages.dev`
 - **Training notebook:** `ADD_KAGGLE_OR_COLAB_URL`
 
 ## Responsible-use notice
@@ -224,9 +224,9 @@ The static app lives entirely in `web/`. In a Git-connected monorepo setup, conf
 
 You can also run `npm run deploy` after authenticating Wrangler. See `README_CLOUDFLARE.md`.
 
-## GitHub Pages fallback
+## GitHub Pages deployment
 
-The included workflow validates the project but does not deploy automatically. A separate fallback deployment can publish the `web/` directory through GitHub Pages. See `README_GITHUB_PAGES.md`.
+The root workflow `.github/workflows/04-image-classification-resnet.yml` automatically assembles and deploys both the existing ResNet demo and this project. The AlexNet-style app is published at `/07-image-classification-alexnet-transfer-learning/`. See `README_GITHUB_PAGES.md` and the root `GITHUB_PAGES_DEPLOYMENT.md`.
 
 ## Folder structure
 

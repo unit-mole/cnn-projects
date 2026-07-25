@@ -1,89 +1,90 @@
-path,category,description,size_bytes
-.gitignore,root,Project file,461
-.streamlit/config.toml,.streamlit,Configuration,181
-Dockerfile,root,Project file,357
-IMPROVEMENTS.md,root,Documentation,1203
-LICENSE,root,Project file,1071
-MONOREPO_INTEGRATION.md,root,Documentation,1097
-PROJECT_AUDIT.md,root,Documentation,2336
-PROJECT_TREE.txt,root,Text or dependency file,3553
-README.md,root,Documentation,11879
-README_CLOUDFLARE.md,root,Documentation,1879
-README_GITHUB_PAGES.md,root,Documentation,1324
-README_HOSTING.md,root,Documentation,352
-VALIDATION_REPORT.md,root,Documentation,1196
-__init__.py,root,Python source or test,91
-app/__init__.py,app,Python source or test,46
-app/cli.py,app,Python source or test,1007
-archive/README.md,archive,Documentation,197
-archive/source-neural-style-transfer/Neural_Style_Transfer_CNN_FULL_ELITE.ipynb,archive,Jupyter notebook,1691124
-archive/source-neural-style-transfer/README.md,archive,Documentation,327
-archive/source-neural-style-transfer/metrics.json,archive,Metadata or metrics,229
-archive/source-neural-style-transfer/portfolio_build_brief.md,archive,Documentation,42311
-archive/source-neural-style-transfer/style_transfer_triptych.png,archive,Image asset,147344
-archive/source-neural-style-transfer/stylized_output.npy,archive,Archived NumPy output,196736
-data/README_data.md,data,Documentation,337
-data/processed/.gitkeep,data,Project file,0
-data/raw/README.md,data,Documentation,211
-data/sample_images/README.md,data,Documentation,241
-data/sample_images/sample_cool.png,data,Image asset,2106
-data/sample_images/sample_green.png,data,Image asset,1205
-data/sample_images/sample_warm.png,data,Image asset,2331
-images/demo_screenshot.png,images,Image asset,17245
-models/README.md,models,Documentation,613
-models/class_indices.json,models,Metadata or metrics,342
-models/model_metadata.json,models,Metadata or metrics,1269
-models/tfjs_model/SMOKE_TEST_ONLY.md,models,Documentation,169
-models/tfjs_model/group1-shard1of1.bin,models,TensorFlow.js weight shard,160
-models/tfjs_model/model.json,models,Metadata or metrics,3202
-notebooks/image_classification_alexnet_transfer_learning.ipynb,notebooks,Jupyter notebook,4120
-outputs/metrics/model_metrics.json,outputs,Metadata or metrics,225
-outputs/predictions/.gitkeep,outputs,Project file,0
-outputs/reports/source_file_audit.json,outputs,Metadata or metrics,294
-outputs/visualizations/.gitkeep,outputs,Project file,0
-package.json,root,Metadata or metrics,476
-requirements-dev.txt,root,Text or dependency file,64
-requirements.txt,root,Text or dependency file,217
-run_local.bat,root,Windows launcher,63
-run_local.sh,root,Shell launcher,100
-scripts/__init__.py,scripts,Python source or test,33
-scripts/convert_to_tfjs.py,scripts,Python source or test,1333
-scripts/create_smoke_test_tfjs_model.py,scripts,Python source or test,5943
-scripts/evaluate_model.py,scripts,Python source or test,1803
-scripts/export_model.py,scripts,Python source or test,789
-scripts/run_local_web_server.py,scripts,Python source or test,1178
-scripts/train_model.py,scripts,Python source or test,2032
-scripts/validate_project.py,scripts,Python source or test,1350
-src/__init__.py,src,Python source or test,147
-src/alexnet_model.py,src,Python source or test,2485
-src/class_mapping.py,src,Python source or test,1981
-src/classification_pipeline.py,src,Python source or test,1387
-src/config.py,src,Python source or test,975
-src/data_preprocessing.py,src,Python source or test,975
-src/dataset_loader.py,src,Python source or test,5366
-src/image_preprocessing.py,src,Python source or test,2848
-src/inference_pipeline.py,src,Python source or test,2284
-src/model_conversion.py,src,Python source or test,2568
-src/model_evaluation.py,src,Python source or test,6178
-src/model_training.py,src,Python source or test,4685
-src/transfer_learning_model.py,src,Python source or test,1974
-src/utils.py,src,Python source or test,473
-src/visualization.py,src,Python source or test,1754
-tests/__init__.py,tests,Python source or test,0
-tests/test_class_mapping.py,tests,Python source or test,586
-tests/test_image_preprocessing.py,tests,Python source or test,873
-tests/test_inference_pipeline.py,tests,Python source or test,532
-tests/test_model_conversion.py,tests,Python source or test,702
-tests/test_models.py,tests,Python source or test,609
-train_model.py,root,Python source or test,130
-web/app.js,web,Browser inference code,8791
-web/index.html,web,Static browser interface,4571
-web/metadata.json,web,Metadata or metrics,1269
-web/sample_images/sample_cool.png,web,Image asset,2106
-web/sample_images/sample_green.png,web,Image asset,1205
-web/sample_images/sample_warm.png,web,Image asset,2331
-web/style.css,web,Browser styling,6302
-web/tfjs_model/SMOKE_TEST_ONLY.md,web,Documentation,169
-web/tfjs_model/group1-shard1of1.bin,web,TensorFlow.js weight shard,160
-web/tfjs_model/model.json,web,Metadata or metrics,3202
-wrangler.toml,root,Configuration,126
+relative_path,size_bytes,sha256
+.gitignore,461,61a7a035d744e49e868b31f3d1a8360b4421c3bec116b5efea28743c739464f2
+.streamlit/config.toml,181,c0c745d70fb5dbd9b4589f699f8004e98ef2c441b06a66523ad2a6a7b42d86a1
+Dockerfile,357,1e37cc52fae9e6bfc425836345d4f81f3c5b4421c883445bd655c4404a9b8e95
+IMPROVEMENTS.md,1203,00fee0244c14a1f0c16447fd76a027728050370db32d2a3ac81010dc90550523
+LICENSE,1071,010d5c26b308650f4d5f3eb1010a3cd5d5fe0618b478d7e7944ae1bbfd2b7cd2
+MONOREPO_INTEGRATION.md,1097,00dffa6d9b44a0c4ec7f04b2c653a021ffa3b899f8d8c067fbdd1019e2e33c58
+PROJECT_AUDIT.md,2336,e722a333ae25c410fccb13f1e211283c5c34eeb2a455c833afdb71e72bd810e6
+PROJECT_TREE.txt,6424,9e947d3815ac52bb47e4d83cdbb46737d0e3dff53c16f7cb395282c8c7a62812
+README.md,12056,5364ede3eaf21e76c4d3675a17fdee8d5a56b157389efbdcb5ab5c42c697b634
+README_CLOUDFLARE.md,1879,0397f6d422f78b8250b797a5398b4aab4f58ce8cab24f28cf0ef1e25c80bebb4
+README_GITHUB_PAGES.md,1994,8e24f181fada6ef41fc8caddf32e89b38c335b7d4094d80f0732de39e5082f5f
+README_HOSTING.md,352,07713ef1ee7b443d66e6dd4f281d76bdc596b51947543ebee278dfb8d8b2a573
+VALIDATION_REPORT.md,1196,139e8d5918dd15ae0047e57af6595432965a4bba06a701cb40c6488430140b7b
+__init__.py,91,bf7970c72b44ae2b7fad2fd6c751fb72bc3aa83cb457f11f31774b9597b1cdac
+app/__init__.py,46,50872dbbc4c70d0aaca0973faec07040f134061af4e4eda1e90e56b09f48a6f1
+app/cli.py,1007,8b6ccb58733f98090d1457934b77806d3ac991fa3786231ab919aa6ca7ec25f6
+archive/README.md,197,6de6bf82ba7800c740947f3114c2264b4ac4b0837e9bcaf368296dc034f9d4ec
+archive/source-neural-style-transfer/Neural_Style_Transfer_CNN_FULL_ELITE.ipynb,1691124,c06b862ec9ac2bccf230a9c040641006fbca55920a36d2ba0891447297f65f69
+archive/source-neural-style-transfer/README.md,327,dd6e28a7022421829f3589239cde48372e86212e87046d9310e3eb291f5c8cfb
+archive/source-neural-style-transfer/metrics.json,229,4e471ba659ffaa2b813f6c270a32217b28d99c648e5811fca1d33ef591ac155d
+archive/source-neural-style-transfer/portfolio_build_brief.md,42311,200226c08c43757aff9f0517f2f04a0c3acc2a76efbd2261a1dba6f8c7358105
+archive/source-neural-style-transfer/style_transfer_triptych.png,147344,fe7af94194511b976327064ccf2ffcdaf6c1ff3094f6b1a2d3fcc1ee68937655
+archive/source-neural-style-transfer/stylized_output.npy,196736,2164d7933f3ff8cc2271a6e7bbc33768922362fef88b0362cacb5e8f4b4b213e
+data/README_data.md,337,7fb2abfbb2a6ef2f5b3cf89460890e304dc315d5e66f176d8d4666333348ff4b
+data/processed/.gitkeep,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+data/raw/README.md,211,4e3b4090de8d78e079c7d2966e36a0b5b654b2340392e69d15c0d286f81ce86e
+data/sample_images/README.md,241,d1edc07d7d8de1b167961bc7d7517aa28717bfd51320c4484be785a4f100c0b4
+data/sample_images/sample_cool.png,2106,e39c43e4c2d91a0f2b4663e3414140b65b9f3fe09ffa52979a0624890dcd0148
+data/sample_images/sample_green.png,1205,6e4476ed08497e4a14152b908a7118b1b33ab90e91fe5b13d23ce5262ce072c5
+data/sample_images/sample_warm.png,2331,d6f3e617c49abcc54df96db4513500df5ea7d3225a9a2cedfe18d9a855087267
+images/demo_screenshot.png,17245,406c2cc650bf40ddc93a9701699ccce49eed4e10a8ce2b8d9fac6243f334dc88
+models/README.md,613,96df5d298ef1d4637f43f9d5641e16fa37c80f9f53810c4cd6a95eea495cdfa4
+models/class_indices.json,342,215825e31b6259acf4b4d26b4ba175b53c17ca2537ced3ef5b705af71638956c
+models/model_metadata.json,1269,81e3a2d41eea03774d1276cca859f159b887a246d1f5b50062e39cc39fefecd9
+models/tfjs_model/SMOKE_TEST_ONLY.md,169,d447a4104e567858f55a6c7c4dc97e804b94d792df81783975a37a0b1d919095
+models/tfjs_model/group1-shard1of1.bin,160,5d5b0bc82d93630f802258d044703b5fa798e6154ea11fd94f9b79b8c2f76013
+models/tfjs_model/model.json,3202,d81916a38b03a9a5aa13c8eb8189f88712018003089c8a0017edfcce14b944f3
+notebooks/image_classification_alexnet_transfer_learning.ipynb,4120,950201f6515c110021f283e5a354f765cb7630b57e881de39c976f88daba709e
+outputs/metrics/model_metrics.json,225,2b9703643c015352bb8dd31ce6f9847a9af3d7e9a82b73140df35bdb32aa3cb8
+outputs/predictions/.gitkeep,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+outputs/reports/source_file_audit.json,294,7362fdcf41b40886d1d1e003db7bf032cf44625acd0a7b2815bc7523e81778d8
+outputs/visualizations/.gitkeep,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+package.json,476,06b3072496871ea571194d77732cf119c4b67a8a7511dfa3b26629c07d31b95d
+requirements-dev.txt,64,5790d6a7521ecb14b6df3e62d7e1ca29c1571e82d538e3ec94a0eba65c917dfd
+requirements.txt,217,11734ca0b98a9511f341d90e86022a06420f262727a1bc727fde20f63d00f94a
+run_local.bat,63,ce5b59473331bf53479202841f3082b7d30641e03d2b0cf9a43d5715eaa7e43b
+run_local.sh,100,2b3d18cd8ec6d7dcc997ed41c2ae96f03957a3873e959b2271f8b5d10b492206
+scripts/__init__.py,33,6b3ca07563f59ac62e6b66bd29ae8d89472a3a3dbe5b1faa8dc88600d9c3cf66
+scripts/convert_to_tfjs.py,1333,1a8eb6c494721c61666841a7361e448f67aa17b3514825d3ffe59a4b163a9632
+scripts/create_smoke_test_tfjs_model.py,5943,5128d83b9f048b082aa94998c414565b4e9609b699826026d9fa379e9df52721
+scripts/evaluate_model.py,1803,1910e68cb4583c5c7493c56639b9085c9f7c5271dfe80bc08f717783301bedc6
+scripts/export_model.py,789,35ceb91db8e987cfbd03306c84cfb73bef1c462699828d58a32d2fd4de099de4
+scripts/run_local_web_server.py,1178,f0fc97ba6da36f5f4839e5d9f66e59729d0f96de09cd8c4e71963b5cabb57e30
+scripts/train_model.py,2032,203f187605e9e9d4e1362fcf653695e06b483026d3ade72ac591d5a7a0d73698
+scripts/validate_github_pages.py,1552,d83d68228a434d231fa634e13ec39577794327bc33eab51e012d7f46a8349db1
+scripts/validate_project.py,1350,5d62f00c9e17ac93ce7dd3e9336f518730d4346e3b3295fd196b0ead4dc1cb44
+src/__init__.py,147,762ed3e3fe7d68a4abe7cecce775621bbda276b48d025a8ecc24a26c464ed1f2
+src/alexnet_model.py,2485,94833e9877e1404ce418f0e66581d6631d84ea63475303696866741d3e262142
+src/class_mapping.py,1981,6fb73d5db7e6fe76af381c2217a4f5af9f59966d435db7f104b5c04b0e11e5bf
+src/classification_pipeline.py,1387,fef824bc2780818a7bb4f9e76449c77db62bd863046745a1be321253006d5457
+src/config.py,975,72f6ebbf323485d62fa63a2e7caf16594b8e358f96a43fd89e2e712f7b96c5d7
+src/data_preprocessing.py,975,ffd10edf3c4978035b7907a53eaf05a5cc83bd276e7f86716d570aa96064ffa8
+src/dataset_loader.py,5366,baa8f2b530a138f6e604f5ea89f2d3535a033163f119b2e3b1e3d9024835236e
+src/image_preprocessing.py,2848,05b33f7e8819e3f07aec695246f968fd6255082b0b59806d21a2249ca3d9125b
+src/inference_pipeline.py,2284,cc0e240cc5caeb1c95c65a6f7ccfab74012da3ec660d6590360188d216a49fe6
+src/model_conversion.py,2568,1502261f3b100401ace6f8ab76583e837e1f5f3b4258ac825505ea0b3e59cdf4
+src/model_evaluation.py,6178,d842deab585374e2b0145131db61189643cffb81fa2375b230e03506b33dbaf5
+src/model_training.py,4685,8beec37ff25ed5d1266a23727ffd9810451c3d1afc8f0713138b347581c18a51
+src/transfer_learning_model.py,1974,cdda252f36f0c103df8618b5d71bd54f7ec01043358a639f5e053035ceb9ca86
+src/utils.py,473,b6346035a76b19c88f84fbfce480876734cd90f20790d1dfe9dffede7c66ee43
+src/visualization.py,1754,4b08db92a8fbd18416e58d75e8133c4b06b94382abd1becc96392fe847a16b5e
+tests/__init__.py,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+tests/test_class_mapping.py,586,87c6647411b8e8ba009e8b021bbfb2cb8b993762f82002b8e0acabf35965a578
+tests/test_image_preprocessing.py,873,deec8ecf17f4384460f1225fe0dbbb710b11b8e875f810b8496ea856412239d1
+tests/test_inference_pipeline.py,532,285d276ddb803d8df7ed529532a267aa357a656d3acc38df91514f6e6164262f
+tests/test_model_conversion.py,702,03e044f442d976e131daaa1073798812378f104008ac2cbf623b343febd1f34d
+tests/test_models.py,609,f78858dcdc6ebe84d2a0a7afb1d8fe16f0203b5e23ec31c58ea793e9ea808364
+train_model.py,130,4b7d3ecb773d74917f5bcaf7fd36f141681b4bb70a23c69cc7b74121dd645838
+web/app.js,8787,74a5bfdca14bbd6f529c6368b773c73c7b6dcd5bc0091426d3be8b23ed65d05d
+web/index.html,4511,b1c2ef922e4467d8ef42ea1a43e1f0fe2aa18d92afc2b1c53c93fcda0e2e8b4b
+web/metadata.json,1483,3af656fd4c79c8f3289b16c920d11e5a00cb44d38525567dd06e459321eb1353
+web/sample_images/sample_cool.png,2106,e39c43e4c2d91a0f2b4663e3414140b65b9f3fe09ffa52979a0624890dcd0148
+web/sample_images/sample_green.png,1205,6e4476ed08497e4a14152b908a7118b1b33ab90e91fe5b13d23ce5262ce072c5
+web/sample_images/sample_warm.png,2331,d6f3e617c49abcc54df96db4513500df5ea7d3225a9a2cedfe18d9a855087267
+web/style.css,6302,5ac8f1c8e27e2f618b36885bef81b80c0e0c3a19e91de49b28480a09c8609371
+web/tfjs_model/SMOKE_TEST_ONLY.md,169,d447a4104e567858f55a6c7c4dc97e804b94d792df81783975a37a0b1d919095
+web/tfjs_model/group1-shard1of1.bin,160,5d5b0bc82d93630f802258d044703b5fa798e6154ea11fd94f9b79b8c2f76013
+web/tfjs_model/model.json,3202,d81916a38b03a9a5aa13c8eb8189f88712018003089c8a0017edfcce14b944f3
+wrangler.toml,126,65b6f67f35fbc4de06d3fca8aa41dff292d866f4393c2c9fe99e6536dd974e50

@@ -86,7 +86,7 @@ function renderModelDetails(metadata) {
     ["Normalization", metadata.normalization],
     ["Classes", String(metadata.num_classes)],
     ["Runtime", "TensorFlow.js in browser"],
-    ["Primary hosting", "Cloudflare Pages"],
+    ["Primary hosting", "GitHub Pages"],
     ["Artifact status", metadata.artifact_status],
   ];
   elements["model-details"].innerHTML = rows.map(([label, value]) =>

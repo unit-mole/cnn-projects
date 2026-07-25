@@ -65,6 +65,7 @@ jobs:
           test -f web/metadata.json
           test -f web/tfjs_model/model.json
           python scripts/validate_project.py
+          python scripts/validate_github_pages.py
 
       - name: Check JavaScript syntax
         run: node --check web/app.js

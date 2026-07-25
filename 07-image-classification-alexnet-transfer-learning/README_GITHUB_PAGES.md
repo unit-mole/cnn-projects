@@ -1,31 +1,59 @@
-# GitHub Pages fallback deployment
+# Deploy Project 07 to GitHub Pages
 
-The same static `web/` folder can be published through GitHub Pages.
+## Live URL
 
-## Recommended workflow approach
+```text
+https://unit-mole.github.io/cnn-projects/07-image-classification-alexnet-transfer-learning/
+```
 
-1. Train and convert the model.
-2. Confirm all paths in `web/index.html`, `web/app.js`, and `web/metadata.json` are relative.
-3. Add a GitHub Pages deployment workflow that uploads `07-image-classification-alexnet-transfer-learning/web` as the Pages artifact.
-4. In repository settings, set **Pages → Source** to **GitHub Actions**.
-5. Run the workflow and open the generated Pages URL.
+## Combined repository deployment
 
-## Manual branch approach
+The repository has one GitHub Pages site, so one combined workflow publishes both browser demos:
 
-You may copy the contents of `web/` to a dedicated `gh-pages` branch. Publish the branch root and keep `model.json` next to its referenced `.bin` files.
+- Project 04 remains at the repository Pages root.
+- Project 04 is also available at `/04-image-classification-resnet/`.
+- Project 07 is available at `/07-image-classification-alexnet-transfer-learning/`.
 
-## Subfolder path warning
+No separate root-level `github-pages/` folder is needed.
 
-GitHub Pages often serves a repository under `/<repository-name>/`. This app uses relative paths such as `./tfjs_model/model.json`, so it remains compatible with a subfolder deployment. Avoid root-absolute paths beginning with `/`.
+## Workflow files
 
-## Verification checklist
+```text
+.github/workflows/04-image-classification-resnet.yml
+.github/workflows/07-image-classification-alexnet-transfer-learning.yml
+```
 
-- `index.html` loads without console errors,
-- TensorFlow.js CDN loads,
-- `metadata.json` returns HTTP 200,
-- `tfjs_model/model.json` returns HTTP 200,
-- every weight shard returns HTTP 200,
-- image upload works,
-- top-k results render,
-- smoke-test or trained-artifact status is visible,
-- responsible-use notice is visible.
+The first workflow deploys the combined static site. The second performs lightweight Project 07 code and asset validation without retraining the model.
+
+## One-time GitHub setup
+
+1. Open the repository on GitHub.
+2. Select **Settings → Pages**.
+3. Set the publishing source to **GitHub Actions**.
+4. Push to `main` or manually run **Deploy ResNet and AlexNet Browser Demos**.
+
+## Local verification
+
+```bash
+cd 07-image-classification-alexnet-transfer-learning/web
+python -m http.server 8000
+```
+
+Open `http://localhost:8000`. Do not open `index.html` directly using `file://`, because browser security rules can block model and metadata requests.
+
+## Replace the smoke-test model
+
+After training, run:
+
+```bash
+python scripts/convert_to_tfjs.py
+```
+
+Commit `web/tfjs_model/model.json`, every generated `.bin` shard, and `web/metadata.json`.
+
+## Troubleshooting
+
+- A 404 usually means the combined deployment workflow has not completed or Pages is not set to GitHub Actions.
+- A model-loading error usually means a shard referenced by `model.json` is missing or has different letter casing.
+- Keep relative paths such as `./metadata.json`, `./tfjs_model/model.json`, and `./sample_images/...`.
+- Only the combined Project 04 workflow should deploy to the `github-pages` environment.
