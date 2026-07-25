@@ -1,0 +1,122 @@
+{
+  "format": "layers-model",
+  "generatedBy": "Portfolio smoke-test generator; not trained",
+  "convertedBy": "Manual TensorFlow.js-compatible artifact for interface validation",
+  "modelTopology": {
+    "keras_version": "3.0.0",
+    "backend": "tensorflow",
+    "model_config": {
+      "class_name": "Sequential",
+      "config": {
+        "name": "browser_smoke_test_global_rgb",
+        "trainable": false,
+        "dtype": {
+          "module": "keras",
+          "class_name": "DTypePolicy",
+          "config": {
+            "name": "float32"
+          },
+          "registered_name": null
+        },
+        "layers": [
+          {
+            "class_name": "InputLayer",
+            "config": {
+              "batch_shape": [
+                null,
+                227,
+                227,
+                3
+              ],
+              "dtype": "float32",
+              "sparse": false,
+              "ragged": false,
+              "name": "image"
+            }
+          },
+          {
+            "class_name": "GlobalAveragePooling2D",
+            "config": {
+              "name": "global_average_pooling",
+              "trainable": false,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "data_format": "channels_last",
+              "keepdims": false
+            }
+          },
+          {
+            "class_name": "Dense",
+            "config": {
+              "name": "classifier",
+              "trainable": false,
+              "dtype": {
+                "module": "keras",
+                "class_name": "DTypePolicy",
+                "config": {
+                  "name": "float32"
+                },
+                "registered_name": null
+              },
+              "units": 10,
+              "activation": "softmax",
+              "use_bias": true,
+              "kernel_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "bias_initializer": {
+                "module": "keras.initializers",
+                "class_name": "Zeros",
+                "config": {},
+                "registered_name": null
+              },
+              "kernel_regularizer": null,
+              "bias_regularizer": null,
+              "kernel_constraint": null,
+              "bias_constraint": null
+            }
+          }
+        ],
+        "build_input_shape": [
+          null,
+          227,
+          227,
+          3
+        ]
+      }
+    }
+  },
+  "weightsManifest": [
+    {
+      "paths": [
+        "group1-shard1of1.bin"
+      ],
+      "weights": [
+        {
+          "name": "browser_smoke_test_global_rgb/classifier/kernel",
+          "shape": [
+            3,
+            10
+          ],
+          "dtype": "float32"
+        },
+        {
+          "name": "browser_smoke_test_global_rgb/classifier/bias",
+          "shape": [
+            10
+          ],
+          "dtype": "float32"
+        }
+      ]
+    }
+  ]
+}

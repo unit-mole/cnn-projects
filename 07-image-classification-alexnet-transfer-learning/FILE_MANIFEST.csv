@@ -1,0 +1,89 @@
+path,category,description,size_bytes
+.gitignore,root,Project file,461
+.streamlit/config.toml,.streamlit,Configuration,181
+Dockerfile,root,Project file,357
+IMPROVEMENTS.md,root,Documentation,1203
+LICENSE,root,Project file,1071
+MONOREPO_INTEGRATION.md,root,Documentation,1097
+PROJECT_AUDIT.md,root,Documentation,2336
+PROJECT_TREE.txt,root,Text or dependency file,3553
+README.md,root,Documentation,11879
+README_CLOUDFLARE.md,root,Documentation,1879
+README_GITHUB_PAGES.md,root,Documentation,1324
+README_HOSTING.md,root,Documentation,352
+VALIDATION_REPORT.md,root,Documentation,1196
+__init__.py,root,Python source or test,91
+app/__init__.py,app,Python source or test,46
+app/cli.py,app,Python source or test,1007
+archive/README.md,archive,Documentation,197
+archive/source-neural-style-transfer/Neural_Style_Transfer_CNN_FULL_ELITE.ipynb,archive,Jupyter notebook,1691124
+archive/source-neural-style-transfer/README.md,archive,Documentation,327
+archive/source-neural-style-transfer/metrics.json,archive,Metadata or metrics,229
+archive/source-neural-style-transfer/portfolio_build_brief.md,archive,Documentation,42311
+archive/source-neural-style-transfer/style_transfer_triptych.png,archive,Image asset,147344
+archive/source-neural-style-transfer/stylized_output.npy,archive,Archived NumPy output,196736
+data/README_data.md,data,Documentation,337
+data/processed/.gitkeep,data,Project file,0
+data/raw/README.md,data,Documentation,211
+data/sample_images/README.md,data,Documentation,241
+data/sample_images/sample_cool.png,data,Image asset,2106
+data/sample_images/sample_green.png,data,Image asset,1205
+data/sample_images/sample_warm.png,data,Image asset,2331
+images/demo_screenshot.png,images,Image asset,17245
+models/README.md,models,Documentation,613
+models/class_indices.json,models,Metadata or metrics,342
+models/model_metadata.json,models,Metadata or metrics,1269
+models/tfjs_model/SMOKE_TEST_ONLY.md,models,Documentation,169
+models/tfjs_model/group1-shard1of1.bin,models,TensorFlow.js weight shard,160
+models/tfjs_model/model.json,models,Metadata or metrics,3202
+notebooks/image_classification_alexnet_transfer_learning.ipynb,notebooks,Jupyter notebook,4120
+outputs/metrics/model_metrics.json,outputs,Metadata or metrics,225
+outputs/predictions/.gitkeep,outputs,Project file,0
+outputs/reports/source_file_audit.json,outputs,Metadata or metrics,294
+outputs/visualizations/.gitkeep,outputs,Project file,0
+package.json,root,Metadata or metrics,476
+requirements-dev.txt,root,Text or dependency file,64
+requirements.txt,root,Text or dependency file,217
+run_local.bat,root,Windows launcher,63
+run_local.sh,root,Shell launcher,100
+scripts/__init__.py,scripts,Python source or test,33
+scripts/convert_to_tfjs.py,scripts,Python source or test,1333
+scripts/create_smoke_test_tfjs_model.py,scripts,Python source or test,5943
+scripts/evaluate_model.py,scripts,Python source or test,1803
+scripts/export_model.py,scripts,Python source or test,789
+scripts/run_local_web_server.py,scripts,Python source or test,1178
+scripts/train_model.py,scripts,Python source or test,2032
+scripts/validate_project.py,scripts,Python source or test,1350
+src/__init__.py,src,Python source or test,147
+src/alexnet_model.py,src,Python source or test,2485
+src/class_mapping.py,src,Python source or test,1981
+src/classification_pipeline.py,src,Python source or test,1387
+src/config.py,src,Python source or test,975
+src/data_preprocessing.py,src,Python source or test,975
+src/dataset_loader.py,src,Python source or test,5366
+src/image_preprocessing.py,src,Python source or test,2848
+src/inference_pipeline.py,src,Python source or test,2284
+src/model_conversion.py,src,Python source or test,2568
+src/model_evaluation.py,src,Python source or test,6178
+src/model_training.py,src,Python source or test,4685
+src/transfer_learning_model.py,src,Python source or test,1974
+src/utils.py,src,Python source or test,473
+src/visualization.py,src,Python source or test,1754
+tests/__init__.py,tests,Python source or test,0
+tests/test_class_mapping.py,tests,Python source or test,586
+tests/test_image_preprocessing.py,tests,Python source or test,873
+tests/test_inference_pipeline.py,tests,Python source or test,532
+tests/test_model_conversion.py,tests,Python source or test,702
+tests/test_models.py,tests,Python source or test,609
+train_model.py,root,Python source or test,130
+web/app.js,web,Browser inference code,8791
+web/index.html,web,Static browser interface,4571
+web/metadata.json,web,Metadata or metrics,1269
+web/sample_images/sample_cool.png,web,Image asset,2106
+web/sample_images/sample_green.png,web,Image asset,1205
+web/sample_images/sample_warm.png,web,Image asset,2331
+web/style.css,web,Browser styling,6302
+web/tfjs_model/SMOKE_TEST_ONLY.md,web,Documentation,169
+web/tfjs_model/group1-shard1of1.bin,web,TensorFlow.js weight shard,160
+web/tfjs_model/model.json,web,Metadata or metrics,3202
+wrangler.toml,root,Configuration,126

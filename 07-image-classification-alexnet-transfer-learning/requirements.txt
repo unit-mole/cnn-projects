@@ -1,0 +1,11 @@
+# Recommended: Python 3.11
+numpy>=1.26,<3
+pandas>=2.2,<3
+Pillow>=10,<13
+matplotlib>=3.8,<4
+scikit-learn>=1.5,<2
+opencv-python-headless>=4.10,<5
+tensorflow>=2.18,<2.22
+tensorflowjs==4.22.0
+joblib>=1.4,<2
+tqdm>=4.66,<5

@@ -1,0 +1,112 @@
+07-image-classification-alexnet-transfer-learning/
+├── .streamlit/
+│   └── config.toml
+├── app/
+│   ├── __init__.py
+│   └── cli.py
+├── archive/
+│   ├── source-neural-style-transfer/
+│   │   ├── metrics.json
+│   │   ├── Neural_Style_Transfer_CNN_FULL_ELITE.ipynb
+│   │   ├── portfolio_build_brief.md
+│   │   ├── README.md
+│   │   ├── style_transfer_triptych.png
+│   │   └── stylized_output.npy
+│   └── README.md
+├── data/
+│   ├── processed/
+│   │   └── .gitkeep
+│   ├── raw/
+│   │   └── README.md
+│   ├── sample_images/
+│   │   ├── README.md
+│   │   ├── sample_cool.png
+│   │   ├── sample_green.png
+│   │   └── sample_warm.png
+│   └── README_data.md
+├── images/
+│   └── demo_screenshot.png
+├── models/
+│   ├── tfjs_model/
+│   │   ├── group1-shard1of1.bin
+│   │   ├── model.json
+│   │   └── SMOKE_TEST_ONLY.md
+│   ├── class_indices.json
+│   ├── model_metadata.json
+│   └── README.md
+├── notebooks/
+│   └── image_classification_alexnet_transfer_learning.ipynb
+├── outputs/
+│   ├── metrics/
+│   │   └── model_metrics.json
+│   ├── predictions/
+│   │   └── .gitkeep
+│   ├── reports/
+│   │   └── source_file_audit.json
+│   └── visualizations/
+│       └── .gitkeep
+├── scripts/
+│   ├── __init__.py
+│   ├── convert_to_tfjs.py
+│   ├── create_smoke_test_tfjs_model.py
+│   ├── evaluate_model.py
+│   ├── export_model.py
+│   ├── run_local_web_server.py
+│   ├── train_model.py
+│   └── validate_project.py
+├── src/
+│   ├── __init__.py
+│   ├── alexnet_model.py
+│   ├── class_mapping.py
+│   ├── classification_pipeline.py
+│   ├── config.py
+│   ├── data_preprocessing.py
+│   ├── dataset_loader.py
+│   ├── image_preprocessing.py
+│   ├── inference_pipeline.py
+│   ├── model_conversion.py
+│   ├── model_evaluation.py
+│   ├── model_training.py
+│   ├── transfer_learning_model.py
+│   ├── utils.py
+│   └── visualization.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_class_mapping.py
+│   ├── test_image_preprocessing.py
+│   ├── test_inference_pipeline.py
+│   ├── test_model_conversion.py
+│   └── test_models.py
+├── web/
+│   ├── sample_images/
+│   │   ├── sample_cool.png
+│   │   ├── sample_green.png
+│   │   └── sample_warm.png
+│   ├── tfjs_model/
+│   │   ├── group1-shard1of1.bin
+│   │   ├── model.json
+│   │   └── SMOKE_TEST_ONLY.md
+│   ├── app.js
+│   ├── index.html
+│   ├── metadata.json
+│   └── style.css
+├── .gitignore
+├── __init__.py
+├── Dockerfile
+├── FILE_MANIFEST.csv
+├── IMPROVEMENTS.md
+├── LICENSE
+├── MONOREPO_INTEGRATION.md
+├── package.json
+├── PROJECT_AUDIT.md
+├── README.md
+├── README_CLOUDFLARE.md
+├── README_GITHUB_PAGES.md
+├── README_HOSTING.md
+├── requirements-dev.txt
+├── requirements.txt
+├── run_local.bat
+├── run_local.sh
+├── train_model.py
+├── VALIDATION_REPORT.md
+└── wrangler.toml

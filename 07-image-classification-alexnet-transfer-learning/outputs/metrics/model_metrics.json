@@ -1,0 +1,5 @@
+{
+  "status": "not_evaluated",
+  "reason": "No trained AlexNet-style classifier was included in the uploaded source files.",
+  "next_step": "Run training, evaluation, and TensorFlow.js conversion before reporting metrics."
+}
