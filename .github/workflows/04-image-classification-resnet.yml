@@ -27,6 +27,7 @@ jobs:
   validate:
     name: Lightweight project validation
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -39,7 +40,9 @@ jobs:
           cache-dependency-path: 04-image-classification-resnet/requirements-ci.txt
 
       - name: Install lightweight CI dependencies
-        run: python -m pip install --upgrade pip && pip install -r "$PROJECT_DIR/requirements-ci.txt"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r "$PROJECT_DIR/requirements-ci.txt"
 
       - name: Compile Python source
         run: python -m compileall -q "$PROJECT_DIR/src" "$PROJECT_DIR/scripts" "$PROJECT_DIR/tests"
@@ -50,7 +53,7 @@ jobs:
       - name: Validate project and TensorFlow.js artifacts
         run: python "$PROJECT_DIR/scripts/validate_project.py" --project-dir "$PROJECT_DIR"
 
-      - name: Confirm Python modules import without TensorFlow initialization
+      - name: Confirm lightweight Python imports
         env:
           PYTHONPATH: 04-image-classification-resnet
         run: |
@@ -58,36 +61,48 @@ jobs:
           from src.class_mapping import CIFAR100_FINE_LABELS
           from src.config import ProjectConfig
           from src.model_conversion import validate_tfjs_bundle
+
           assert len(CIFAR100_FINE_LABELS) == 100
           assert ProjectConfig().num_classes == 100
           validate_tfjs_bundle("04-image-classification-resnet/web/tfjs_model")
-          print("Import and artifact checks passed.")
+          print("Import and TensorFlow.js artifact checks passed.")
           PY
 
-  deploy-pages:
-    name: Deploy browser demo to GitHub Pages
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  build-pages:
+    name: Build GitHub Pages artifact
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v6
 
-      - name: Upload static web application
+      - name: Upload static browser demo
         uses: actions/upload-pages-artifact@v4
         with:
           path: 04-image-classification-resnet/web
 
+  deploy-pages:
+    name: Deploy browser demo to GitHub Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build-pages
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
