@@ -2,12 +2,14 @@ name: 04 ResNet Image Classification CI and Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "04-image-classification-resnet/**"
       - ".github/workflows/04-image-classification-resnet.yml"
   pull_request:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "04-image-classification-resnet/**"
       - ".github/workflows/04-image-classification-resnet.yml"
@@ -17,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: "pages-resnet-${{ github.ref }}"
+  group: resnet-pages-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -42,67 +44,67 @@ jobs:
       - name: Install lightweight CI dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r "$PROJECT_DIR/requirements-ci.txt"
+          python -m pip install -r "$PROJECT_DIR/requirements-ci.txt"
 
       - name: Compile Python source
         run: python -m compileall -q "$PROJECT_DIR/src" "$PROJECT_DIR/scripts" "$PROJECT_DIR/tests"
 
       - name: Run unit tests
-        run: pytest -q "$PROJECT_DIR/tests"
+        run: python -m pytest -q "$PROJECT_DIR/tests"
 
       - name: Validate project and TensorFlow.js artifacts
         run: python "$PROJECT_DIR/scripts/validate_project.py" --project-dir "$PROJECT_DIR"
 
-      - name: Confirm lightweight Python imports
-        env:
-          PYTHONPATH: 04-image-classification-resnet
+      - name: Confirm required browser files exist
+        shell: bash
         run: |
-          python - <<'PY'
-          from src.class_mapping import CIFAR100_FINE_LABELS
-          from src.config import ProjectConfig
-          from src.model_conversion import validate_tfjs_bundle
+          set -euo pipefail
+          test -f "$PROJECT_DIR/web/index.html"
+          test -f "$PROJECT_DIR/web/style.css"
+          test -f "$PROJECT_DIR/web/app.js"
+          test -f "$PROJECT_DIR/web/metadata.json"
+          test -f "$PROJECT_DIR/web/tfjs_model/model.json"
+          find "$PROJECT_DIR/web/tfjs_model" -maxdepth 1 -name "*.bin" -print -quit | grep -q .
+          echo "All required GitHub Pages files are present."
 
-          assert len(CIFAR100_FINE_LABELS) == 100
-          assert ProjectConfig().num_classes == 100
-          validate_tfjs_bundle("04-image-classification-resnet/web/tfjs_model")
-          print("Import and TensorFlow.js artifact checks passed.")
-          PY
-
-  build-pages:
-    name: Build GitHub Pages artifact
+  publish:
+    name: Publish browser demo to gh-pages branch
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
+
     permissions:
-      contents: read
+      contents: write
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Configure GitHub Pages
-        id: pages
-        uses: actions/configure-pages@v6
+      - name: Prepare static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          cp -R "$PROJECT_DIR/web/." _site/
+          touch _site/.nojekyll
+          test -f _site/index.html
+          test -f _site/app.js
+          test -f _site/tfjs_model/model.json
+          echo "Static site prepared successfully."
 
-      - name: Upload static browser demo
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: 04-image-classification-resnet/web
-
-  deploy-pages:
-    name: Deploy browser demo to GitHub Pages
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: build-pages
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish to gh-pages branch
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          cd _site
+          git init
+          git checkout -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add --all
+          git commit -m "Deploy ResNet browser demo from ${GITHUB_SHA}"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin gh-pages
