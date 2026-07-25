@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+.env
+.DS_Store
+Thumbs.db
+outputs/runtime/*
+!outputs/runtime/.gitkeep
+outputs/huggingface_space_bundle/
+data/raw/
+data/private/
+*.tfrecord
+*.h5
+*.ckpt
+# The supplied 5.5 MB .keras demo model is intentionally tracked.

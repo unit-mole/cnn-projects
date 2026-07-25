@@ -1,0 +1,4 @@
+# Retained only for structural consistency with earlier portfolio projects.
+# This project is deployed with Gradio, not Streamlit.
+[theme]
+base = "light"

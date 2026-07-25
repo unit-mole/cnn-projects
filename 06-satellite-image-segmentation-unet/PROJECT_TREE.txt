@@ -1,0 +1,115 @@
+06-satellite-image-segmentation-unet/
+├── .streamlit/
+│   └── config.toml
+├── app/
+│   ├── __init__.py
+│   └── gradio_ui.py
+├── archive/
+│   ├── README.md
+│   └── Satellite_Image_Segmentation_UNet_Urban_Mapping_FULL_ELITE_original.ipynb
+├── data/
+│   ├── sample_images/
+│   │   ├── synthetic_tile_01.png
+│   │   ├── synthetic_tile_02.png
+│   │   ├── synthetic_tile_03.png
+│   │   ├── synthetic_tile_04.png
+│   │   ├── synthetic_tile_05.png
+│   │   └── synthetic_tile_06.png
+│   ├── sample_masks/
+│   │   ├── synthetic_tile_01_mask.png
+│   │   ├── synthetic_tile_02_mask.png
+│   │   ├── synthetic_tile_03_mask.png
+│   │   ├── synthetic_tile_04_mask.png
+│   │   ├── synthetic_tile_05_mask.png
+│   │   └── synthetic_tile_06_mask.png
+│   ├── README_data.md
+│   └── sample_manifest.csv
+├── images/
+│   └── demo_screenshot.png
+├── kaggle/
+│   ├── kaggle_notebook_summary.md
+│   └── README_KAGGLE.md
+├── models/
+│   ├── metrics.json
+│   ├── model_metadata.json
+│   ├── README.md
+│   └── satellite_unet_segmentation_model.keras
+├── notebooks/
+│   ├── satellite_image_segmentation_unet.ipynb
+│   └── satellite_image_segmentation_unet_kaggle.ipynb
+├── outputs/
+│   ├── figures/
+│   │   ├── best_segmentation_examples.png
+│   │   ├── dice_distribution.png
+│   │   ├── dice_training_curve.png
+│   │   ├── iou_distribution.png
+│   │   ├── loss_training_curve.png
+│   │   ├── overlay_predictions.png
+│   │   ├── predicted_vs_true_area.png
+│   │   ├── sample_satellite_images_and_masks.png
+│   │   ├── segmentation_error_examples.png
+│   │   └── threshold_sweep.png
+│   ├── metrics/
+│   │   ├── baseline_comparison.csv
+│   │   └── model_metrics.json
+│   ├── predictions/
+│   │   └── README.md
+│   ├── runtime/
+│   │   └── .gitkeep
+│   └── README.md
+├── scripts/
+│   ├── __init__.py
+│   ├── create_demo_samples.py
+│   ├── evaluate_model.py
+│   ├── export_model.py
+│   ├── run_gradio.py
+│   ├── train_model.py
+│   └── validate_project.py
+├── src/
+│   ├── __init__.py
+│   ├── artifact_utils.py
+│   ├── class_mapping.py
+│   ├── config.py
+│   ├── data_preprocessing.py
+│   ├── dataset_loader.py
+│   ├── image_preprocessing.py
+│   ├── inference_pipeline.py
+│   ├── mask_preprocessing.py
+│   ├── metrics.py
+│   ├── model_evaluation.py
+│   ├── model_training.py
+│   ├── segmentation_pipeline.py
+│   ├── synthetic_data.py
+│   ├── unet_model.py
+│   └── visualization.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_app_import.py
+│   ├── test_dataset_loader.py
+│   ├── test_image_preprocessing.py
+│   ├── test_inference_pipeline.py
+│   ├── test_mask_preprocessing.py
+│   ├── test_metrics.py
+│   └── test_model_artifact.py
+├── .dockerignore
+├── .gitignore
+├── __init__.py
+├── app.py
+├── Dockerfile
+├── FILE_MANIFEST.csv
+├── gradio_app.py
+├── IMPROVEMENTS.md
+├── LICENSE
+├── MONOREPO_INTEGRATION.md
+├── PROJECT_AUDIT.md
+├── PROJECT_TREE.txt
+├── pyproject.toml
+├── README.md
+├── README_HOSTING.md
+├── README_HUGGINGFACE.md
+├── requirements-dev.txt
+├── requirements-training.txt
+├── requirements.txt
+├── run_local.bat
+├── run_local.sh
+└── train_model.py

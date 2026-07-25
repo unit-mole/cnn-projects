@@ -1,0 +1,7 @@
+sample_id,seed,image,mask,positive_pixel_rate
+1,43,synthetic_tile_01.png,synthetic_tile_01_mask.png,0.107666015625
+2,44,synthetic_tile_02.png,synthetic_tile_02_mask.png,0.114501953125
+3,45,synthetic_tile_03.png,synthetic_tile_03_mask.png,0.12939453125
+4,46,synthetic_tile_04.png,synthetic_tile_04_mask.png,0.0908203125
+5,47,synthetic_tile_05.png,synthetic_tile_05_mask.png,0.050537109375
+6,48,synthetic_tile_06.png,synthetic_tile_06_mask.png,0.1025390625
