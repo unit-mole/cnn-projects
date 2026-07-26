@@ -1,36 +1,21 @@
-# Improvements Made
+# Improvements
 
-## Engineering
+## Completed
 
-- converted notebook code into reusable `src/` modules
-- added lazy TensorFlow model loading for faster app startup imports
-- added consistent training/inference preprocessing
-- used bilinear interpolation for images and nearest-neighbor interpolation for masks
-- added model metadata and SHA-256 integrity information
-- added safe error handling for unsupported or invalid images
-- added downloadable prediction masks
+- Converted the notebook-centric experiment into modular Python code and tests.
+- Added a local Gradio reference app.
+- Added a production-style Vercel static website.
+- Added TensorFlow.js browser inference with the trained U-Net weights.
+- Added deterministic Keras 3 weight export without requiring TensorFlow.
+- Added probability map, binary mask, overlay, optional Dice/IoU, and mask download.
+- Added responsible medical disclaimer and synthetic-data framing.
+- Added web-asset validation to CI.
 
-## Evaluation
+## Recommended next steps
 
-- preserved the original threshold baseline
-- documented soft versus thresholded Dice/IoU
-- added pixel precision, recall, F1, false-positive rate, and false-negative rate utilities
-- added per-sample scoring and threshold sweep exports
-- generated good, weak, overlay, probability, and error-map examples
-
-## Deployment
-
-- created a Hugging Face Spaces-ready `app.py`
-- added current Gradio and TensorFlow CPU dependencies
-- added Space metadata in `README.md`
-- added Docker support
-- added Windows and Unix local-run scripts
-- added GitHub Actions CI in the root `.github/workflows/` directory
-
-## Responsible AI
-
-- corrected the dataset description to synthetic MRI-style images
-- removed unsupported clinical-performance claims
-- added medical disclaimers to both README and app
-- documented PHI and DICOM safety rules
-- clearly separated synthetic benchmark results from clinical validation
+1. Train and evaluate on an appropriately licensed, de-identified public medical segmentation dataset.
+2. Use patient-level non-overlapping splits and document data provenance.
+3. Add modality-specific preprocessing and clinically meaningful augmentations.
+4. Benchmark calibration, boundary metrics, and external-domain robustness.
+5. Quantize the browser model only after measuring parity and segmentation quality.
+6. Replace the placeholder Vercel link after production deployment.

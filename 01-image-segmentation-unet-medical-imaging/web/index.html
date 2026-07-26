@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Browser-based U-Net segmentation demo using TensorFlow.js. Educational synthetic MRI-style data only." />
+  <meta name="theme-color" content="#071827" />
+  <title>Medical Image Segmentation · U-Net</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="./style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Medical U-Net demo home">
+      <span class="brand-mark">U</span>
+      <span>Medical U-Net</span>
+    </a>
+    <nav class="top-nav" aria-label="Primary navigation">
+      <a href="#demo">Demo</a>
+      <a href="#method">Method</a>
+      <a href="#limitations">Limitations</a>
+      <a class="nav-button" href="https://github.com/unit-mole/cnn-projects/tree/main/01-image-segmentation-unet-medical-imaging" target="_blank" rel="noreferrer">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="eyebrow">Project 01 · CNN Computer Vision Portfolio</div>
+        <h1>Medical Image Segmentation using <span>U-Net</span></h1>
+        <p class="lead">Upload an image and run the compact U-Net directly in your browser. The model returns a probability map, binary segmentation mask, and visual overlay—without sending the image to a Python server.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#demo">Try the live model</a>
+          <a class="button secondary" href="https://github.com/unit-mole/cnn-projects" target="_blank" rel="noreferrer">View CNN portfolio</a>
+        </div>
+        <div class="tech-row" aria-label="Technology stack">
+          <span>TensorFlow.js</span><span>U-Net</span><span>Vercel</span><span>64×64 grayscale</span>
+        </div>
+      </div>
+      <aside class="hero-card" aria-label="Model summary">
+        <div class="status-line">
+          <span id="model-dot" class="status-dot loading"></span>
+          <strong id="model-status">Loading browser model…</strong>
+        </div>
+        <dl class="model-facts">
+          <div><dt>Task</dt><dd>Binary segmentation</dd></div>
+          <div><dt>Architecture</dt><dd>Compact 2-level U-Net</dd></div>
+          <div><dt>Parameters</dt><dd>470,977</dd></div>
+          <div><dt>Runtime</dt><dd id="backend-name">Preparing TensorFlow.js</dd></div>
+        </dl>
+        <div class="score-grid">
+          <div><span>Test Dice</span><strong>0.9977</strong></div>
+          <div><span>Test IoU</span><strong>0.9954</strong></div>
+        </div>
+        <p class="score-note">Recorded on the deterministic synthetic test set—not clinical data.</p>
+      </aside>
+    </section>
+
+    <section class="notice shell" role="note" aria-label="Medical disclaimer">
+      <div class="notice-icon">!</div>
+      <div>
+        <strong>Educational demonstration only—not a medical diagnostic tool.</strong>
+        <p>Do not upload private, sensitive, confidential, or personally identifiable medical images. Predictions are machine-learning outputs and must not be used to diagnose, treat, prevent, or manage a medical condition.</p>
+      </div>
+    </section>
+
+    <section id="demo" class="section shell">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">Interactive browser inference</div>
+          <h2>Generate a segmentation mask</h2>
+        </div>
+        <p>Your image is processed locally in the browser. It is not uploaded to an application server.</p>
+      </div>
+
+      <div class="demo-layout">
+        <aside class="control-panel card">
+          <label class="field-label" for="image-input">Input image</label>
+          <label class="drop-zone" id="drop-zone" for="image-input">
+            <input id="image-input" type="file" accept="image/png,image/jpeg,image/webp" />
+            <span class="drop-icon">＋</span>
+            <strong>Choose or drop an image</strong>
+            <small>PNG, JPG, or WebP · processed as 64×64 grayscale</small>
+          </label>
+
+          <label class="field-label sample-label">Safe synthetic examples</label>
+          <div class="sample-grid" id="sample-grid">
+            <button class="sample-button" data-image="./sample_images/sample_01.png" data-mask="./sample_masks/sample_01.png"><img src="./sample_images/sample_01.png" alt="Synthetic sample 1" /><span>Sample 1</span></button>
+            <button class="sample-button" data-image="./sample_images/sample_02.png" data-mask="./sample_masks/sample_02.png"><img src="./sample_images/sample_02.png" alt="Synthetic sample 2" /><span>Sample 2</span></button>
+            <button class="sample-button" data-image="./sample_images/sample_03.png" data-mask="./sample_masks/sample_03.png"><img src="./sample_images/sample_03.png" alt="Synthetic sample 3" /><span>Sample 3</span></button>
+            <button class="sample-button" data-image="./sample_images/sample_04.png" data-mask="./sample_masks/sample_04.png"><img src="./sample_images/sample_04.png" alt="Synthetic sample 4" /><span>Sample 4</span></button>
+          </div>
+
+          <label class="field-label" for="mask-input">Optional ground-truth mask</label>
+          <input id="mask-input" class="file-input" type="file" accept="image/png,image/jpeg,image/webp" />
+
+          <div class="threshold-row">
+            <label for="threshold">Mask threshold</label>
+            <output id="threshold-value" for="threshold">0.50</output>
+          </div>
+          <input id="threshold" type="range" min="0.05" max="0.95" step="0.01" value="0.50" />
+
+          <button id="predict-button" class="button primary full" disabled>Run U-Net segmentation</button>
+          <button id="download-button" class="button secondary full" disabled>Download predicted mask</button>
+          <p id="action-message" class="action-message" aria-live="polite">Wait for the model, then choose an image.</p>
+        </aside>
+
+        <div class="results-panel">
+          <div class="visual-grid">
+            <article class="visual-card card">
+              <div class="visual-title"><span>01</span><h3>Original image</h3></div>
+              <canvas id="original-canvas" width="320" height="320" aria-label="Original image preview"></canvas>
+            </article>
+            <article class="visual-card card">
+              <div class="visual-title"><span>02</span><h3>Probability map</h3></div>
+              <canvas id="probability-canvas" width="320" height="320" aria-label="Predicted probability map"></canvas>
+            </article>
+            <article class="visual-card card">
+              <div class="visual-title"><span>03</span><h3>Binary mask</h3></div>
+              <canvas id="mask-canvas" width="320" height="320" aria-label="Predicted segmentation mask"></canvas>
+            </article>
+            <article class="visual-card card">
+              <div class="visual-title"><span>04</span><h3>Mask overlay</h3></div>
+              <canvas id="overlay-canvas" width="320" height="320" aria-label="Segmentation overlay"></canvas>
+            </article>
+          </div>
+
+          <div class="result-metrics card">
+            <div><span>Inference time</span><strong id="inference-time">—</strong></div>
+            <div><span>Predicted region</span><strong id="region-share">—</strong></div>
+            <div><span>Mean probability</span><strong id="mean-probability">—</strong></div>
+            <div><span>Dice vs mask</span><strong id="dice-score">—</strong></div>
+            <div><span>IoU vs mask</span><strong id="iou-score">—</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="method" class="section alt-section">
+      <div class="shell">
+        <div class="section-heading">
+          <div><div class="eyebrow">How it works</div><h2>From image to pixel-level prediction</h2></div>
+          <p>The same core preprocessing used by the Python project is reproduced in JavaScript for browser inference.</p>
+        </div>
+        <div class="process-grid">
+          <article class="process-card"><span>1</span><h3>Preprocess</h3><p>Resize to 64×64, convert to one grayscale channel, and normalize pixel values to [0, 1].</p></article>
+          <article class="process-card"><span>2</span><h3>Encode</h3><p>Convolution blocks learn local intensity patterns while max pooling builds higher-level features.</p></article>
+          <article class="process-card"><span>3</span><h3>Decode</h3><p>Upsampling and skip connections restore spatial detail for precise pixel-level boundaries.</p></article>
+          <article class="process-card"><span>4</span><h3>Visualize</h3><p>A sigmoid probability map is thresholded into a mask and blended over the original image.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="limitations" class="section shell">
+      <div class="section-heading">
+        <div><div class="eyebrow">Responsible AI</div><h2>Limitations and correct interpretation</h2></div>
+      </div>
+      <div class="limits-grid">
+        <div class="card prose-card">
+          <h3>What this project demonstrates</h3>
+          <ul>
+            <li>U-Net encoder-decoder architecture and skip connections</li>
+            <li>Binary mask inference, thresholding, overlays, Dice, and IoU</li>
+            <li>Keras-to-browser weight export and TensorFlow.js inference</li>
+            <li>Static Vercel deployment without a Python backend</li>
+          </ul>
+        </div>
+        <div class="card prose-card warning-card">
+          <h3>What it does not establish</h3>
+          <ul>
+            <li>No real patient scans were used for training or evaluation</li>
+            <li>The target shapes are simple synthetic elliptical regions</li>
+            <li>Performance on MRI, CT, X-ray, ultrasound, pathology, or dermoscopy is unknown</li>
+            <li>No clinical validation, regulatory review, or prospective evaluation was performed</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div><strong>Medical Image Segmentation using U-Net</strong><p>Quality Data Scientist · Computer Vision Portfolio</p></div>
+      <div><a href="https://github.com/unit-mole/cnn-projects" target="_blank" rel="noreferrer">Source code ↗</a><span>MIT License</span></div>
+    </div>
+  </footer>
+</body>
+</html>

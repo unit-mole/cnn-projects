@@ -1,47 +1,33 @@
 # Project Audit
 
-## Source files reviewed
+## Supplied assets reviewed
 
-- `Medical_Image_Segmentation_UNet_FULL_ELITE(1).ipynb`
-- `unet_medical.keras`
-- `metrics.json`
+- Executed U-Net notebook
+- Saved Keras 3 model (`unet_medical.keras`)
+- Metrics JSON
+- Existing modular Python/Gradio portfolio package
 
-## What the original project actually does
+## Actual experiment identified
 
-The notebook generates 2,500 deterministic synthetic MRI-style grayscale images. Each image contains noise plus a brighter elliptical region, and each mask identifies that ellipse. It is a binary segmentation problem with image and mask tensors shaped `(2500, 64, 64, 1)`.
+- Data: deterministic synthetic MRI-style grayscale images
+- Samples: 2,500 at 64×64×1
+- Task: binary segmentation of a bright synthetic elliptical region
+- Model: compact two-level U-Net, 470,977 parameters
+- Test Dice: 0.9976925 on synthetic test data
+- Test IoU: 0.9954064 on synthetic test data
 
-The split is:
+## Vercel conversion completed
 
-- training: 1,750
-- validation: 375
-- test: 375
+- Added a responsive static HTML/CSS/JavaScript application.
+- Reproduced grayscale resizing and normalization in JavaScript.
+- Reconstructed the exact U-Net topology using TensorFlow.js Layers.
+- Exported 22 trained Conv2D tensors from the Keras 3 archive.
+- Added a deterministic 1,883,908-byte float32 browser weight bundle.
+- Added SHA-256, offsets, shapes, and byte-count validation.
+- Added Vercel configuration that skips Python installation.
+- Added safe samples, optional ground-truth scoring, downloads, disclaimer, and limitations.
+- Added browser-bundle unit tests and GitHub Actions validation.
 
-The model is a compact two-level U-Net with 470,977 parameters, two skip connections, a sigmoid output, binary cross-entropy loss, Adam optimizer, soft Dice, and soft IoU.
+## Important positioning correction
 
-## Strong elements retained
-
-- deterministic random seed
-- explicit train/validation/test split
-- intensity-threshold baseline
-- Dice and IoU metrics
-- U-Net skip connections
-- early stopping and learning-rate reduction
-- threshold sweep
-- best/worst example analysis
-- saved `.keras` model and metrics
-- model reload check
-
-## Problems corrected
-
-1. **Dataset claims:** The original narrative referred broadly to clinical datasets even though the executable code used only synthetic arrays.
-2. **Clinical wording:** Claims about diagnosis and hospital deployment were removed or reframed as future, separately validated applications.
-3. **Missing deployment layer:** Added a Gradio application and Hugging Face Spaces configuration.
-4. **Notebook-only code:** Split preprocessing, model, evaluation, inference, visualization, and data generation into reusable modules.
-5. **Missing artifact metadata:** Added input shape, normalization, threshold, architecture, training settings, dataset context, checksum, limitations, and disclaimer.
-6. **Missing safety controls:** Added explicit warnings against private medical uploads and public redistribution of clinical data.
-7. **Missing tests and CI:** Added unit tests, import checks, model smoke inference, and a project-scoped GitHub Actions workflow.
-8. **Missing reproducible outputs:** Added safe sample images, reference masks, overlays, probability maps, baseline comparison, threshold analysis, and error examples.
-
-## Main limitation
-
-The unusually high test scores are expected because the synthetic task is simple and generated from a consistent intensity rule. They should not be interpreted as evidence of real-world medical segmentation capability.
+The project must remain labeled as a synthetic medical-imaging proof of concept. The recorded scores do not establish clinical performance.

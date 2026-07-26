@@ -1,0 +1,14 @@
+{
+  "name": "medical-image-segmentation-unet-vercel",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Static TensorFlow.js U-Net medical image segmentation portfolio demo.",
+  "scripts": {
+    "build": "node validate-web.mjs",
+    "validate:web": "node validate-web.mjs",
+    "serve": "python -m http.server 8000 --directory web"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "title": "Medical Image Segmentation using U-Net",
+  "project_slug": "01-image-segmentation-unet-medical-imaging",
+  "deployment": "Vercel + TensorFlow.js",
+  "runtime": "Client-side browser inference",
+  "dataset": "Deterministic synthetic MRI-style grayscale images",
+  "input_size": [
+    64,
+    64,
+    1
+  ],
+  "output_size": [
+    64,
+    64,
+    1
+  ],
+  "mask_type": "binary",
+  "default_threshold": 0.5,
+  "model_parameters": 470977,
+  "metrics": {
+    "baseline_test_dice": 0.9659118056297302,
+    "baseline_test_iou": 0.9360320568084717,
+    "unet_test_dice": 0.9976925253868103,
+    "unet_test_iou": 0.9954063892364502,
+    "pixel_accuracy": 0.9998404947916667
+  },
+  "github_url": "https://github.com/unit-mole/cnn-projects/tree/main/01-image-segmentation-unet-medical-imaging",
+  "medical_disclaimer": "This project is for educational and portfolio demonstration purposes only. It is not a medical diagnostic tool. The model must not be used to diagnose, treat, prevent, or manage any medical condition. Medical image interpretation requires clinical validation, domain expertise, and review by qualified healthcare professionals. Do not upload private, sensitive, confidential, or personally identifiable medical images. Predicted masks are machine-learning outputs, not medical advice."
+}

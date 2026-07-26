@@ -1,0 +1,42 @@
+{
+  "format": "keras-v3-custom-tfjs-bundle",
+  "generated_by": "scripts/export_tfjs_assets.py",
+  "model_name": "medical_image_segmentation_unet",
+  "task": "binary semantic segmentation",
+  "input_shape": [
+    1,
+    64,
+    64,
+    1
+  ],
+  "output_shape": [
+    1,
+    64,
+    64,
+    1
+  ],
+  "architecture": {
+    "type": "compact two-level U-Net",
+    "hidden_activation": "relu",
+    "output_activation": "sigmoid",
+    "padding": "same",
+    "upsampling": "nearest",
+    "encoder_filters": [
+      32,
+      64
+    ],
+    "bottleneck_filters": 128,
+    "decoder_filters": [
+      64,
+      32
+    ],
+    "skip_connections": 2,
+    "parameter_count": 470977
+  },
+  "weight_manifest": "weights_manifest.json",
+  "weight_file": "weights.bin",
+  "weight_bytes": 1883908,
+  "weight_sha256": "51110dd9929d8aad12f60a305f5a4b2c2116d6db99d4fa158ab6186dfb1fc8c5",
+  "source_artifact": "../models/unet_medical.keras",
+  "source_keras_version": "3.13.2"
+}

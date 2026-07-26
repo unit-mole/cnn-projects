@@ -1,0 +1,306 @@
+{
+  "format": "raw-little-endian-float32",
+  "endianness": "little",
+  "weight_file": "weights.bin",
+  "weight_bytes": 1883908,
+  "weight_sha256": "51110dd9929d8aad12f60a305f5a4b2c2116d6db99d4fa158ab6186dfb1fc8c5",
+  "weights": [
+    {
+      "name": "conv2d/kernel",
+      "layer": "conv2d",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        1,
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 0,
+      "byte_length": 1152,
+      "value_count": 288
+    },
+    {
+      "name": "conv2d/bias",
+      "layer": "conv2d",
+      "role": "bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 1152,
+      "byte_length": 128,
+      "value_count": 32
+    },
+    {
+      "name": "conv2d_1/kernel",
+      "layer": "conv2d_1",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        32,
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 1280,
+      "byte_length": 36864,
+      "value_count": 9216
+    },
+    {
+      "name": "conv2d_1/bias",
+      "layer": "conv2d_1",
+      "role": "bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 38144,
+      "byte_length": 128,
+      "value_count": 32
+    },
+    {
+      "name": "conv2d_2/kernel",
+      "layer": "conv2d_2",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        32,
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 38272,
+      "byte_length": 73728,
+      "value_count": 18432
+    },
+    {
+      "name": "conv2d_2/bias",
+      "layer": "conv2d_2",
+      "role": "bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 112000,
+      "byte_length": 256,
+      "value_count": 64
+    },
+    {
+      "name": "conv2d_3/kernel",
+      "layer": "conv2d_3",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        64,
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 112256,
+      "byte_length": 147456,
+      "value_count": 36864
+    },
+    {
+      "name": "conv2d_3/bias",
+      "layer": "conv2d_3",
+      "role": "bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 259712,
+      "byte_length": 256,
+      "value_count": 64
+    },
+    {
+      "name": "conv2d_4/kernel",
+      "layer": "conv2d_4",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        64,
+        128
+      ],
+      "dtype": "float32",
+      "byte_offset": 259968,
+      "byte_length": 294912,
+      "value_count": 73728
+    },
+    {
+      "name": "conv2d_4/bias",
+      "layer": "conv2d_4",
+      "role": "bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "byte_offset": 554880,
+      "byte_length": 512,
+      "value_count": 128
+    },
+    {
+      "name": "conv2d_5/kernel",
+      "layer": "conv2d_5",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "byte_offset": 555392,
+      "byte_length": 589824,
+      "value_count": 147456
+    },
+    {
+      "name": "conv2d_5/bias",
+      "layer": "conv2d_5",
+      "role": "bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "byte_offset": 1145216,
+      "byte_length": 512,
+      "value_count": 128
+    },
+    {
+      "name": "conv2d_6/kernel",
+      "layer": "conv2d_6",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        192,
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 1145728,
+      "byte_length": 442368,
+      "value_count": 110592
+    },
+    {
+      "name": "conv2d_6/bias",
+      "layer": "conv2d_6",
+      "role": "bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 1588096,
+      "byte_length": 256,
+      "value_count": 64
+    },
+    {
+      "name": "conv2d_7/kernel",
+      "layer": "conv2d_7",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        64,
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 1588352,
+      "byte_length": 147456,
+      "value_count": 36864
+    },
+    {
+      "name": "conv2d_7/bias",
+      "layer": "conv2d_7",
+      "role": "bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "byte_offset": 1735808,
+      "byte_length": 256,
+      "value_count": 64
+    },
+    {
+      "name": "conv2d_8/kernel",
+      "layer": "conv2d_8",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        96,
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 1736064,
+      "byte_length": 110592,
+      "value_count": 27648
+    },
+    {
+      "name": "conv2d_8/bias",
+      "layer": "conv2d_8",
+      "role": "bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 1846656,
+      "byte_length": 128,
+      "value_count": 32
+    },
+    {
+      "name": "conv2d_9/kernel",
+      "layer": "conv2d_9",
+      "role": "kernel",
+      "shape": [
+        3,
+        3,
+        32,
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 1846784,
+      "byte_length": 36864,
+      "value_count": 9216
+    },
+    {
+      "name": "conv2d_9/bias",
+      "layer": "conv2d_9",
+      "role": "bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "byte_offset": 1883648,
+      "byte_length": 128,
+      "value_count": 32
+    },
+    {
+      "name": "conv2d_10/kernel",
+      "layer": "conv2d_10",
+      "role": "kernel",
+      "shape": [
+        1,
+        1,
+        32,
+        1
+      ],
+      "dtype": "float32",
+      "byte_offset": 1883776,
+      "byte_length": 128,
+      "value_count": 32
+    },
+    {
+      "name": "conv2d_10/bias",
+      "layer": "conv2d_10",
+      "role": "bias",
+      "shape": [
+        1
+      ],
+      "dtype": "float32",
+      "byte_offset": 1883904,
+      "byte_length": 4,
+      "value_count": 1
+    }
+  ]
+}

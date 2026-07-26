@@ -33,3 +33,9 @@ phi/
 !data/sample_images/**
 !data/sample_masks/**
 !models/unet_medical.keras
+# Vercel local state
+.vercel/
+
+# Browser model is intentionally tracked
+!web/tfjs_model/*.bin
+!web/tfjs_model/*.json
