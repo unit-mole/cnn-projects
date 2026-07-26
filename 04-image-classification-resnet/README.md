@@ -4,7 +4,8 @@
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange.svg)](https://www.tensorflow.org/)
 [![Keras](https://img.shields.io/badge/Keras-ResNet50-red.svg)](https://keras.io/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-ffca28.svg)](https://www.tensorflow.org/js)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-222222.svg)](https://unit-mole.github.io/cnn-projects/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-2ea44f.svg)](https://unit-mole.github.io/cnn-projects/)
+[![04-image-classification-resnet.yml](https://github.com/unit-mole/cnn-projects/actions/workflows/04-image-classification-resnet.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/04-image-classification-resnet.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An end-to-end computer vision project that uses **ResNet50 transfer learning** to classify images across the **100 CIFAR-100 categories**. The repository includes reproducible preprocessing, model training, evaluation, saved artifacts, TensorFlow.js conversion, browser-based inference, automated validation, and deployment through GitHub Pages.
