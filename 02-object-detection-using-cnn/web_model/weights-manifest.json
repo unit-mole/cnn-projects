@@ -1,0 +1,127 @@
+{
+  "format": "custom-tfjs-weight-bundle-v1",
+  "totalBytes": 443960,
+  "sha256": "e4f1c6bb2a2e2078a38a1688f404f2bfd1770866d8356cacfeac2be52fa90c16",
+  "weights": [
+    {
+      "name": "conv2d/kernel",
+      "shape": [
+        3,
+        3,
+        1,
+        32
+      ],
+      "dtype": "float32",
+      "byteOffset": 0,
+      "byteLength": 1152
+    },
+    {
+      "name": "conv2d/bias",
+      "shape": [
+        32
+      ],
+      "dtype": "float32",
+      "byteOffset": 1152,
+      "byteLength": 128
+    },
+    {
+      "name": "conv2d_1/kernel",
+      "shape": [
+        3,
+        3,
+        32,
+        64
+      ],
+      "dtype": "float32",
+      "byteOffset": 1280,
+      "byteLength": 73728
+    },
+    {
+      "name": "conv2d_1/bias",
+      "shape": [
+        64
+      ],
+      "dtype": "float32",
+      "byteOffset": 75008,
+      "byteLength": 256
+    },
+    {
+      "name": "conv2d_2/kernel",
+      "shape": [
+        3,
+        3,
+        64,
+        128
+      ],
+      "dtype": "float32",
+      "byteOffset": 75264,
+      "byteLength": 294912
+    },
+    {
+      "name": "conv2d_2/bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "byteOffset": 370176,
+      "byteLength": 512
+    },
+    {
+      "name": "dense/kernel",
+      "shape": [
+        128,
+        128
+      ],
+      "dtype": "float32",
+      "byteOffset": 370688,
+      "byteLength": 65536
+    },
+    {
+      "name": "dense/bias",
+      "shape": [
+        128
+      ],
+      "dtype": "float32",
+      "byteOffset": 436224,
+      "byteLength": 512
+    },
+    {
+      "name": "class_output/kernel",
+      "shape": [
+        128,
+        10
+      ],
+      "dtype": "float32",
+      "byteOffset": 436736,
+      "byteLength": 5120
+    },
+    {
+      "name": "class_output/bias",
+      "shape": [
+        10
+      ],
+      "dtype": "float32",
+      "byteOffset": 441856,
+      "byteLength": 40
+    },
+    {
+      "name": "box_output/kernel",
+      "shape": [
+        128,
+        4
+      ],
+      "dtype": "float32",
+      "byteOffset": 441896,
+      "byteLength": 2048
+    },
+    {
+      "name": "box_output/bias",
+      "shape": [
+        4
+      ],
+      "dtype": "float32",
+      "byteOffset": 443944,
+      "byteLength": 16
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "cnn-object-detection-vercel",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/validate_vercel_site.mjs"
+  }
+}
