@@ -1,12 +1,11 @@
-"""Build a legacy tf.keras inference model and convert it to TensorFlow.js.
+"""Convert the inference-only DenseNet model to TensorFlow.js.
 
-Why rebuild first?
-------------------
-The audited source model was saved with Keras 3. TensorFlow.js converts legacy
-Keras HDF5 models most reliably. This script rebuilds the standard DenseNet121
-architecture with ``tf_keras``, copies every weight from the inference-only HDF5
-artifact by layer name, validates a deterministic reference prediction, saves a
-legacy HDF5 file, and then calls the official TensorFlow.js converter.
+The source browser model was exported by Keras 3, which stores layer names such
+as ``conv1_conv``.  The legacy ``tf_keras`` DenseNet implementation used by the
+TensorFlow.js converter names the same layers ``conv1/conv``.  This module maps
+those equivalent names safely, validates every weight shape, rebuilds a legacy
+Keras HDF5 model, checks a deterministic reference prediction, and then runs the
+official TensorFlow.js converter.
 """
 
 from __future__ import annotations
@@ -14,16 +13,18 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import tempfile
 from pathlib import Path
+from typing import Iterable
 
 import h5py
 import numpy as np
 
 # TensorFlow 2.16 defaults to Keras 3. The separately installed tf_keras package
-# provides the Keras 2 serialization expected by the TensorFlow.js converter.
+# provides the Keras 2 serialization expected by TensorFlow.js 4.x.
 os.environ.setdefault("TF_USE_LEGACY_KERAS", "1")
 os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
 
@@ -31,12 +32,14 @@ EXPECTED_REFERENCE = np.array([0.7387364, 0.2612636], dtype=np.float32)
 
 
 def build_legacy_model():
+    """Build the legacy tf_keras architecture expected by the converter."""
     try:
         import tensorflow as tf
         import tf_keras as keras
     except ImportError as exc:
         raise RuntimeError(
-            "TensorFlow/tf_keras is not installed. Run: pip install -r requirements-pages.txt"
+            "TensorFlow/tf_keras is not installed. "
+            "Run: pip install -r requirements-pages.txt"
         ) from exc
 
     backbone = keras.applications.DenseNet121(
@@ -61,7 +64,23 @@ def build_legacy_model():
     return tf, keras, model
 
 
+def _decode(value: object) -> str:
+    return value.decode("utf-8") if isinstance(value, bytes) else str(value)
+
+
+def canonical_layer_name(name: str) -> str:
+    """Normalize equivalent Keras 2/Keras 3 layer-name separators.
+
+    Examples:
+        ``conv1/conv`` -> ``conv1_conv``
+        ``conv1_conv`` -> ``conv1_conv``
+    """
+    normalized = re.sub(r"[/\\]+", "_", name.strip())
+    return re.sub(r"_+", "_", normalized)
+
+
 def read_layer_weights(source: h5py.File, layer_name: str) -> list[np.ndarray]:
+    """Read all arrays for one Keras HDF5 layer group."""
     model_weights = source["model_weights"]
     if layer_name not in model_weights:
         return []
@@ -70,45 +89,148 @@ def read_layer_weights(source: h5py.File, layer_name: str) -> list[np.ndarray]:
     weight_names = layer_group.attrs.get("weight_names", [])
     arrays: list[np.ndarray] = []
     for raw_name in weight_names:
-        name = raw_name.decode("utf-8") if isinstance(raw_name, bytes) else str(raw_name)
+        name = _decode(raw_name)
         arrays.append(np.asarray(layer_group[name]))
     return arrays
 
 
+def source_weight_manifest(source: h5py.File) -> list[tuple[str, list[np.ndarray]]]:
+    """Return weighted source layers in their serialized model order."""
+    model_weights = source["model_weights"]
+    raw_layer_names: Iterable[object] = model_weights.attrs.get(
+        "layer_names", list(model_weights.keys())
+    )
+
+    manifest: list[tuple[str, list[np.ndarray]]] = []
+    for raw_name in raw_layer_names:
+        name = _decode(raw_name)
+        arrays = read_layer_weights(source, name)
+        if arrays:
+            manifest.append((name, arrays))
+    return manifest
+
+
+def _same_shapes(arrays: list[np.ndarray], expected: list[np.ndarray]) -> bool:
+    return len(arrays) == len(expected) and all(
+        source_array.shape == target_array.shape
+        for source_array, target_array in zip(arrays, expected)
+    )
+
+
+def _shape_summary(arrays: list[np.ndarray]) -> list[tuple[int, ...]]:
+    return [tuple(array.shape) for array in arrays]
+
+
 def copy_weights(source_h5: Path, target_model) -> tuple[int, int]:
+    """Copy Keras 3 HDF5 weights into the legacy tf_keras model.
+
+    Resolution strategy:
+    1. Exact layer-name match.
+    2. Canonical match after converting ``/`` separators to ``_``.
+    3. Same-position fallback in the weighted-layer manifest, accepted only when
+       all array counts and shapes match.
+
+    The third step protects against additional harmless naming differences while
+    still refusing to copy incompatible weights.
+    """
     weighted_layers = 0
     copied_arrays = 0
-    with h5py.File(source_h5, "r") as source:
-        for layer in target_model.layers:
-            expected = layer.get_weights()
-            if not expected:
-                continue
 
-            arrays = read_layer_weights(source, layer.name)
-            if not arrays:
-                raise RuntimeError(f"No source weights found for layer: {layer.name}")
-            if len(arrays) != len(expected):
-                raise RuntimeError(
-                    f"Weight-count mismatch for {layer.name}: source={len(arrays)}, target={len(expected)}"
-                )
-            for index, (source_array, target_array) in enumerate(zip(arrays, expected)):
-                if source_array.shape != target_array.shape:
+    with h5py.File(source_h5, "r") as source:
+        manifest = source_weight_manifest(source)
+        if not manifest:
+            raise RuntimeError("The source HDF5 file contains no serialized weights")
+
+        by_exact = {name: arrays for name, arrays in manifest}
+        by_canonical: dict[str, list[tuple[str, list[np.ndarray]]]] = {}
+        for name, arrays in manifest:
+            by_canonical.setdefault(canonical_layer_name(name), []).append((name, arrays))
+
+        target_weighted_layers = [
+            layer for layer in target_model.layers if layer.get_weights()
+        ]
+        if len(target_weighted_layers) != len(manifest):
+            raise RuntimeError(
+                "Weighted-layer count mismatch: "
+                f"source={len(manifest)}, target={len(target_weighted_layers)}. "
+                "The source and rebuilt DenseNet architectures are not equivalent."
+            )
+
+        used_source_names: set[str] = set()
+
+        for position, layer in enumerate(target_weighted_layers):
+            expected = layer.get_weights()
+            selected_name: str | None = None
+            selected_arrays: list[np.ndarray] | None = None
+            selection_method = ""
+
+            # 1. Exact match.
+            arrays = by_exact.get(layer.name)
+            if arrays is not None and layer.name not in used_source_names:
+                if _same_shapes(arrays, expected):
+                    selected_name = layer.name
+                    selected_arrays = arrays
+                    selection_method = "exact"
+
+            # 2. Keras 2 slash names versus Keras 3 underscore names.
+            if selected_arrays is None:
+                candidates = by_canonical.get(canonical_layer_name(layer.name), [])
+                compatible = [
+                    (name, candidate_arrays)
+                    for name, candidate_arrays in candidates
+                    if name not in used_source_names
+                    and _same_shapes(candidate_arrays, expected)
+                ]
+                if len(compatible) == 1:
+                    selected_name, selected_arrays = compatible[0]
+                    selection_method = "canonical-name"
+                elif len(compatible) > 1:
                     raise RuntimeError(
-                        f"Shape mismatch for {layer.name}[{index}]: "
-                        f"source={source_array.shape}, target={target_array.shape}"
+                        f"Ambiguous source layer mapping for {layer.name}: "
+                        f"{[name for name, _ in compatible]}"
                     )
 
-            layer.set_weights(arrays)
+            # 3. Serialized weighted-layer order, guarded by exact shapes.
+            if selected_arrays is None:
+                fallback_name, fallback_arrays = manifest[position]
+                if (
+                    fallback_name not in used_source_names
+                    and _same_shapes(fallback_arrays, expected)
+                ):
+                    selected_name = fallback_name
+                    selected_arrays = fallback_arrays
+                    selection_method = "ordered-shape-fallback"
+
+            if selected_arrays is None or selected_name is None:
+                fallback_name, fallback_arrays = manifest[position]
+                raise RuntimeError(
+                    "Unable to map source weights for target layer "
+                    f"{layer.name!r} at weighted position {position}. "
+                    f"Target shapes={_shape_summary(expected)}; "
+                    f"same-position source={fallback_name!r} "
+                    f"with shapes={_shape_summary(fallback_arrays)}"
+                )
+
+            layer.set_weights(selected_arrays)
+            used_source_names.add(selected_name)
             weighted_layers += 1
-            copied_arrays += len(arrays)
+            copied_arrays += len(selected_arrays)
+
+            if selection_method != "exact":
+                print(
+                    f"Mapped target layer {layer.name!r} <- source layer "
+                    f"{selected_name!r} ({selection_method})"
+                )
+
+        if len(used_source_names) != len(manifest):
+            unused = [name for name, _ in manifest if name not in used_source_names]
+            raise RuntimeError(f"Not all source weighted layers were used: {unused}")
 
     return weighted_layers, copied_arrays
 
 
 def validate_reference(tf, model) -> float:
-    # This reproduces the deterministic check used when the browser artifact was
-    # prepared: a seeded 28x28 RGB input, bilinear resize, then DenseNet channel
-    # normalization. The expected output comes from the original audited model.
+    """Confirm that rebuilt-model predictions match the audited artifact."""
     rng = np.random.default_rng(123)
     image = rng.random((1, 28, 28, 3), dtype=np.float32)
     resized = tf.image.resize(image, [96, 96], method="bilinear")
@@ -131,10 +253,12 @@ def validate_reference(tf, model) -> float:
 
 
 def run_converter(source_h5: Path, output: Path, quantization_bytes: int) -> None:
+    """Run the installed official tensorflowjs_converter command."""
     converter = shutil.which("tensorflowjs_converter")
     if converter is None:
         raise RuntimeError(
-            "tensorflowjs_converter is not installed. Run: pip install -r requirements-pages.txt"
+            "tensorflowjs_converter is not installed. "
+            "Run: pip install -r requirements-pages.txt"
         )
 
     if output.exists():
@@ -159,6 +283,7 @@ def run_converter(source_h5: Path, output: Path, quantization_bytes: int) -> Non
 
 
 def validate_output(output: Path) -> tuple[int, int]:
+    """Validate model.json and every referenced binary weight shard."""
     model_json = output / "model.json"
     if not model_json.exists():
         raise RuntimeError("TensorFlow.js conversion finished without creating model.json")
@@ -210,7 +335,7 @@ def main() -> None:
 
     with tempfile.TemporaryDirectory(prefix="densenet-tfjs-") as temporary_directory:
         legacy_h5 = Path(temporary_directory) / "densenet121_medical_legacy.h5"
-        model.save(legacy_h5, include_optimizer=False)
+        model.save(str(legacy_h5), include_optimizer=False)
         run_converter(legacy_h5, args.output, args.quantization_bytes)
 
     shard_count, total_bytes = validate_output(args.output)

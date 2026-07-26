@@ -16,7 +16,6 @@ on:
 permissions:
   contents: write
 
-# Prevent two runs of this project from publishing at the same time.
 concurrency:
   group: 03-densenet-medical-image-classification-pages
   cancel-in-progress: false
@@ -25,6 +24,7 @@ jobs:
   validate:
     name: Lightweight project validation
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: 03-densenet-medical-image-classification
@@ -43,7 +43,7 @@ jobs:
       - name: Install lightweight CI dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-ci.txt
+          python -m pip install -r requirements-ci.txt
 
       - name: Validate project structure and Keras archives
         run: python scripts/validate_project.py
@@ -62,6 +62,7 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: 03-densenet-medical-image-classification
@@ -80,9 +81,12 @@ jobs:
       - name: Install TensorFlow.js converter
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-pages.txt
+          python -m pip install --no-cache-dir -r requirements-pages.txt
 
       - name: Convert Keras browser model to TensorFlow.js
+        env:
+          TF_CPP_MIN_LOG_LEVEL: "2"
+          TF_USE_LEGACY_KERAS: "1"
         run: |
           python scripts/convert_browser_model.py \
             --source models/densenet121_medical_browser.h5 \
