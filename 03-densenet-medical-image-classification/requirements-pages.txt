@@ -1,0 +1,7 @@
+# GitHub Pages / TensorFlow.js conversion environment.
+# Python 3.11 is selected in the workflow.
+tensorflow==2.16.1
+tf-keras==2.16.0
+tensorflowjs==4.22.0
+h5py>=3.10,<4
+numpy>=1.26,<2

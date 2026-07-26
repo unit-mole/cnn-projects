@@ -1,13 +1,35 @@
-# Improvements Made
+# Improvements Implemented
 
-1. Audited the notebook and corrected the mismatch between its chest-X-ray narrative and its actual Fashion-MNIST code.
-2. Preserved the original notebook and created an audited version with a clear limitation notice.
-3. Added a complete Kaggle notebook for a real folder-based chest-X-ray workflow.
-4. Added modular preprocessing, dataset inspection, DenseNet building, training, evaluation, inference, and visualization modules.
-5. Added a Gradio app that loads the trained artifact without retraining.
-6. Added medical-safety notices and blocked diagnostic wording for the synthetic artifact.
-7. Added optional Grad-CAM generation with graceful fallback.
-8. Added model metadata, a label encoder, SHA-256 checksum, and explicit class mapping.
-9. Extracted actual notebook charts and metrics into portfolio-ready outputs.
-10. Added tests, CI, Docker, local run scripts, Hugging Face instructions, and Kaggle instructions.
-11. Added root-repository README content and the required workflow YAML at the correct monorepo path.
+## GitHub Pages and TensorFlow.js
+
+- Added a complete static browser application under `web/`.
+- Added TensorFlow.js model loading and on-device inference.
+- Added upload, drag-and-drop, safe samples, probability bars, confidence visualization, runtime details, and JSON export.
+- Added responsive portfolio styling for desktop and mobile.
+- Added a model-status panel with WebGL/CPU backend reporting.
+- Added `.nojekyll` for reliable static asset delivery.
+
+## Model deployment engineering
+
+- Added an inference-only flattened DenseNet121 HDF5 artifact.
+- Added a script that regenerates the browser model from the original `.keras` artifact.
+- Added numerical equivalence validation between the original and browser models.
+- Added a TensorFlow.js conversion script with two-byte quantization.
+- Added generated manifest and weight-shard validation.
+
+## Continuous integration and deployment
+
+- Updated the Project 03 GitHub Actions workflow.
+- Kept lightweight validation separate from the conversion and deployment job.
+- Added JavaScript syntax checking.
+- Added subdirectory deployment to the existing `gh-pages` branch.
+- Added `keep_files: true` to protect existing project pages.
+- Added manual `workflow_dispatch` support.
+
+## Documentation and responsible AI
+
+- Repositioned GitHub Pages + TensorFlow.js as the primary public deployment.
+- Added exact deployment, local testing, troubleshooting, and final URL instructions.
+- Preserved the critical synthetic-proxy dataset disclosure.
+- Added medical privacy and non-diagnostic-use warnings throughout the public interface.
+- Added `.gitattributes` to normalize line endings and prevent repeated LF/CRLF warnings.

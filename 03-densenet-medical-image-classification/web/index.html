@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="DenseNet121 browser inference demo powered by TensorFlow.js and hosted on GitHub Pages." />
+  <meta name="theme-color" content="#07111f" />
+  <title>DenseNet Medical Image Classification | TensorFlow.js Demo</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="../" aria-label="CNN projects home">
+        <span class="brand-mark">DN</span>
+        <span><strong>DenseNet121</strong><small>Browser ML Portfolio Demo</small></span>
+      </a>
+      <nav>
+        <a href="https://github.com/unit-mole/cnn-projects" target="_blank" rel="noreferrer">GitHub repository</a>
+        <a href="#results">Results</a>
+        <a href="#architecture">Architecture</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">CNN PROJECT 03 · GITHUB PAGES + TENSORFLOW.JS</p>
+          <h1>DenseNet medical image classification, running entirely in your browser.</h1>
+          <p class="hero-text">Upload an image or select a bundled synthetic sample. TensorFlow.js loads the converted DenseNet121 model, performs preprocessing and inference locally, and shows class probabilities without sending the image to a server.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">Open interactive demo</a>
+            <a class="button secondary" href="https://github.com/unit-mole/cnn-projects/tree/main/03-densenet-medical-image-classification" target="_blank" rel="noreferrer">View source code</a>
+          </div>
+          <div class="tech-row" aria-label="Technology stack">
+            <span>DenseNet121</span><span>TensorFlow.js</span><span>GitHub Pages</span><span>Browser inference</span>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div class="status-line"><span id="modelStatusDot" class="status-dot loading"></span><span id="modelStatus">Preparing TensorFlow.js…</span></div>
+          <dl class="runtime-grid">
+            <div><dt>Backend</dt><dd id="backendValue">—</dd></div>
+            <div><dt>Model load</dt><dd id="loadTimeValue">—</dd></div>
+            <div><dt>Inference</dt><dd id="inferenceTimeValue">—</dd></div>
+            <div><dt>Privacy</dt><dd>On-device</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="alert critical" role="alert">
+        <div class="alert-icon">!</div>
+        <div>
+          <strong>Educational synthetic-proxy model — not a diagnostic tool.</strong>
+          <p>The bundled artifact was trained on a Fashion-MNIST-derived binary proxy, not clinical chest X-rays. Labels are <code>normal_like</code> and <code>pneumonia_like</code>. Do not upload private or identifiable medical images, and never use this output for diagnosis or treatment.</p>
+        </div>
+      </section>
+
+      <section id="demo" class="demo-grid">
+        <article class="card upload-card">
+          <div class="section-heading">
+            <div><p class="kicker">INPUT</p><h2>Choose an image</h2></div>
+            <button id="clearButton" class="text-button" type="button">Clear</button>
+          </div>
+
+          <label id="dropZone" class="drop-zone" for="fileInput">
+            <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+            <img id="previewImage" alt="Selected image preview" hidden />
+            <div id="dropPrompt" class="drop-prompt">
+              <div class="upload-glyph">↑</div>
+              <strong>Drop an image here</strong>
+              <span>or click to browse PNG, JPEG, or WebP</span>
+            </div>
+          </label>
+
+          <div class="sample-block">
+            <div class="sample-header"><span>Synthetic sample images</span><small>Safe portfolio examples</small></div>
+            <div id="sampleGrid" class="sample-grid">
+              <button type="button" class="sample-button" data-src="samples/synthetic_demo_1.png"><img src="samples/synthetic_demo_1.png" alt="Synthetic sample 1" /><span>Sample 1</span></button>
+              <button type="button" class="sample-button" data-src="samples/synthetic_demo_2.png"><img src="samples/synthetic_demo_2.png" alt="Synthetic sample 2" /><span>Sample 2</span></button>
+              <button type="button" class="sample-button" data-src="samples/synthetic_demo_3.png"><img src="samples/synthetic_demo_3.png" alt="Synthetic sample 3" /><span>Sample 3</span></button>
+              <button type="button" class="sample-button" data-src="samples/synthetic_demo_4.png"><img src="samples/synthetic_demo_4.png" alt="Synthetic sample 4" /><span>Sample 4</span></button>
+            </div>
+          </div>
+
+          <button id="predictButton" class="button primary full" type="button" disabled>Run DenseNet prediction</button>
+          <p id="inputMessage" class="helper-text">Load an image after the model is ready.</p>
+        </article>
+
+        <article id="results" class="card results-card" aria-live="polite">
+          <div class="section-heading">
+            <div><p class="kicker">OUTPUT</p><h2>Prediction results</h2></div>
+            <button id="downloadButton" class="text-button" type="button" disabled>Download JSON</button>
+          </div>
+
+          <div id="emptyResult" class="empty-result">
+            <div class="result-placeholder">∿</div>
+            <h3>No prediction yet</h3>
+            <p>Select an image and run the model to view the predicted proxy class, confidence, probabilities, and runtime.</p>
+          </div>
+
+          <div id="resultContent" hidden>
+            <div class="prediction-summary">
+              <div>
+                <span class="label">Predicted proxy class</span>
+                <strong id="predictedClass">—</strong>
+              </div>
+              <div class="confidence-ring" id="confidenceRing"><span id="confidenceValue">—</span></div>
+            </div>
+
+            <div class="probability-panel">
+              <div class="probability-row">
+                <div><span>normal_like</span><strong id="normalProbability">0%</strong></div>
+                <div class="bar-track"><div id="normalBar" class="bar-fill"></div></div>
+              </div>
+              <div class="probability-row">
+                <div><span>pneumonia_like</span><strong id="pneumoniaProbability">0%</strong></div>
+                <div class="bar-track"><div id="pneumoniaBar" class="bar-fill accent"></div></div>
+              </div>
+            </div>
+
+            <div class="interpretation-box">
+              <span class="label">Interpretation</span>
+              <p id="interpretationText"></p>
+            </div>
+
+            <div class="result-meta">
+              <div><span>Inference backend</span><strong id="resultBackend">—</strong></div>
+              <div><span>Inference time</span><strong id="resultTime">—</strong></div>
+              <div><span>Input tensor</span><strong>96 × 96 × 3</strong></div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="metrics-section">
+        <div class="section-intro">
+          <p class="eyebrow">RECORDED EXPERIMENT</p>
+          <h2>Evaluation evidence from the attached synthetic-proxy notebook</h2>
+          <p>These values document the original experiment only. They must not be described as clinical pneumonia-detection performance.</p>
+        </div>
+        <div class="metric-cards">
+          <article><span>DenseNet test accuracy</span><strong>95.64%</strong><small>Synthetic proxy test set</small></article>
+          <article><span>DenseNet test ROC-AUC</span><strong>0.9934</strong><small>Binary proxy separation</small></article>
+          <article><span>Macro F1</span><strong>0.9481</strong><small>Across both proxy classes</small></article>
+          <article><span>Baseline test accuracy</span><strong>92.82%</strong><small>Logistic regression</small></article>
+        </div>
+        <div class="chart-grid">
+          <figure><img src="assets/metrics/confusion_matrix.png" alt="Confusion matrix for the synthetic proxy experiment" /><figcaption>Confusion matrix</figcaption></figure>
+          <figure><img src="assets/metrics/roc_curve.png" alt="ROC curve for the synthetic proxy experiment" /><figcaption>ROC curve</figcaption></figure>
+          <figure><img src="assets/metrics/training_accuracy_curve.png" alt="Training and validation accuracy curve" /><figcaption>Training accuracy</figcaption></figure>
+        </div>
+      </section>
+
+      <section id="architecture" class="content-grid">
+        <article class="card info-card">
+          <p class="kicker">MODEL DESIGN</p>
+          <h2>DenseNet121 transfer-learning pipeline</h2>
+          <ol class="pipeline-list">
+            <li><span>01</span><div><strong>Image preparation</strong><p>RGB conversion, 28 × 28 compatibility resize, then 96 × 96 browser tensor resize.</p></div></li>
+            <li><span>02</span><div><strong>DenseNet normalization</strong><p>ImageNet-style channel normalization using the same mean and standard deviation as the training model.</p></div></li>
+            <li><span>03</span><div><strong>Frozen DenseNet121 backbone</strong><p>Dense connections reuse features and support stable gradient flow during transfer learning.</p></div></li>
+            <li><span>04</span><div><strong>Classification head</strong><p>Global average pooling, Dense(256), batch normalization, dropout, and a two-class softmax output.</p></div></li>
+          </ol>
+        </article>
+
+        <article class="card info-card">
+          <p class="kicker">DEPLOYMENT</p>
+          <h2>Why TensorFlow.js on GitHub Pages?</h2>
+          <ul class="feature-list">
+            <li><strong>Static, free hosting</strong><span>No Python server is required after deployment.</span></li>
+            <li><strong>Private-by-design inference</strong><span>The selected image remains in the browser.</span></li>
+            <li><strong>Portfolio transparency</strong><span>Source, model conversion, CI, metrics, and limitations are visible in one repository.</span></li>
+            <li><strong>Reproducible publishing</strong><span>GitHub Actions converts the browser model and updates only this project’s Pages subfolder.</span></li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="alert neutral">
+        <div class="alert-icon">i</div>
+        <div><strong>Responsible use</strong><p>This browser app demonstrates model engineering, conversion, deployment, and responsible AI communication. It does not establish clinical validity. A real medical classifier requires a licensed clinical dataset, patient-level splitting, external validation, bias analysis, calibration, regulatory review, and qualified medical oversight.</p></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Project 03 · CNN & Computer Vision Portfolio</span>
+      <span>Built with TensorFlow.js and GitHub Pages</span>
+    </footer>
+  </div>
+
+  <canvas id="preprocessCanvas" width="28" height="28" hidden></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

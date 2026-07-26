@@ -30,3 +30,7 @@ models/densenet_medical_classification_model.keras
 !models/model_metadata.json
 !models/metrics.json
 !models/label_encoder.pkl
+
+# TensorFlow.js files are generated during CI and published to gh-pages.
+web/model/*
+!web/model/README.md

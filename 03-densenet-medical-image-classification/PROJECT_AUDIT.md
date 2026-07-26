@@ -1,46 +1,62 @@
 # Project Audit
 
-## What the attached files actually do
+## Scope
 
-The executable notebook loads **Fashion-MNIST**, converts the grayscale images to three channels,
-and creates a synthetic binary target. Original Fashion-MNIST classes `2`, `4`, and `6` are mapped
-to `pneumonia_like=1`; all other classes are mapped to `normal_like=0`.
+This audit covers the executable notebook, bundled Keras artifact, browser deployment model, TensorFlow.js interface, GitHub Pages workflow, documentation, and public-use disclosures.
 
-The split recorded in the notebook is:
+## Confirmed model facts
 
-| Split | Images |
-|---|---:|
-| Train | 52,000 |
-| Validation | 8,000 |
-| Test | 10,000 |
+- Original model input: `28 × 28 × 3`, scaled to `[0, 1]`.
+- Internal training-model resize: `96 × 96`.
+- Backbone: DenseNet121 with ImageNet initialization.
+- Backbone state in attached experiment: frozen.
+- Head: global average pooling, Dense(256), batch normalization, dropout, Dense(2, softmax).
+- Browser inference model input: preprocessed `96 × 96 × 3`.
+- Browser deployment format: TensorFlow.js LayersModel generated from HDF5.
 
-Training class distribution:
+## Critical dataset finding
 
-| Class | Count |
-|---|---:|
-| normal_like | 36,419 |
-| pneumonia_like | 15,581 |
+The notebook narrative references pneumonia and chest X-rays, but the executed code loads Fashion-MNIST and converts source classes `2`, `4`, and `6` into a synthetic positive class. Therefore:
 
-The model is DenseNet121 with ImageNet weights, a frozen backbone, 96×96 internal resizing,
-global-average pooling, a 256-unit dense layer, batch normalization, dropout, and a two-class
-softmax output. The stored artifact accepts 28×28×3 inputs scaled to `[0, 1]`.
+- The bundled artifact is not a clinical chest-X-ray classifier.
+- Public labels remain `normal_like` and `pneumonia_like`.
+- Recorded metrics are described only as synthetic-proxy results.
+- The web interface and README include prominent medical and data-safety disclaimers.
 
-## Critical documentation correction
+## Browser-model preparation
 
-The notebook's prose describes a chest-X-ray pneumonia dataset, but the executed code does not load
-chest X-rays. Therefore:
+The original model contains resize, augmentation, and DenseNet preprocessing layers. For browser compatibility:
 
-- bundled metrics are **not pneumonia-detection metrics**;
-- the model must not be described as clinically validated;
-- the app uses `normal_like` and `pneumonia_like`, not diagnostic labels;
-- a separate Kaggle notebook is included for training on a properly sourced public chest-X-ray dataset.
+1. Training-only augmentation is removed from the exported inference model.
+2. The DenseNet backbone graph is flattened into the browser HDF5 model.
+3. Deterministic preprocessing is implemented in JavaScript.
+4. An equivalence test compares original and browser-model predictions before export.
+5. The model is converted to TensorFlow.js during GitHub Actions.
 
-## Attached model results
+## Deployment safety
 
-| Metric | Baseline | DenseNet121 |
-|---|---:|---:|
-| Validation accuracy | 0.9313 | 0.9599 |
-| Test accuracy | 0.9282 | 0.9564 |
-| Test ROC-AUC | 0.9740 | 0.9934 |
+The Project 03 workflow publishes to:
 
-These values are retained as reproducibility evidence for the synthetic proxy experiment only.
+```text
+03-densenet-medical-image-classification/
+```
+
+inside the existing `gh-pages` branch with `keep_files: true`. This is designed to preserve the existing root website and Project 07 subfolder.
+
+## Validation included
+
+- Python project-structure validation
+- Keras archive validation
+- Unit tests
+- Browser source validation
+- JavaScript syntax validation
+- Generated TensorFlow.js manifest and shard validation
+- Explicit no-retraining CI design
+
+## Remaining limitations
+
+- The converter executes in GitHub Actions rather than committing generated model shards to `main`.
+- DenseNet121 is larger than an intentionally mobile-first architecture, so first-load time depends on network and browser hardware.
+- Browser preprocessing can differ slightly across rendering engines.
+- The synthetic proxy is not suitable for clinical interpretation.
+- A real medical project requires licensed data, patient-level splitting, external validation, calibration, subgroup analysis, and clinical review.

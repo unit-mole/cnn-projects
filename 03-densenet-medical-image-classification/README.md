@@ -1,206 +1,234 @@
----
-title: DenseNet Medical Image Classification
-emoji: 🩺
-colorFrom: blue
-colorTo: purple
-sdk: gradio
-sdk_version: 5.0.0
-app_file: app.py
-pinned: false
-license: mit
----
+# DenseNet121 Medical Image Classification
 
-# DenseNet Medical Image Classification
+[![Project 03 CI and Pages](https://github.com/unit-mole/cnn-projects/actions/workflows/03-densenet-medical-image-classification.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/03-densenet-medical-image-classification.yml)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-2ea44f)](https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/)
+[![TensorFlow.js](https://img.shields.io/badge/Inference-TensorFlow.js-ff6f00)](https://www.tensorflow.org/js)
 
-[![CI](https://github.com/unit-mole/cnn-projects/actions/workflows/03-densenet-medical-image-classification.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/03-densenet-medical-image-classification.yml)
+A portfolio-ready DenseNet121 image-classification project with a browser-based TensorFlow.js demo, GitHub Pages deployment, modular Python code, model evaluation, error-analysis outputs, Kaggle training workflow, tests, Docker support, and responsible AI documentation.
 
-A portfolio-ready DenseNet121 image-classification project with modular Python code, an interactive
-Gradio demo, Hugging Face Spaces deployment files, a Kaggle training notebook, model evaluation,
-error-analysis outputs, optional Grad-CAM, tests, Docker, and GitHub Actions.
+## Live project
 
-> [!WARNING]
-> **Artifact audit:** the attached executable notebook trained the bundled model on a Fashion-MNIST-derived
-> synthetic binary proxy, not on chest X-rays. The class labels are therefore `normal_like` and
-> `pneumonia_like`. The included metrics are retained as proof of the attached experiment, but they are
-> not clinical pneumonia-detection results. Use the Kaggle notebook to train a properly documented
-> chest-X-ray model before changing this disclosure.
+- **GitHub Pages demo:** https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/
+- **Source repository:** https://github.com/unit-mole/cnn-projects
+- **Project source:** https://github.com/unit-mole/cnn-projects/tree/main/03-densenet-medical-image-classification
+- **Kaggle notebook:** add the public notebook URL after publishing
 
-## Medical disclaimer
+## Important artifact audit
 
-This project is for educational and portfolio demonstration purposes only. It is not a medical diagnostic tool. The model must not be used to diagnose, treat, prevent, or manage any medical condition. Medical image interpretation requires clinical validation, domain expertise, and review by qualified healthcare professionals. Do not upload private, sensitive, confidential, or personally identifiable medical images. Predictions are machine-learning outputs, not medical advice.
+The attached executed notebook describes pneumonia detection, but its executable cells actually train the bundled model on a **Fashion-MNIST-derived synthetic binary proxy**. The public demo therefore uses the labels:
 
-## Live links
+```text
+normal_like
+pneumonia_like
+```
 
-- **Live demo:** Hugging Face Spaces link to be added
-- **Training notebook:** Kaggle Notebook link to be added
-- **Main repository:** https://github.com/unit-mole/cnn-projects
+The bundled scores are proof of the proxy experiment and must not be presented as clinical pneumonia-detection performance. The separate Kaggle notebook provides the correct workflow for retraining on a licensed and properly documented chest-X-ray dataset.
 
-## Project objective
+> **Medical disclaimer:** This project is for education and portfolio demonstration only. It is not a medical diagnostic tool. Do not use its output to diagnose, treat, prevent, or manage any medical condition. Do not upload private, sensitive, confidential, or personally identifiable medical images. Predictions are machine-learning outputs, not medical advice.
 
-The project demonstrates the end-to-end engineering pattern for binary medical-image classification:
-image validation, consistent preprocessing, DenseNet transfer learning, class-probability output,
-metrics beyond accuracy, error analysis, optional visual explanation, artifact export, and web deployment.
+## GitHub Pages + TensorFlow.js deployment
 
-The current bundled model is best understood as a **software and architecture prototype**. The separate
-Kaggle notebook provides the path for retraining the same project structure on a real, licensed,
-folder-based chest-X-ray dataset.
+The public site is a static browser application stored in [`web/`](web/). No Python server is required after deployment.
 
-## Actual attached experiment
+The workflow performs the following steps:
 
-| Item | Recorded configuration |
+1. Runs project validation and unit tests.
+2. Validates the static HTML, CSS, JavaScript, metadata, and browser-model artifact.
+3. Converts [`models/densenet121_medical_browser.h5`](models/densenet121_medical_browser.h5) to TensorFlow.js LayersModel format.
+4. Applies two-byte weight quantization to reduce browser download size.
+5. Publishes only the Project 03 web folder into the existing `gh-pages` branch at:
+
+```text
+03-densenet-medical-image-classification/
+```
+
+6. Preserves the existing root website and other deployed project folders.
+
+The final URL is:
+
+```text
+https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/
+```
+
+Detailed instructions are available in [`README_GITHUB_PAGES.md`](README_GITHUB_PAGES.md).
+
+## Browser inference pipeline
+
+```text
+Uploaded image
+    ↓
+Private browser-only processing
+    ↓
+RGB conversion and aspect-ratio-safe 28×28 compatibility resize
+    ↓
+96×96 TensorFlow.js tensor resize
+    ↓
+ImageNet/DenseNet channel normalization
+    ↓
+DenseNet121 frozen feature extractor
+    ↓
+Global Average Pooling
+    ↓
+Dense(256) → Batch Normalization → Dropout
+    ↓
+Dense(2, softmax)
+    ↓
+Proxy class, confidence, probability bars, and downloadable JSON
+```
+
+## Model architecture
+
+| Component | Configuration |
 |---|---|
-| Executed dataset | Fashion-MNIST-derived synthetic proxy |
-| Proxy classes | `normal_like`, `pneumonia_like` |
-| Proxy positive source classes | Fashion-MNIST classes 2, 4, and 6 |
-| Train / validation / test | 52,000 / 8,000 / 10,000 |
-| Input to saved model | 28×28×3, scaled to `[0, 1]` |
-| Internal resize | 96×96 |
-| Backbone | DenseNet121, ImageNet weights, frozen |
-| Head | GAP → Dense(256) → BatchNorm → Dropout(0.5) → Softmax(2) |
-| Optimizer / loss | Adam / categorical cross-entropy |
-| Requested epochs / batch | 12 / 128 |
+| Input used by browser model | `96 × 96 × 3` RGB tensor |
+| Backbone | DenseNet121 with ImageNet initialization |
+| Backbone state | Frozen in the attached experiment |
+| Feature aggregation | GlobalAveragePooling2D |
+| Classification head | Dense(256, ReLU) → BatchNorm → Dropout(0.5) |
+| Output | Dense(2, Softmax) |
+| Browser runtime | TensorFlow.js WebGL with CPU fallback |
+| Source model format | Keras HDF5 inference model |
+| Published format | TensorFlow.js LayersModel |
 
-## Recorded results — synthetic proxy only
+DenseNet connects each layer to earlier feature maps. These dense connections improve feature reuse and gradient flow, which makes DenseNet a strong transfer-learning architecture for image-classification experiments.
+
+## Recorded proxy results
 
 | Model | Validation accuracy | Test accuracy | Test ROC-AUC |
 |---|---:|---:|---:|
 | Logistic Regression baseline | 0.9313 | 0.9282 | 0.9740 |
 | DenseNet121 | 0.9599 | 0.9564 | 0.9934 |
 
-DenseNet proxy-class metrics:
+Additional DenseNet proxy metrics:
 
-| Class | Precision | Recall | F1 | Support |
-|---|---:|---:|---:|---:|
-| normal_like | 0.9694 | 0.9683 | 0.9688 | 7,000 |
-| pneumonia_like | 0.9262 | 0.9287 | 0.9274 | 3,000 |
-| Macro average | 0.9478 | 0.9485 | 0.9481 | 10,000 |
-| Weighted average | 0.9564 | 0.9564 | 0.9564 | 10,000 |
+| Metric | Value |
+|---|---:|
+| Macro F1 | 0.9481 |
+| Weighted F1 | 0.9564 |
+| `normal_like` recall | 0.9683 |
+| `pneumonia_like` recall | 0.9287 |
 
-## Why DenseNet?
+These values apply only to the synthetic proxy dataset used by the attached notebook.
 
-DenseNet is a convolutional neural network in which layers receive feature maps from earlier layers.
-These dense connections encourage feature reuse, improve gradient flow, and make the architecture a
-strong transfer-learning backbone. In medical-imaging research, DenseNet can be effective when paired
-with appropriate data, careful validation, and responsible domain review.
-
-## Workflow
-
-```text
-Image input
-   ↓
-File/type validation and EXIF-safe loading
-   ↓
-RGB conversion → resize → model-specific normalization
-   ↓
-DenseNet121 feature extraction
-   ↓
-Global average pooling and classification head
-   ↓
-Class probabilities, confidence, interpretation, optional Grad-CAM
-   ↓
-Gradio / Hugging Face Spaces demo
-```
-
-## Evaluation philosophy
-
-Accuracy alone is not sufficient. The real-data Kaggle workflow includes precision, recall, F1,
-macro F1, weighted F1, confusion matrix, ROC-AUC, precision-recall AUC, threshold analysis, false-positive
-and false-negative review, low-confidence cases, and optional Grad-CAM. Recall is particularly important
-in screening-style experiments because false negatives can be consequential, but no portfolio metric
-establishes clinical safety.
-
-## Run locally
-
-```bash
-git clone https://github.com/unit-mole/cnn-projects.git
-cd cnn-projects/03-densenet-medical-image-classification
-python -m venv .venv
-```
-
-Windows:
-
-```powershell
-.venv\Scriptsctivate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python app.py
-```
-
-macOS/Linux:
-
-```bash
-source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python app.py
-```
-
-Open the local Gradio URL shown in the terminal.
-
-## Train on a real folder-based dataset
-
-```bash
-python scripts/train_model.py --dataset /path/to/chest_xray
-python scripts/evaluate_model.py --dataset /path/to/chest_xray
-```
-
-The preferred reproducible path is the Kaggle notebook because it includes EDA, class-distribution
-review, plots, metrics, error analysis, Grad-CAM, and artifact export in one documented workflow.
-
-## Hugging Face Spaces deployment
-
-1. Create a new Space and select the Gradio SDK.
-2. Copy `app.py`, `gradio_app.py`, `requirements.txt`, `README.md`, `models/`, `src/`, and `data/sample_images/`.
-3. Preserve the README YAML metadata at the top of this file.
-4. Push or upload the files and review the build logs.
-5. Test the interface and add the final Space link above.
-
-See [`README_HUGGINGFACE.md`](README_HUGGINGFACE.md) for the full guide.
-
-## Kaggle reproduction
-
-Upload [`notebooks/densenet_medical_image_classification_kaggle.ipynb`](notebooks/densenet_medical_image_classification_kaggle.ipynb),
-attach a licensed dataset, enable an available accelerator, run all cells, and download the exported
-model and metadata. See [`kaggle/README_KAGGLE.md`](kaggle/README_KAGGLE.md).
-
-## Folder structure
+## Project structure
 
 ```text
 03-densenet-medical-image-classification/
-├── app.py
-├── gradio_app.py
-├── README.md
-├── README_HUGGINGFACE.md
-├── PROJECT_AUDIT.md
-├── IMPROVEMENTS.md
+├── app.py                              # Optional local Gradio app
+├── gradio_app.py                       # Gradio interface implementation
 ├── data/
 ├── images/
 ├── kaggle/
 ├── models/
+│   ├── densenet121_medical.keras       # Original audited model
+│   ├── densenet121_medical_browser.h5  # Inference-only model for TF.js conversion
+│   ├── model_metadata.json
+│   └── metrics.json
 ├── notebooks/
 ├── outputs/
 ├── scripts/
+│   ├── prepare_browser_model.py
+│   ├── convert_browser_model.py
+│   ├── validate_web_demo.py
+│   └── ...
 ├── src/
 ├── tests/
+├── web/
+│   ├── index.html
+│   ├── .nojekyll
+│   ├── assets/
+│   │   ├── app.js
+│   │   ├── styles.css
+│   │   ├── model_metadata.json
+│   │   └── metrics/
+│   ├── samples/
+│   └── model/                          # Generated during GitHub Actions
+├── README_GITHUB_PAGES.md
+├── requirements-pages.txt
 ├── requirements.txt
-├── requirements-ci.txt
-├── requirements-dev.txt
 ├── Dockerfile
-├── .dockerignore
-└── .gitignore
+└── README.md
 ```
+
+The root-level workflow is located at:
+
+```text
+.github/workflows/03-densenet-medical-image-classification.yml
+```
+
+## Run the browser site locally
+
+Install the model-conversion dependencies:
+
+```bash
+cd 03-densenet-medical-image-classification
+python -m venv .venv-pages
+```
+
+Windows:
+
+```bat
+.venv-pages\Scripts\activate
+python -m pip install --upgrade pip
+pip install -r requirements-pages.txt
+python scripts/convert_browser_model.py
+python -m http.server 8000 --directory web
+```
+
+Open:
+
+```text
+http://localhost:8000
+```
+
+Opening `web/index.html` directly with a `file://` URL is not supported because browsers block model-file fetches. Use a local HTTP server.
+
+## Run the optional Python/Gradio version
+
+```bash
+python -m venv .venv
+pip install -r requirements.txt
+python app.py
+```
+
+## Rebuild the inference-only HDF5 model
+
+The browser HDF5 artifact is already included. To regenerate it from the original `.keras` model:
+
+```bash
+python scripts/prepare_browser_model.py \
+  --source models/densenet121_medical.keras \
+  --output models/densenet121_medical_browser.h5
+```
+
+The script verifies that the browser model reproduces the original model’s inference output within a small numerical tolerance before saving.
+
+## Reproduce training on Kaggle
+
+Use:
+
+```text
+notebooks/densenet_medical_image_classification_kaggle.ipynb
+```
+
+The notebook contains dataset loading, exploratory analysis, splitting, augmentation, DenseNet transfer learning, class-imbalance handling, confusion matrix, classification report, ROC/PR analysis, error analysis, Grad-CAM hooks, artifact export, and medical-use limitations.
+
+See [`kaggle/README_KAGGLE.md`](kaggle/README_KAGGLE.md).
 
 ## Skills demonstrated
 
-DenseNet121 · CNNs · transfer learning · image preprocessing · dataset auditing · class imbalance ·
-classification metrics · threshold analysis · error analysis · Grad-CAM · Gradio · Hugging Face Spaces ·
-Kaggle Notebooks · Docker · testing · GitHub Actions · responsible medical-AI communication
+- CNN architecture and DenseNet121 transfer learning
+- Image preprocessing and browser tensor preparation
+- Keras-to-TensorFlow.js model conversion
+- Static ML deployment on GitHub Pages
+- Client-side private inference
+- GitHub Actions CI/CD
+- Model evaluation beyond accuracy
+- Error analysis and explainability planning
+- Dataset and artifact auditing
+- Responsible communication of medical-AI limitations
+- Modular Python, tests, Docker, Gradio, and Kaggle workflows
 
-## Portfolio positioning
+## Portfolio description
 
-**One-line description:**
-> Built an audited DenseNet121 image-classification pipeline with reusable preprocessing, evaluation,
-> explainability hooks, Kaggle training, and a Hugging Face / Gradio deployment workflow.
-
-This project connects naturally to quality-data-science work through visual inspection, defect
-classification, automated quality checks, image-based anomaly review, and production-oriented model validation.
+> Built and deployed an audited DenseNet121 image-classification pipeline with TensorFlow.js browser inference, GitHub Pages CI/CD, reusable preprocessing, evaluation evidence, and responsible AI disclosures.
