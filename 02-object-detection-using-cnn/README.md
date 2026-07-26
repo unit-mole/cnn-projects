@@ -1,16 +1,18 @@
 # Object Detection using CNN
 
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-yellow.svg)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-orange.svg)](https://www.tensorflow.org/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-orange.svg)](https://www.tensorflow.org/js)
 [![Vercel](https://img.shields.io/badge/Vercel-Live%20Demo-black.svg)](https://cnn-object-detection.vercel.app/)
+[![02 Object Detection CNN CI](https://github.com/unit-mole/cnn-projects/actions/workflows/02-object-detection-using-cnn.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/02-object-detection-using-cnn.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An end-to-end computer vision project that uses a custom Convolutional Neural Network (CNN) to classify a handwritten digit and predict its bounding box. The project includes synthetic object-detection data generation, image preprocessing, CNN-based feature extraction, multi-output prediction, IoU evaluation, browser-based inference with TensorFlow.js, and deployment as a responsive Vercel application.
 
-**Status:** Portfolio-ready and deployed  
+**Status:** Portfolio-ready, CI-tested, and deployed  
 **Live demo:** [Open the CNN Object Detection application](https://cnn-object-detection.vercel.app/)  
-[![Open Live Application](https://img.shields.io/badge/Open%20Live%20Application-Vercel-black.svg)](https://cnn-object-detection.vercel.app/)  
-**Primary stack:** Python · TensorFlow/Keras · CNN · TensorFlow.js · JavaScript · HTML · CSS · Vercel
+**Source repository:** https://github.com/unit-mole/cnn-projects  
+**Primary stack:** Python · TensorFlow · Keras · CNN · TensorFlow.js · JavaScript · HTML · CSS · Vercel
 
 ---
 
