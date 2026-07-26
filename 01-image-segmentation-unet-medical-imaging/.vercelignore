@@ -1,8 +1,0 @@
-# Deploy only the static TensorFlow.js website and the tiny Node validator.
-# This prevents Vercel from auto-detecting app.py / requirements.txt as a Python app.
-/*
-!web/
-!web/**
-!package.json
-!vercel.json
-!validate-web.mjs
