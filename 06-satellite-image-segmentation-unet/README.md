@@ -1,124 +1,250 @@
----
-title: Satellite Image Segmentation U-Net
-emoji: 🛰️
-colorFrom: blue
-colorTo: green
-sdk: gradio
-sdk_version: 6.5.1
-python_version: 3.11
-app_file: app.py
-pinned: false
-license: mit
-short_description: U-Net binary segmentation demo for synthetic satellite-style urban tiles.
----
-
 # Satellite Image Segmentation using U-Net
 
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-FF6F00.svg?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
+[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-FF6F00.svg?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/js)
+[![Vercel](https://img.shields.io/badge/Vercel-Live%20Demo-black.svg?logo=vercel)](https://satellite-image-segmentation-unet.vercel.app/)
 [![CI](https://github.com/unit-mole/cnn-projects/actions/workflows/06-satellite-image-segmentation-unet.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/06-satellite-image-segmentation-unet.yml)
-[![Vercel](https://img.shields.io/badge/Vercel-TensorFlow.js%20Demo-black)](#vercel--tensorflowjs-browser-deployment)
-[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-4.22.0-orange)](https://www.tensorflow.org/js)
-[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Gradio%20Demo-yellow)](https://huggingface.co/spaces/YOUR_USERNAME/satellite-image-segmentation-unet)
-[![Kaggle](https://img.shields.io/badge/Kaggle-Training%20Notebook-blue)](https://www.kaggle.com/code/YOUR_USERNAME/satellite-image-segmentation-unet)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A complete CNN portfolio project that trains, evaluates, packages, tests, and deploys a compact **U-Net** for binary semantic segmentation of synthetic satellite-style urban tiles. The primary portfolio demo runs directly in the browser using **Vercel + TensorFlow.js**, while the Python version remains deployable through Hugging Face Spaces + Gradio.
+An end-to-end Computer Vision project that uses a compact **U-Net convolutional neural network** to perform binary semantic segmentation on satellite-style RGB images. The repository includes reproducible synthetic-data generation, image and mask preprocessing, U-Net training, Dice and IoU evaluation, visual error analysis, saved Keras and TensorFlow.js artifacts, automated tests, GitHub Actions validation, and a fully client-side browser application deployed through **Vercel + TensorFlow.js**.
 
-> **Portfolio one-liner:** Built an end-to-end U-Net semantic-segmentation pipeline with reproducible training, Dice/IoU evaluation, visual error analysis, and private client-side inference deployed with Vercel + TensorFlow.js, supported by Gradio and Kaggle workflows.
+**Status:** Portfolio-ready, CI-validated, and deployed  
+**Live demo:** [Open the Satellite Image Segmentation application](https://satellite-image-segmentation-unet.vercel.app/)  
+**Source code:** [View Project 06 on GitHub](https://github.com/unit-mole/cnn-projects/tree/main/06-satellite-image-segmentation-unet)  
+**Primary stack:** Python · TensorFlow · Keras · U-Net · TensorFlow.js · JavaScript · HTML · CSS · Vercel
 
-## Responsible-use notice
+---
 
-This project is for educational and portfolio demonstration purposes only. The supplied model was trained on procedurally generated 64×64 tiles—not operational satellite imagery. Satellite segmentation models may produce inaccurate masks because of cloud cover, shadows, resolution differences, seasonal variation, sensor differences, annotation noise, or out-of-distribution imagery.
+## Responsible Use
 
-Do not use this model as the sole basis for emergency response, environmental enforcement, land ownership, military, legal, financial, agricultural, infrastructure, or public-policy decisions. Do not upload private, restricted, confidential, copyrighted, or sensitive geospatial imagery to a public demo. Predicted masks are machine-learning outputs, not official geospatial analysis.
+This project is for educational and portfolio demonstration purposes only.
 
-## Live project links
+- The supplied model was trained on procedurally generated satellite-style tiles rather than operational satellite imagery.
+- Real satellite images may differ because of clouds, shadows, seasonal variation, sensor type, spatial resolution, lighting, compression, and annotation quality.
+- Predicted masks are machine-learning outputs and should not be treated as official geospatial analysis.
+- Do not use the model as the sole basis for emergency response, environmental enforcement, land ownership, military, legal, financial, agricultural, infrastructure, or public-policy decisions.
+- Do not upload private, confidential, restricted, copyrighted, or sensitive geospatial imagery to a public application.
 
-- **Primary browser demo — Vercel + TensorFlow.js:** Add the production Vercel URL after deployment
-- **Alternative Python demo — Hugging Face Spaces + Gradio:** [Replace with your public Space URL](https://huggingface.co/spaces/YOUR_USERNAME/satellite-image-segmentation-unet)
-- **Kaggle training notebook:** [Replace with your public Kaggle URL](https://www.kaggle.com/code/YOUR_USERNAME/satellite-image-segmentation-unet)
-- **CNN monorepo:** [unit-mole/cnn-projects](https://github.com/unit-mole/cnn-projects)
+---
 
-## Problem statement
+## Business Problem
 
-Given an RGB satellite-style image, predict a pixel-level binary mask that highlights the target urban-structure region. The deployed app returns:
+Satellite and aerial imagery can contain large amounts of visual information that would be expensive and time-consuming to inspect manually at pixel level.
 
-1. input image,
-2. predicted binary mask,
-3. color overlay,
-4. probability map,
-5. model metadata and reported metrics,
-6. optional Dice, IoU, precision, recall, and F1 when a ground-truth mask is provided,
-7. downloadable PNG mask.
+This project answers:
 
-## What the supplied project actually does
+> Given an RGB satellite-style image, can a U-Net model identify and segment the target urban-structure regions automatically?
 
-The original notebook procedurally generates 2,500 satellite-style RGB tiles. Each binary mask contains two to five rectangular building-like regions, and pixels inside the mask are made brighter. It uses a deterministic seed of 42 and produces the following split:
+The deployed browser pipeline returns:
 
-| Split | Samples |
-|---|---:|
-| Training | 1,750 |
-| Validation | 375 |
-| Test | 375 |
-| **Total** | **2,500** |
+- Input image
+- Predicted binary segmentation mask
+- Mask overlay
+- Probability map
+- Segmented-area percentage
+- Mean target confidence
+- Browser inference time
+- Optional Dice and IoU scores when a ground-truth mask is supplied
+- Downloadable predicted mask
 
-| Data property | Value |
+---
+
+## Project Objective
+
+Build a portfolio-ready semantic-segmentation solution that can:
+
+1. Generate and validate paired satellite-style images and masks.
+2. Apply consistent image and mask preprocessing.
+3. Train a compact U-Net with encoder-decoder skip connections.
+4. Produce pixel-level probability and binary segmentation masks.
+5. Evaluate performance using Dice coefficient and IoU.
+6. Compare U-Net performance with a threshold-based baseline.
+7. Create overlays, probability maps, and error-analysis visuals.
+8. Save and reload trained model artifacts.
+9. Convert the trained model for TensorFlow.js inference.
+10. Run inference entirely inside the user's browser.
+11. Deploy the static application through Vercel.
+12. Validate the project using tests and GitHub Actions.
+
+---
+
+## Dataset
+
+The portfolio version uses a reproducible, procedurally generated dataset of synthetic satellite-style RGB tiles.
+
+| Property | Value |
 |---|---|
-| Input | 64×64×3 RGB, float32 |
-| Target | 64×64×1 binary mask |
-| Classes | Background; synthetic urban structure |
-| Positive-pixel rate | Approximately 10.6% in training |
-| Normalization | Pixel values in `[0, 1]` |
-| Image resizing | Bilinear |
-| Mask resizing | Nearest-neighbor |
-| Inference threshold | 0.50 |
+| Dataset type | Synthetic urban satellite-style imagery |
+| Total samples | 2,500 |
+| Training samples | 1,750 |
+| Validation samples | 375 |
+| Test samples | 375 |
+| Random seed | 42 |
+| Input shape | `64 × 64 × 3` |
+| Input color mode | RGB |
+| Mask shape | `64 × 64 × 1` |
+| Segmentation type | Binary semantic segmentation |
+| Class 0 | Background |
+| Class 1 | Synthetic urban structure |
+| Normalization | Pixel values scaled to `[0, 1]` |
+| Inference threshold | `0.50` |
 
-The repository includes six safe 512×512 nearest-neighbor-upscaled sample pairs for the interactive demo. They contain no real coordinates or sensitive geospatial metadata.
+Each mask contains multiple building-like rectangular regions. The corresponding target pixels are made visually distinguishable in the synthetic image.
 
-## U-Net architecture
+Only safe generated sample tiles are included in the public browser demo. They contain no real coordinates, private locations, or sensitive geospatial metadata.
+
+---
+
+## Tools and Technologies
+
+| Area | Technology |
+|---|---|
+| Language | Python, JavaScript |
+| Deep learning | TensorFlow, Keras |
+| Architecture | Compact U-Net |
+| Computer vision | Semantic segmentation, image-mask preprocessing |
+| Data processing | NumPy, pandas, Pillow |
+| Evaluation | Dice, IoU, precision, recall, F1, pixel accuracy |
+| Visualization | Matplotlib, browser Canvas API |
+| Browser inference | TensorFlow.js |
+| Front end | HTML, CSS, JavaScript |
+| Hosting | Vercel |
+| Alternative app | Gradio |
+| Testing / quality | pytest, project validation, JavaScript syntax checks |
+| Automation | GitHub Actions |
+| Model formats | `.keras`, TensorFlow.js JSON and binary weights |
+
+---
+
+## Project Workflow
 
 ```text
-RGB image (64×64×3)
-       │
-       ▼
-Encoder block: 2× Conv(32) ──────────────┐
-       │ MaxPool                         │ skip connection
-       ▼                                 │
-Encoder block: 2× Conv(64) ────────┐     │
-       │ MaxPool                   │     │
-       ▼                           │     │
-Bottleneck: 2× Conv(128)           │     │
-       │ Upsample                  │     │
-       ├──── concatenate Conv(64) ◄┘     │
-       │ Upsample                        │
-       ├──── concatenate Conv(32) ◄──────┘
-       ▼
-1×1 Conv + sigmoid → binary probability mask
+Synthetic RGB image-mask generation
+                │
+                ▼
+Image-mask pairing and validation
+                │
+                ▼
+Image resizing and normalization
+                │
+                ▼
+Binary mask resizing and encoding
+                │
+                ▼
+Train / validation / test split
+                │
+                ▼
+Compact U-Net training
+                │
+                ▼
+Threshold-based baseline comparison
+                │
+                ▼
+Dice, IoU, accuracy, and visual evaluation
+                │
+                ▼
+Saved Keras model and metadata
+                │
+                ▼
+TensorFlow.js model conversion
+                │
+                ▼
+Client-side browser inference
+                │
+                ▼
+Vercel deployment
 ```
 
-U-Net is a CNN architecture designed for segmentation. The encoder learns high-level visual features, the decoder reconstructs a pixel-level mask, and skip connections transfer fine spatial details from encoder layers to matching decoder layers. This is useful when boundaries and small regions matter.
+---
 
-**Saved-model summary:** 471,553 parameters; binary cross-entropy loss; Adam optimizer; Dice and IoU training metrics; Keras v3 `.keras` artifact.
+## Image and Mask Preprocessing
 
-## Preprocessing and inference
+The project applies compatible preprocessing during training and inference.
 
-The same core preprocessing rules are used across training and inference:
+### Image preprocessing
 
-- decode and convert input to RGB,
-- apply EXIF orientation safely,
-- resize imagery to 64×64 with bilinear interpolation,
-- normalize 8-bit values to float32 `[0, 1]`,
-- retain mask labels with nearest-neighbor interpolation,
-- run one batch through the pre-trained U-Net,
-- threshold the sigmoid probability at 0.50,
-- resize the binary mask back to the uploaded image size with nearest-neighbor interpolation,
-- create a red mask overlay and blue-to-red probability map.
+- Convert uploaded images to RGB.
+- Apply image orientation safely.
+- Resize images to `64 × 64` using bilinear interpolation.
+- Convert pixel values to `float32`.
+- Normalize 8-bit RGB values by dividing by `255`.
+- Add the batch dimension required by the model.
 
-The app performs **inference only** at startup. It never trains the model when a user opens the Space.
+### Mask preprocessing
 
-## Evaluation results
+- Load masks as single-channel images.
+- Resize masks using nearest-neighbor interpolation.
+- Preserve binary class labels during resizing.
+- Convert mask values to `0` and `1`.
+- Format masks as `64 × 64 × 1`.
 
-These are the values exported by the supplied notebook:
+Nearest-neighbor interpolation is used for masks because bilinear interpolation could introduce invalid intermediate class values and corrupt segmentation labels.
 
-| Approach / metric | Value |
+---
+
+## U-Net Architecture
+
+```text
+Input RGB image: 64 × 64 × 3
+              │
+              ▼
+Encoder Block 1: Conv(32) → Conv(32)
+              │
+           Max Pool
+              ▼
+Encoder Block 2: Conv(64) → Conv(64)
+              │
+           Max Pool
+              ▼
+Bottleneck: Conv(128) → Conv(128)
+              │
+           Upsampling
+              ▼
+Decoder Block 1: Concatenate skip connection → Conv(64)
+              │
+           Upsampling
+              ▼
+Decoder Block 2: Concatenate skip connection → Conv(32)
+              │
+              ▼
+1 × 1 Convolution + Sigmoid
+              │
+              ▼
+Binary probability mask: 64 × 64 × 1
+```
+
+U-Net is a CNN architecture designed for image segmentation.
+
+- The **encoder** learns increasingly abstract visual features.
+- The **bottleneck** captures the highest-level representation.
+- The **decoder** reconstructs a pixel-level output mask.
+- **Skip connections** transfer fine spatial information from the encoder to the decoder.
+- The final sigmoid layer returns a probability for every pixel.
+
+This architecture is useful for visual-inspection and remote-sensing tasks where object boundaries and regional localization are important.
+
+### Saved model summary
+
+| Property | Value |
+|---|---|
+| Architecture | Compact U-Net |
+| Parameters | 471,553 |
+| Input | `64 × 64 × 3` |
+| Output | `64 × 64 × 1` |
+| Output activation | Sigmoid |
+| Loss | Binary cross-entropy |
+| Optimizer | Adam |
+| Training metrics | Dice coefficient, IoU |
+| Keras format | Keras v3 `.keras` |
+| Browser runtime | TensorFlow.js |
+| Browser weight size | Approximately 1.80 MB |
+
+---
+
+## Model Results
+
+| Approach / Metric | Result |
 |---|---:|
 | Threshold baseline Dice | 0.999878 |
 | Threshold baseline IoU | 0.999756 |
@@ -126,231 +252,413 @@ These are the values exported by the supplied notebook:
 | U-Net test IoU | 0.999698 |
 | Pixel accuracy | 0.999992 |
 
-### Honest interpretation
+### Result interpretation
 
-The threshold baseline is marginally better than the U-Net. This is expected because the synthetic generator brightens the exact target rectangles, making the task nearly solvable with a fixed intensity threshold. The very high numbers verify that the implementation works end to end; they do **not** demonstrate generalization to real satellite imagery.
+The threshold baseline performed marginally better than the U-Net on this synthetic test set. This is reported transparently.
 
-Pixel accuracy is also inflated by background dominance. Dice and IoU are more informative for overlap, but even those are optimistic on this simple synthetic distribution.
+The generated target regions are intentionally brighter than the background, making them highly separable through intensity thresholding. Therefore, the near-perfect values demonstrate that the end-to-end training, evaluation, conversion, and inference pipeline works correctly, but they do not prove that the model will generalize to real-world satellite imagery.
 
-## Visual results
+Pixel accuracy is also background-dominant. Dice and IoU provide more useful overlap measurements for segmentation, although they remain optimistic for this visually simple synthetic benchmark.
 
-| Training / evaluation | Examples |
-|---|---|
-| ![Dice curve](outputs/figures/dice_training_curve.png) | ![Best predictions](outputs/figures/best_segmentation_examples.png) |
-| ![Loss curve](outputs/figures/loss_training_curve.png) | ![Error examples](outputs/figures/segmentation_error_examples.png) |
-| ![Threshold sweep](outputs/figures/threshold_sweep.png) | ![Overlays](outputs/figures/overlay_predictions.png) |
+---
 
-Additional figures are under [`outputs/figures`](outputs/figures/).
+## Evaluation Metrics
 
-## Error analysis
+### Dice coefficient
 
-The notebook saves the strongest and weakest test examples, overlap distributions, overlays, a threshold sweep, and predicted-versus-true area analysis. Remaining errors are tiny on this benchmark and primarily occur around synthetic rectangle boundaries.
-
-For real imagery, likely error sources would include:
-
-- cloud and shadow confusion,
-- low-resolution or blurred boundaries,
-- small-object omission,
-- false positives from bright roofs, soil, or reflective surfaces,
-- seasonal or sensor shifts,
-- annotation misalignment,
-- train/test geographic leakage.
-
-## Vercel + TensorFlow.js browser deployment
-
-The repository now includes a polished static web application at the project root:
+Dice measures the overlap between the predicted mask and the true mask.
 
 ```text
-index.html
-assets/css/styles.css
-assets/js/app.js
-assets/samples/
-tfjs_model/model.json
-tfjs_model/weights_manifest.json
-tfjs_model/weights.bin
-vercel.json
+Dice = 2 × Intersection / (Predicted Area + Ground-Truth Area)
 ```
 
-The application performs the complete inference workflow in the browser:
+A value closer to `1.0` indicates greater overlap.
 
-1. loads TensorFlow.js 4.22.0,
-2. loads the 471,553-parameter compact U-Net,
-3. preprocesses an uploaded image to 64×64 RGB and `[0, 1]`,
-4. predicts a sigmoid probability mask,
-5. applies an adjustable threshold,
-6. renders a binary mask, probability map, and colored overlay,
-7. optionally calculates Dice, IoU, precision, recall, and F1 from a supplied ground-truth mask,
-8. downloads the predicted mask as PNG.
+### Intersection over Union
 
-Uploaded images are processed locally and are not sent to a Python server. The browser weight artifact is approximately 1.8 MB because optimizer state is excluded. The app first tries the conventional `tf.loadLayersModel` path and includes a deterministic `tf.io.loadWeights` fallback for Keras 3 serialization compatibility.
+IoU, also known as the Jaccard Index, measures the intersection divided by the union of the predicted and true masks.
 
-Run locally:
+```text
+IoU = Intersection / Union
+```
+
+### Additional metrics
+
+- Pixel accuracy
+- Precision
+- Recall
+- F1-score
+- Predicted target area
+- Mean target confidence
+- Visual overlay inspection
+- Error examples
+- Threshold sensitivity
+
+---
+
+## Visual Results
+
+| Training Curves | Segmentation Examples |
+|---|---|
+| ![Dice Training Curve](outputs/figures/dice_training_curve.png) | ![Best Segmentation Examples](outputs/figures/best_segmentation_examples.png) |
+| ![Loss Training Curve](outputs/figures/loss_training_curve.png) | ![Segmentation Error Examples](outputs/figures/segmentation_error_examples.png) |
+
+| Threshold Analysis | Predicted Overlays |
+|---|---|
+| ![Threshold Sweep](outputs/figures/threshold_sweep.png) | ![Overlay Predictions](outputs/figures/overlay_predictions.png) |
+
+Additional training, distribution, area-comparison, and evaluation figures are available under:
+
+```text
+outputs/figures/
+```
+
+---
+
+## Vercel + TensorFlow.js Demo
+
+The deployed application performs inference locally inside the browser.
+
+### Application Overview
+
+![Vercel Application Overview](images/vercel_homepage.png)
+
+### Segmentation Prediction
+
+![Satellite Segmentation Prediction](images/segmentation_prediction.png)
+
+### Vercel Production Deployment
+
+![Vercel Production Deployment](images/vercel_deployment.png)
+
+### Browser application features
+
+- Upload PNG, JPG, or WebP images
+- Select from safe synthetic sample tiles
+- Adjustable mask threshold
+- Predicted binary mask
+- Colored mask overlay
+- Probability map
+- Segmented-area measurement
+- Mean target confidence
+- Browser inference timing
+- Optional ground-truth mask evaluation
+- Dice and IoU calculation
+- Predicted-mask download
+- WebGL execution with browser fallback
+- No server-side image upload for inference
+
+Because inference runs through TensorFlow.js, the selected image remains in the browser and is not sent to a Python application server.
+
+---
+
+## Model Artifacts
+
+| Artifact | Purpose |
+|---|---|
+| `models/satellite_unet_segmentation_model.keras` | Trained Keras U-Net model |
+| `models/model_metadata.json` | Dataset, preprocessing, architecture, and deployment metadata |
+| `models/metrics.json` | Exported baseline and U-Net test metrics |
+| `tfjs_model/model.json` | TensorFlow.js model topology and manifest |
+| `tfjs_model/weights_manifest.json` | Browser weight mapping |
+| `tfjs_model/weights.bin` | Browser-compatible model weights |
+| `tfjs_model/model_metadata.json` | TensorFlow.js inference configuration |
+
+The browser application loads the exported model directly and does not retrain the U-Net during startup.
+
+---
+
+## Run the Browser Demo Locally
+
+### 1. Open the project directory
+
+```bash
+cd cnn-projects/06-satellite-image-segmentation-unet
+```
+
+### 2. Start a local static server
 
 ```bash
 python -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`. Full Vercel instructions are in [`README_VERCEL.md`](README_VERCEL.md).
+On Windows, the included helper can also be used:
 
-## Gradio demo
+```bat
+run_vercel_local.bat
+```
 
-Run locally:
+### 3. Open the application
+
+```text
+http://localhost:8000
+```
+
+Do not open `index.html` directly from File Explorer. A local HTTP server is required so the browser can load the TensorFlow.js JSON and binary model files correctly.
+
+---
+
+## Run the Python / Gradio Application Locally
+
+### 1. Create a virtual environment
+
+**Windows**
+
+```bat
+py -3.11 -m venv .venv
+.venv\Scripts\activate
+```
+
+**macOS / Linux**
 
 ```bash
-cd 06-satellite-image-segmentation-unet
-python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
+python3.11 -m venv .venv
+source .venv/bin/activate
+```
+
+### 2. Install dependencies
+
+```bash
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+```
+
+### 3. Launch the application
+
+```bash
 python app.py
 ```
 
-Open the local Gradio URL displayed in the terminal. Select a safe example or upload an RGB image. An optional ground-truth mask enables per-upload overlap metrics.
+Open the local Gradio URL displayed in the terminal.
 
-## Reproduce training
+---
 
-### Local
+## Reproduce Training and Evaluation
+
+Install the training dependencies:
 
 ```bash
-pip install -r requirements-training.txt
+python -m pip install -r requirements-training.txt
+```
+
+Train the model:
+
+```bash
 python train_model.py --samples 2500 --epochs 15 --batch-size 32 --seed 42
+```
+
+Evaluate the trained model:
+
+```bash
 python scripts/evaluate_model.py
 ```
 
-Training writes the model to `models/satellite_unet_segmentation_model.keras` and evaluation artifacts to `outputs/metrics/`.
-
-### Kaggle
-
-Upload [`notebooks/satellite_image_segmentation_unet_kaggle.ipynb`](notebooks/satellite_image_segmentation_unet_kaggle.ipynb), choose a Python notebook image, optionally enable GPU, and run all cells. No external dataset is required for the supplied synthetic benchmark. Follow [`kaggle/README_KAGGLE.md`](kaggle/README_KAGGLE.md) for publishing and artifact-transfer steps.
-
-## Hugging Face Spaces deployment
-
-The project root is already structured as a Gradio Space:
+Training and evaluation outputs are saved under:
 
 ```text
-app.py
-requirements.txt
-README.md            # contains Space YAML metadata
 models/
-src/
-data/sample_images/
+outputs/figures/
+outputs/metrics/
 ```
 
-Create a new Gradio Space, clone it, copy the project contents into the Space root, replace `YOUR_USERNAME` placeholders, commit, and push. Full instructions are in [`README_HUGGINGFACE.md`](README_HUGGINGFACE.md).
+The Kaggle-ready notebook is available at:
 
-## Docker
-
-```bash
-docker build -t satellite-unet-demo .
-docker run --rm -p 7860:7860 satellite-unet-demo
+```text
+notebooks/satellite_image_segmentation_unet_kaggle.ipynb
 ```
 
-## Tests and CI
+---
+
+## Tests and Quality Validation
+
+Install the development dependencies:
 
 ```bash
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-pytest -q
+python -m pip install -r requirements-dev.txt
+```
+
+Run the tests and validation checks:
+
+```bash
+python -m pytest -q
 python scripts/validate_project.py
+python scripts/validate_tfjs_export.py
 ```
 
-The repository-level workflow is correctly stored at:
+The GitHub Actions workflow is stored at the repository level:
 
 ```text
 cnn-projects/.github/workflows/06-satellite-image-segmentation-unet.yml
 ```
 
-It validates files, runs unit tests, checks the browser JavaScript syntax, validates the TensorFlow.js manifest and weight integrity, imports the Gradio and inference modules, and performs one pre-trained Python-model smoke inference. It does not retrain the U-Net.
+The workflow validates the Python modules, tests, browser JavaScript, TensorFlow.js manifest, weight integrity, model artifact, and inference pipeline without retraining the full model.
 
-## Project structure
+---
+
+## Deploy on Vercel
+
+- **Repository:** `unit-mole/cnn-projects`
+- **Branch:** `main`
+- **Root directory:** `06-satellite-image-segmentation-unet`
+- **Application preset:** `Other`
+- **Build command:** Leave empty
+- **Output directory:** Leave empty
+- **Install command:** Leave empty
+- **Static entrypoint:** `index.html`
+- **Live application:** https://satellite-image-segmentation-unet.vercel.app/
+
+The selected Vercel root directory must contain:
 
 ```text
-06-satellite-image-segmentation-unet/
-├── .streamlit/                 # portfolio-layout compatibility; not used for deployment
-├── app/
-├── archive/
-├── data/
-│   ├── sample_images/
-│   ├── sample_masks/
-│   ├── README_data.md
-│   └── sample_manifest.csv
-├── assets/                      # Vercel browser UI, JS, CSS, and safe samples
-├── images/
-├── kaggle/
-├── models/
-├── notebooks/
-├── outputs/
-│   ├── figures/
-│   ├── metrics/
-│   ├── predictions/
-│   └── runtime/
-├── scripts/
-├── src/
-├── tests/
-├── tfjs_model/                  # browser model JSON, manifest, and weights
-├── index.html                   # Vercel static entrypoint
-├── vercel.json                  # Vercel configuration
-├── app.py
-├── gradio_app.py
-├── train_model.py
-├── Dockerfile
-├── FILE_MANIFEST.csv
-├── IMPROVEMENTS.md
-├── LICENSE
-├── MONOREPO_INTEGRATION.md
-├── PROJECT_AUDIT.md
-├── README.md
-├── README_HOSTING.md
-├── README_HUGGINGFACE.md
-├── README_VERCEL.md
-├── requirements.txt
-├── requirements-training.txt
-├── requirements-dev.txt
-├── run_local.bat
-├── run_local.sh
-├── run_vercel_local.bat
-└── run_vercel_local.sh
+index.html
+vercel.json
+assets/
+tfjs_model/
 ```
 
-## Portfolio positioning
+See [`README_VERCEL.md`](README_VERCEL.md) for the complete deployment guide.
 
-### Pinned-repository description
+---
 
-> Production-style CNN portfolio with seven computer-vision projects, including a deployable U-Net satellite segmentation demo, reproducible Kaggle training, evaluation artifacts, CI, tests, and responsible-AI documentation.
+## Project Structure
 
-### Skills demonstrated by this project
+```text
+cnn-projects/
+├── .github/
+│   └── workflows/
+│       └── 06-satellite-image-segmentation-unet.yml
+│
+└── 06-satellite-image-segmentation-unet/
+    ├── app/
+    ├── archive/
+    ├── assets/
+    │   ├── css/
+    │   ├── js/
+    │   └── samples/
+    ├── data/
+    │   ├── sample_images/
+    │   └── sample_masks/
+    ├── images/
+    │   ├── vercel_homepage.png
+    │   ├── segmentation_prediction.png
+    │   └── vercel_deployment.png
+    ├── kaggle/
+    ├── models/
+    ├── notebooks/
+    ├── outputs/
+    │   ├── figures/
+    │   ├── metrics/
+    │   └── predictions/
+    ├── scripts/
+    ├── src/
+    ├── tests/
+    ├── tfjs_model/
+    ├── app.py
+    ├── gradio_app.py
+    ├── index.html
+    ├── vercel.json
+    ├── Dockerfile
+    ├── README.md
+    ├── README_HOSTING.md
+    ├── README_HUGGINGFACE.md
+    ├── README_VERCEL.md
+    ├── requirements.txt
+    ├── requirements-training.txt
+    └── requirements-dev.txt
+```
 
-- CNN and U-Net architecture
-- binary semantic segmentation and pixel-level prediction
-- image and mask preprocessing
-- synchronized spatial augmentation
-- Dice, IoU, precision, recall, F1, and visual evaluation
-- Keras model serialization and lazy inference loading
-- TensorFlow.js client-side model inference
-- responsive static web application development
+---
+
+## Error Analysis and Limitations
+
+The project includes best-case examples, weak examples, overlays, Dice and IoU distributions, threshold analysis, and predicted-versus-true area comparisons.
+
+The remaining synthetic errors occur mainly near rectangle boundaries. Real-world satellite segmentation would introduce more challenging failure modes, including:
+
+- Cloud and shadow confusion
+- Bright-roof and reflective-surface false positives
+- Small-object omission
+- Blurred or low-resolution boundaries
+- Seasonal and geographic domain shifts
+- Sensor and spectral differences
+- Annotation misalignment
+- Geographic leakage between data splits
+- Out-of-distribution image content
+
+The model should not be presented as production-ready for operational remote sensing.
+
+---
+
+## Future Improvements
+
+- Replace the procedural tiles with a properly licensed real satellite benchmark.
+- Add geographic scene-level train, validation, and test splits.
+- Expand from binary to multi-class land-cover segmentation.
+- Add classes for buildings, roads, vegetation, and water.
+- Support multispectral imagery and documented band selection.
+- Compare U-Net with U-Net++, DeepLabV3+, and pretrained encoders.
+- Add boundary IoU and calibration analysis.
+- Add uncertainty visualization.
+- Quantize TensorFlow.js weights for faster browser loading.
+- Add automated browser inference tests.
+- Compare WebGL, WebGPU, and CPU runtimes.
+
+---
+
+## Skills Demonstrated
+
+- Convolutional Neural Networks
+- U-Net architecture
+- Binary semantic segmentation
+- Pixel-level prediction
+- Satellite-style image analysis
+- Image and mask preprocessing
+- Encoder-decoder skip connections
+- Dice and IoU evaluation
+- Baseline model comparison
+- Visual error analysis
+- Keras model persistence
+- TensorFlow.js conversion
+- Client-side browser inference
+- Responsive web application development
 - Vercel monorepo deployment
 - Gradio application development
-- Hugging Face Spaces deployment
-- Kaggle notebook reproducibility
-- tests, GitHub Actions, Docker, and artifact governance
+- Kaggle-ready experimentation
+- GitHub Actions
+- Automated testing
+- Responsible AI communication
+- Applied computer vision engineering
 
-### Connection to Quality Data Science
+---
 
-Semantic segmentation maps naturally to visual inspection and quality workflows: identifying regions of interest, localizing defects, measuring affected area, automating image-based checks, and tracking spatial patterns. This project demonstrates how quality analytics can extend from tabular metrics into applied computer vision.
+## Portfolio Positioning
 
-## Future improvements
+**One-line description:** U-Net semantic-segmentation project that generates pixel-level urban-region masks and runs private client-side inference through TensorFlow.js on Vercel.
 
-1. Replace procedural tiles with a licensed real benchmark.
-2. Use geographic scene-level splits and cross-region evaluation.
-3. Add multi-class masks for buildings, roads, water, and vegetation.
-4. Add multispectral band support and documented band selection.
-5. Compare compact U-Net with U-Net++, DeepLabV3+, and a pretrained encoder.
-6. Add boundary IoU, calibration, uncertainty, and robustness tests.
-7. Add float16 or uint8 weight quantization for faster browser loading.
-8. Add automated Playwright browser inference tests in CI.
-9. Compare WebGL, WebGPU, and CPU execution across devices.
+**Pinned repository description:** End-to-end CNN segmentation project with reproducible synthetic-data generation, U-Net training, Dice and IoU evaluation, visual error analysis, browser-model conversion, automated testing, and Vercel deployment.
+
+This project supports the transition from Quality Data Science into broader Data Science, Machine Learning, Applied AI, Computer Vision, Remote Sensing Analytics, and Analytics Engineering roles.
+
+Semantic segmentation also connects naturally to quality applications such as:
+
+- Visual inspection
+- Defect localization
+- Region-of-interest detection
+- Affected-area measurement
+- Automated image-based checks
+- Spatial pattern monitoring
+- Segmentation-based quality analytics
+
+---
+
+## Author
+
+**Anmol Tripathi**
+
+Quality Data Scientist building a portfolio in Data Science, Machine Learning, Applied AI, Computer Vision, Analytics Engineering, Quality Analytics, and image-based automation.
+
+---
 
 ## License
 
-MIT. Dataset licensing for any future real-data extension must be documented separately.
+This project is released under the MIT License. See [`LICENSE`](LICENSE) for details.

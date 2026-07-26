@@ -1,277 +1,626 @@
-# ResNet50 Image Classification — CIFAR-100 Browser Inference
+# Image Classification with ResNet50 and TensorFlow.js
 
-[![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?logo=githubactions&logoColor=white)](#continuous-integration)
-[![Browser ML](https://img.shields.io/badge/Browser_ML-TensorFlow.js-FF6F00?logo=tensorflow&logoColor=white)](#browser-based-inference)
-[![Deployment](https://img.shields.io/badge/Deployment-GitHub_Pages-222222?logo=github&logoColor=white)](#github-pages-deployment)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange.svg)](https://www.tensorflow.org/)
+[![Keras](https://img.shields.io/badge/Keras-ResNet50-red.svg)](https://keras.io/)
+[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-ffca28.svg)](https://www.tensorflow.org/js)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-222222.svg)](https://unit-mole.github.io/cnn-projects/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-An end-to-end **100-class image-classification project** that applies an ImageNet-pretrained **ResNet50** backbone to CIFAR-100 and deploys inference as a static TensorFlow.js application. Uploaded images are processed locally in the browser; no Python server is required for the live demo.
+An end-to-end computer vision project that uses **ResNet50 transfer learning** to classify images across the **100 CIFAR-100 categories**. The repository includes reproducible preprocessing, model training, evaluation, saved artifacts, TensorFlow.js conversion, browser-based inference, automated validation, and deployment through GitHub Pages.
 
-> **Responsible-use notice:** This project is for education and portfolio demonstration only. The model can misclassify unclear, low-quality, out-of-distribution, or unfamiliar images. Do not use its output as the sole basis for medical, legal, safety-critical, security, hiring, insurance, financial, or production decisions. Do not upload private, sensitive, confidential, copyrighted, or personally identifiable images to a public demo. Predictions are machine-learning estimates, not guaranteed truth.
+**Status:** Portfolio-ready and deployed  
+**Live demo:** [Open the ResNet50 Browser Image Classifier](https://unit-mole.github.io/cnn-projects/)  
+**Primary stack:** Python · TensorFlow · Keras · ResNet50 · TensorFlow.js · JavaScript · HTML · CSS · GitHub Actions · GitHub Pages
 
-## Portfolio summary
+---
 
-**One-line description:** ResNet50 transfer learning for CIFAR-100 image classification, converted to TensorFlow.js for privacy-preserving browser inference on GitHub Pages.
+## Responsible Use
 
-**Pinned-repository description:** Built and evaluated a 100-class ResNet50 image classifier, packaged reproducible Python pipelines, converted the trained model into sharded TensorFlow.js assets, and deployed a responsive no-backend browser demo.
+This project is intended for educational, technical-learning, and portfolio demonstration purposes.
 
-**Live demo:** `https://<your-github-username>.github.io/cnn-projects/`  
-**Notebook:** [`notebooks/image_classification_resnet.ipynb`](./notebooks/image_classification_resnet.ipynb)
+- The model may classify images incorrectly, particularly when images are blurry, heavily edited, low-resolution, out-of-distribution, or visually different from CIFAR-100 training examples.
+- A high softmax confidence score does not guarantee that a prediction is correct.
+- The application must not be used as the sole basis for medical, legal, security, safety-critical, hiring, insurance, financial, or production decisions.
+- Do not upload private, confidential, copyrighted, sensitive, or personally identifiable images to a public demonstration.
+- Predictions should be interpreted as machine-learning estimates rather than guaranteed facts.
 
-## Verified project results
+---
 
-These values come from the supplied project metrics artifact and are not regenerated or invented in this repository build.
+## Business Problem
 
-| Model | Validation accuracy | Test accuracy | Top-5 test accuracy |
-|---|---:|---:|---:|
-| Logistic-regression baseline | 0.1262 | 0.1257 | — |
-| ResNet50 transfer learning | 0.6707 | **0.6709** | **0.9120** |
+Organizations increasingly use computer vision to support product identification, visual inspection, defect review, inventory classification, and image-based quality workflows. Manual image review can be repetitive, inconsistent, and difficult to scale.
 
-The ResNet model improves absolute test accuracy by **54.52 percentage points** over the flattened-image logistic-regression baseline.
+This project answers:
 
-Precision, recall, F1, confusion-matrix, ROC, and precision-recall artifacts are intentionally **not fabricated**. `scripts/evaluate_model.py` generates them from real model predictions when TensorFlow and CIFAR-100 are available.
+> Given an uploaded image, can a ResNet50 model classify it into one of the learned CIFAR-100 categories directly inside the browser?
 
-## Problem statement
+The deployed application returns:
 
-Given an RGB image, classify it into one of the 100 CIFAR-100 fine-label categories and return:
+- Predicted class
+- Confidence score
+- Top three class probabilities
+- Prediction interpretation
+- Model and preprocessing details
+- Responsible-use guidance
 
-- the predicted class;
-- model confidence;
-- the top three class probabilities;
-- model and preprocessing details;
-- a clear limitation and responsible-use note.
+---
+
+## Project Objective
+
+Build a professional image-classification solution that can:
+
+1. Load and validate RGB image data.
+2. Resize CIFAR-100 images for a pretrained ResNet50 backbone.
+3. Apply consistent preprocessing during training, Python inference, and browser inference.
+4. Use ImageNet transfer learning for multi-class classification.
+5. Compare ResNet50 against a lightweight baseline.
+6. Report top-1 and top-5 classification performance.
+7. Save reusable model metadata and class mappings.
+8. Convert the trained Keras model into TensorFlow.js format.
+9. Run inference entirely in the browser without a Python backend.
+10. Validate and publish the static application through GitHub Actions and GitHub Pages.
+
+---
 
 ## Dataset
 
-The attached notebook uses `tf.keras.datasets.cifar100.load_data(label_mode="fine")`.
+The project uses the **CIFAR-100** image-classification dataset.
 
 | Property | Value |
 |---|---|
 | Task | Multi-class image classification |
-| Dataset | CIFAR-100 fine labels |
-| Original train images | 50,000 |
-| Original test images | 10,000 |
-| Notebook split | 40,000 train / 10,000 validation / 10,000 test |
-| Original image shape | 32 × 32 × 3 RGB |
-| Number of classes | 100 |
-| Class balance | CIFAR-100 contains 500 original training and 100 test images per fine class; the notebook's final 10,000-sample validation slice is not claimed to be perfectly stratified |
+| Classes | 100 fine-grained object categories |
+| Source image size | 32 × 32 pixels |
+| Color mode | RGB |
+| Training images | 40,000 |
+| Validation images | 10,000 |
+| Test images | 10,000 |
+| Model input size | 96 × 96 × 3 |
+| Output | 100-class softmax probability vector |
 
-The full dataset is downloaded by TensorFlow at runtime and is not committed to GitHub. Only generated, non-sensitive browser test images are included.
-
-## Why ResNet
-
-ResNet is a convolutional architecture that uses **residual or skip connections**. Instead of forcing every group of layers to learn a complete transformation, a residual block learns a change that is added back to its input. This improves gradient flow and makes deep networks easier to optimize. For transfer learning, ResNet50 offers strong reusable visual features learned from ImageNet while allowing a compact task-specific classification head to be trained for CIFAR-100.
-
-## Architecture used by the attached project
+CIFAR-100 includes categories such as:
 
 ```text
-32×32 RGB input
-    ↓
-Resize to 96×96
-    ↓
-Training-only augmentation
-    ↓
-ResNet ImageNet preprocessing
-    ↓
-Frozen ResNet50 backbone (include_top=False)
-    ↓
-Global Average Pooling
-    ↓
-Dense(512, ReLU)
-    ↓
-Batch Normalization
-    ↓
-Dropout(0.5)
-    ↓
-Dense(100, Softmax)
+apple, aquarium_fish, bicycle, bottle, bus, butterfly, chair,
+clock, dolphin, elephant, forest, keyboard, lion, motorcycle,
+orange, pear, pickup_truck, plate, rabbit, ray, rose, shark,
+streetcar, sunflower, television, tiger, train, trout, wolf
 ```
 
-The browser export accepts a preprocessed **96×96×3** tensor. Resizing and ResNet preprocessing are deliberately implemented in `web/app.js`, which removes training-only augmentation and unsupported generated preprocessing operations from the exported inference graph.
+The full dataset is downloaded through TensorFlow/Keras when required and is not committed to GitHub. Only safe generated sample images are included in the repository.
 
-## Preprocessing consistency
+---
 
-The three inference paths use the same logic:
+## Tools and Technologies
 
-1. Decode as RGB.
-2. Resize to 96×96.
-3. Convert values to the 0–255 range.
-4. Convert RGB to BGR.
-5. Subtract ImageNet means `[103.939, 116.779, 123.68]` in BGR order.
-6. Add the batch dimension.
-7. Run softmax output inference and rank class probabilities.
+| Area | Technology |
+|---|---|
+| Language | Python, JavaScript |
+| Deep learning | TensorFlow, Keras |
+| CNN architecture | ResNet50 |
+| Transfer learning | ImageNet-pretrained backbone |
+| Data processing | NumPy, pandas |
+| Image processing | Pillow, TensorFlow image utilities |
+| Evaluation | scikit-learn, Matplotlib |
+| Browser inference | TensorFlow.js |
+| Web interface | HTML, CSS, JavaScript |
+| Testing | pytest, compile and structure validation |
+| Automation | GitHub Actions |
+| Hosting | GitHub Pages |
+| Model format | Keras `.keras`, TensorFlow.js `model.json` + binary shards |
 
-Training starts with CIFAR-100 arrays normalized to `[0, 1]`; the Keras pipeline multiplies by 255 before `tf.keras.applications.resnet.preprocess_input`. The JavaScript code reproduces the resulting BGR mean-subtraction behavior directly.
+---
 
-## Training strategy
+## Project Workflow
 
-- Reproducibility seed: `42`.
-- Frozen ImageNet-pretrained ResNet50 feature extractor.
-- Adam optimizer with learning rate `0.001`.
-- Categorical cross-entropy and accuracy.
-- Batch size `128` and up to `12` epochs in the notebook.
-- Early stopping and learning-rate reduction callbacks.
-- Safe augmentation: horizontal flip, small rotation, zoom, and contrast variation.
-
-A future fine-tuning stage can unfreeze the final ResNet block with a lower learning rate after the classification head has converged. This repository keeps that behavior configurable rather than silently changing the supplied experiment.
-
-## Browser-based inference
-
-`web/index.html` loads TensorFlow.js and then calls:
-
-```javascript
-const model = await tf.loadLayersModel('./tfjs_model/model.json');
+```text
+CIFAR-100 images and labels
+          │
+          ▼
+Data validation and split preparation
+          │
+          ▼
+RGB conversion and image resizing
+          │
+          ▼
+ResNet-compatible preprocessing
+          │
+          ▼
+Safe training-time augmentation
+          │
+          ▼
+ImageNet-pretrained ResNet50 backbone
+          │
+          ▼
+Global average pooling
+          │
+          ▼
+Dense classification head
+          │
+          ▼
+100-class softmax probabilities
+          │
+          ▼
+Evaluation and error analysis
+          │
+          ▼
+Saved Keras model and metadata
+          │
+          ▼
+TensorFlow.js conversion
+          │
+          ▼
+Static browser application
+          │
+          ▼
+GitHub Actions validation
+          │
+          ▼
+GitHub Pages deployment
 ```
 
-The `model.json` topology references 24 sharded binary weight files. The page previews the chosen image, creates the preprocessed tensor inside `tf.tidy`, runs `model.predict`, and displays the top three classes. Uploaded image pixels stay in the browser application.
+---
+
+## Image Preprocessing
+
+The project uses the same preprocessing assumptions across training and inference.
+
+- RGB color conversion
+- Image resizing from 32 × 32 to 96 × 96
+- Float data-type conversion
+- ResNet-compatible pixel preprocessing
+- Batch-dimension handling
+- Label-to-index mapping for 100 classes
+- Unsupported-file validation
+- Corrupt-image error handling
+
+Maintaining equivalent preprocessing in Python and JavaScript is essential. A mismatch between the training pipeline and browser pipeline can significantly reduce prediction quality.
+
+---
+
+## Data Augmentation
+
+Training-time augmentation is used to improve generalization while preserving class meaning.
+
+Typical transformations include:
+
+- Horizontal flipping where appropriate
+- Small rotations
+- Minor zoom
+- Small translation
+- Light contrast variation
+
+Aggressive transformations are avoided because they may distort small CIFAR-100 objects or change the visual meaning of an image.
+
+---
+
+## ResNet50 Architecture
+
+```text
+Input image: 96 × 96 × 3
+          ↓
+ImageNet-pretrained ResNet50 backbone
+          ↓
+Frozen convolutional feature extractor
+          ↓
+Global average pooling
+          ↓
+Dense layer
+          ↓
+Batch normalization
+          ↓
+Dropout
+          ↓
+Dense output layer: 100 units
+          ↓
+Softmax class probabilities
+```
+
+### Why ResNet?
+
+ResNet is a convolutional neural-network architecture that uses **residual connections**. These connections allow information and gradients to move more effectively through deep networks.
+
+Instead of requiring every block to learn a complete transformation, a residual block learns the difference between its input and desired output. This helps reduce vanishing-gradient problems and makes deep architectures such as ResNet50 practical to train and reuse.
+
+ResNet50 is well suited to transfer learning because its ImageNet-pretrained layers already recognize useful visual patterns such as edges, textures, shapes, and object parts.
+
+---
+
+## Transfer-Learning Strategy
+
+The project uses an ImageNet-pretrained ResNet50 backbone as a feature extractor.
+
+### Stage 1: Frozen-backbone training
+
+- Load ResNet50 without its original ImageNet classifier.
+- Freeze the pretrained convolutional backbone.
+- Train the custom CIFAR-100 classification head.
+- Monitor validation performance.
+
+### Stage 2: Optional fine-tuning
+
+Selected deeper layers can be unfrozen and trained with a lower learning rate. This step should be performed carefully to avoid damaging useful pretrained features.
+
+---
+
+## Model Results
+
+| Model | Validation Accuracy | Test Accuracy | Top-5 Accuracy |
+|---|---:|---:|---:|
+| Lightweight baseline | 12.62% | 12.57% | — |
+| ResNet50 transfer learning | 67.07% | 67.09% | 91.20% |
+
+The ResNet50 model substantially outperforms the baseline. The top-5 score shows that the correct category appears within the five highest-probability classes for most test examples.
+
+Accuracy should still be interpreted with care because CIFAR-100 contains many visually similar categories, and a single aggregate metric does not fully describe class-specific behavior.
+
+---
 
 ## Evaluation
 
-`scripts/evaluate_model.py` supports:
+The evaluation pipeline supports:
 
-- accuracy and top-5 accuracy;
-- macro and weighted precision, recall, and F1;
-- per-class classification report;
-- confusion matrix;
-- one-vs-rest ROC-AUC where computable;
-- sample prediction export;
-- low-confidence and high-confidence error tables.
+- Top-1 accuracy
+- Top-5 accuracy
+- Precision
+- Recall
+- F1-score
+- Macro F1-score
+- Weighted F1-score
+- Per-class classification report
+- Confusion matrix
+- Sample predictions
+- Correct and incorrect prediction review
+- Low-confidence prediction analysis
 
-Accuracy alone can hide weak classes. Macro F1 gives every class equal importance, weighted F1 reflects class frequency, and per-class recall shows which categories the model fails to capture.
+### Why multiple metrics matter
 
-## Error analysis
+- **Accuracy** measures the overall proportion of correct classifications.
+- **Precision** measures how reliable predictions for a class are.
+- **Recall** measures how many real examples of a class are captured.
+- **F1-score** balances precision and recall.
+- **Macro F1** gives each class equal importance.
+- **Weighted F1** accounts for class frequency.
+- **Confusion matrices** reveal which categories are commonly confused.
+- **Top-5 accuracy** is useful for large multi-class problems such as CIFAR-100.
 
-The notebook already explores correct predictions, misclassifications, confident correct predictions, confident wrong predictions, and per-class accuracy. Common failure causes for CIFAR-100 include 32×32 source resolution, visually similar categories, small objects, background ambiguity, and distribution mismatch when a user uploads a normal high-resolution photograph.
+---
 
-## Folder structure
+## Browser Demo
+
+The static application performs inference directly in the user's browser.
+
+It supports:
+
+- PNG, JPEG, WebP, and BMP images
+- Drag-and-drop or file selection
+- Image preview
+- Browser-based TensorFlow.js inference
+- Predicted class
+- Confidence score
+- Top three predictions
+- Prediction summary
+- Local image processing
+- Responsible-use information
+
+No Python backend is required. The uploaded image is processed locally by the browser application.
+
+### Live Application
+
+[![Open Live Demo](https://img.shields.io/badge/Open-Live%20ResNet50%20Demo-2ea44f?style=for-the-badge)](https://unit-mole.github.io/cnn-projects/)
+
+### Application Overview
+
+![ResNet Browser Demo Overview](images/resnet_browser_demo_home.png)
+
+*Live browser-based image-classification interface deployed using GitHub Pages and TensorFlow.js.*
+
+### Apple Prediction Example
+
+![ResNet Apple Prediction](images/resnet_prediction_result.png)
+
+*Browser-based ResNet50 inference on an uploaded apple image. The interface displays the predicted class, softmax confidence, and top three probabilities directly in the browser. Confidence represents the model's estimate and does not guarantee correctness.*
+
+---
+
+## Browser Inference Workflow
 
 ```text
-04-image-classification-resnet/
-├── app/                         # Reserved optional Python UI package
-├── archive/                     # Superseded experiments and notes
-├── data/
-│   ├── README_data.md
-│   └── sample_images/
-├── images/                      # Portfolio screenshots
-├── models/
-│   ├── resnet50_cifar100.keras  # Supplied model; use LFS/release asset
-│   ├── model_metadata.json
-│   ├── class_mapping.json
-│   └── tfjs_model/              # Reference and conversion notes
-├── notebooks/
-│   └── image_classification_resnet.ipynb
-├── outputs/
-│   ├── figures/
-│   ├── metrics/
-│   └── predictions/
-├── scripts/
-├── src/
-├── tests/
-├── web/
-│   ├── index.html
-│   ├── style.css
-│   ├── app.js
-│   ├── metadata.json
-│   ├── sample_images/
-│   └── tfjs_model/
-├── README.md
-├── README_GITHUB_PAGES.md
-├── requirements.txt
-└── requirements-ci.txt
+User selects an image
+          │
+          ▼
+Browser validates the file
+          │
+          ▼
+Image is decoded into an HTML element
+          │
+          ▼
+TensorFlow.js resizes the image
+          │
+          ▼
+ResNet preprocessing is applied
+          │
+          ▼
+Batch dimension is added
+          │
+          ▼
+tf.loadLayersModel() loads model.json
+          │
+          ▼
+model.predict() returns 100 probabilities
+          │
+          ▼
+Probabilities are ranked
+          │
+          ▼
+Predicted class and top three results are displayed
 ```
 
-## Local setup
+---
+
+## Model Conversion
+
+The trained Keras model is converted into TensorFlow.js Layers format.
+
+```text
+Keras model
+    ↓
+resnet50_cifar100.keras
+    ↓
+TensorFlow.js converter
+    ↓
+model.json
+    ↓
+Binary weight shards
+    ↓
+web/tfjs_model/
+    ↓
+GitHub Pages
+```
+
+Key browser artifacts:
+
+| Artifact | Purpose |
+|---|---|
+| `web/tfjs_model/model.json` | Model architecture and weight manifest |
+| `web/tfjs_model/group1-shard*.bin` | Converted model weights |
+| `web/metadata.json` | Input size, preprocessing, labels, and model details |
+| `web/app.js` | Browser preprocessing and inference |
+| `web/index.html` | Application structure |
+| `web/style.css` | Responsive presentation |
+
+---
+
+## Model Artifacts
+
+| Artifact | Purpose |
+|---|---|
+| `models/resnet50_cifar100.keras` | Trained Keras model for local evaluation and conversion |
+| `models/class_mapping.json` | CIFAR-100 index-to-label mapping |
+| `models/model_metadata.json` | Model, preprocessing, and dataset metadata |
+| `web/tfjs_model/model.json` | TensorFlow.js model manifest |
+| `web/tfjs_model/group1-shard*.bin` | TensorFlow.js weight shards |
+| `web/metadata.json` | Browser inference configuration |
+| `outputs/metrics/model_metrics.json` | Recorded model metrics |
+| `outputs/metrics/browser_model_equivalence.json` | Conversion-equivalence validation |
+
+Large model artifacts may be excluded from normal Git tracking when they exceed recommended repository limits. The browser-ready TensorFlow.js files are retained for deployment.
+
+---
+
+## Run the Browser Demo Locally
+
+### 1. Open the project
 
 ```bash
 cd cnn-projects/04-image-classification-resnet
-python -m venv .venv
 ```
 
-Windows:
-
-```powershell
-.venv\Scriptsctivate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-macOS/Linux:
+### 2. Start a local web server
 
 ```bash
-source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m http.server 8000 --directory web
 ```
 
-Run training only when needed:
+### 3. Open the application
+
+```text
+http://localhost:8000
+```
+
+A local HTTP server is required because browsers generally block TensorFlow.js model loading from direct `file://` paths.
+
+---
+
+## Run the Python Project Locally
+
+### 1. Create a virtual environment
+
+**Windows**
+
+```bat
+py -3.11 -m venv .venv
+.venv\Scripts\activate
+```
+
+**macOS / Linux**
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### 2. Install dependencies
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+### 3. Run tests and validation
+
+```bash
+python -m pytest -q
+python scripts/validate_project.py
+```
+
+### 4. Train the model when required
 
 ```bash
 python scripts/train_model.py
 ```
 
-Run evaluation:
+### 5. Evaluate the model
 
 ```bash
-python scripts/evaluate_model.py --model models/resnet50_cifar100.keras
+python scripts/evaluate_model.py
 ```
 
-Create the flattened browser-inference model, then convert it with the official converter:
+### 6. Convert to TensorFlow.js
 
 ```bash
-python scripts/export_model.py --keras-model models/resnet50_cifar100.keras --output models/resnet50_cifar100_browser.h5
-python scripts/convert_to_tfjs.py --keras-model models/resnet50_cifar100_browser.h5 --output web/tfjs_model
+python scripts/convert_to_tfjs.py
 ```
 
-Serve the browser app through HTTP rather than opening `index.html` directly:
+---
 
-```bash
-python scripts/run_local_web_server.py --port 8000
+## Deployment
+
+- **Repository:** `unit-mole/cnn-projects`
+- **Source branch:** `main`
+- **Deployment branch:** `gh-pages`
+- **Published folder:** `04-image-classification-resnet/web/`
+- **GitHub Pages source:** `gh-pages` → `/(root)`
+- **Live application:** https://unit-mole.github.io/cnn-projects/
+
+The GitHub Actions workflow:
+
+1. Checks out the repository.
+2. Runs lightweight project validation.
+3. Validates required Python and browser files.
+4. Confirms that the TensorFlow.js model manifest exists.
+5. Publishes the static `web/` directory to the `gh-pages` branch.
+6. Allows GitHub Pages to serve the site over HTTPS.
+
+The workflow file is stored at:
+
+```text
+.github/workflows/04-image-classification-resnet.yml
 ```
 
-Open `http://localhost:8000`.
+---
 
-## GitHub Pages deployment
+## Project Structure
 
-The root workflow `.github/workflows/04-image-classification-resnet.yml` validates the project and publishes `04-image-classification-resnet/web` with GitHub's Pages artifact workflow. In the repository, open **Settings → Pages → Build and deployment → Source**, select **GitHub Actions**, then push to `main`.
+```text
+cnn-projects/
+├── .github/
+│   └── workflows/
+│       └── 04-image-classification-resnet.yml
+│
+└── 04-image-classification-resnet/
+    ├── app/
+    ├── archive/
+    ├── data/
+    │   └── sample_images/
+    ├── images/
+    │   ├── resnet_browser_demo_home.png
+    │   └── resnet_prediction_result.png
+    ├── models/
+    │   ├── class_mapping.json
+    │   ├── model_metadata.json
+    │   └── tfjs_model/
+    ├── notebooks/
+    │   └── image_classification_resnet.ipynb
+    ├── outputs/
+    │   ├── figures/
+    │   ├── metrics/
+    │   └── predictions/
+    ├── scripts/
+    ├── src/
+    ├── tests/
+    ├── web/
+    │   ├── index.html
+    │   ├── app.js
+    │   ├── style.css
+    │   ├── metadata.json
+    │   ├── sample_images/
+    │   └── tfjs_model/
+    ├── Dockerfile
+    ├── README.md
+    ├── README_GITHUB_PAGES.md
+    ├── README_HOSTING.md
+    ├── requirements.txt
+    └── train_model.py
+```
 
-See [`README_GITHUB_PAGES.md`](./README_GITHUB_PAGES.md) for model-size, caching, CORS, and troubleshooting notes.
+---
 
-## Continuous integration
+## Limitations
 
-The CI job intentionally does not retrain ResNet. It:
+- CIFAR-100 source images are small and contain limited visual detail.
+- Real-world high-resolution images may differ substantially from the training distribution.
+- Visually similar classes can be confused.
+- Synthetic, abstract, or unfamiliar images may produce low-confidence or incorrect results.
+- Softmax scores are not automatically calibrated probabilities.
+- Browser performance varies by device, browser, available memory, and WebGL support.
+- ResNet50 is larger than mobile-oriented architectures and may take time to load during the first visit.
+- The model has not been validated for safety-critical or production use.
 
-- installs lightweight validation dependencies;
-- compiles Python files;
-- runs unit tests;
-- validates metadata and class mapping;
-- checks `index.html`, `app.js`, `style.css`, and `model.json`;
-- verifies every weight shard referenced by the manifest exists and is non-empty.
+---
 
-## Artifact handling
+## Future Improvements
 
-The supplied `.keras` model is about 103 MB and should not be committed through normal Git history. Keep it local, track it with Git LFS, or attach it to a GitHub release. The browser model is split into smaller shards under `web/tfjs_model/` so the static deployment can fetch and cache them individually.
+- Fine-tune selected ResNet50 layers using a lower learning rate.
+- Add confidence calibration.
+- Add Grad-CAM visual explanations in the Python analysis.
+- Add a confusion-matrix and misclassification gallery to the README.
+- Compare ResNet50 with MobileNetV2, EfficientNet, and VGG16.
+- Evaluate image compression and TensorFlow.js quantization.
+- Add progressive model-loading feedback.
+- Improve mobile browser performance.
+- Add offline caching through a service worker.
+- Publish the trained Keras model through a suitable model registry.
+- Add automated browser integration tests.
 
-## Suggested screenshots
+---
 
-1. Browser demo immediately after model load.
-2. Uploaded image preview with predicted class and confidence.
-3. Top-three probability bars.
-4. Baseline-versus-ResNet metrics chart.
-5. Notebook training curves.
-6. Confusion matrix and representative errors generated from real evaluation.
-7. GitHub Actions validation and Pages deployment success.
+## Skills Demonstrated
 
-## Skills demonstrated
+- Convolutional neural networks
+- ResNet architecture
+- Transfer learning
+- Multi-class image classification
+- Image preprocessing
+- Data augmentation
+- Model evaluation
+- Top-k prediction analysis
+- Error analysis
+- Model artifact management
+- TensorFlow.js conversion
+- Browser-based machine learning
+- JavaScript inference pipelines
+- Static web application development
+- GitHub Actions
+- GitHub Pages deployment
+- Responsible AI communication
+- Portfolio-focused ML engineering
 
-CNN modeling · residual learning · transfer learning · image preprocessing · multiclass classification · top-k inference · evaluation design · error analysis · model serialization · TensorFlow.js conversion · JavaScript inference · static web deployment · GitHub Actions · responsible AI communication
+---
 
-## Quality-data-science relevance
+## Portfolio Positioning
 
-The same workflow patterns transfer naturally to automated visual inspection, product family classification, defect triage, inspection-image review, and image-based quality analytics: define controlled labels, maintain preprocessing parity, evaluate class-level failure modes, package reproducible inference, and communicate model limits.
+**One-line description:** ResNet50 image-classification system trained on CIFAR-100 and deployed as a browser-based TensorFlow.js application through GitHub Pages.
 
-## Future improvements
+**Pinned repository description:** End-to-end computer vision portfolio project featuring ResNet50 transfer learning, multi-class evaluation, TensorFlow.js model conversion, browser inference, automated validation, and GitHub Pages deployment.
 
-- Fine-tune the final ResNet stage at a low learning rate.
-- Add calibrated confidence and out-of-distribution warnings.
-- Quantize the browser model after measuring accuracy impact.
-- Add real confusion-matrix and per-class report artifacts from a reproducible evaluation run.
-- Add optional Grad-CAM to the Python evaluation workflow.
-- Benchmark a lightweight browser model such as MobileNetV2 while retaining ResNet50 as the primary portfolio experiment.
+This project connects naturally to a Quality Data Scientist background because image classification can support visual inspection, product categorization, defect review, automated quality checks, image-based anomaly analysis, and applied AI for inspection workflows.
+
+---
+
+## Author
+
+**Anmol Tripathi**
+
+Quality Data Scientist building a professional portfolio in Data Science, Machine Learning, Applied AI, Computer Vision, Analytics Engineering, and Quality Analytics.

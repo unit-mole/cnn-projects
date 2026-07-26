@@ -1,325 +1,700 @@
-# Fine-Grained Image Classification using VGG16
+# VGG16 Fine-Grained Image Classification with TensorFlow.js
 
-[![CI](https://github.com/ADD_GITHUB_USERNAME/cnn-projects/actions/workflows/05-fine-grained-image-classification-vgg16.yml/badge.svg)](https://github.com/ADD_GITHUB_USERNAME/cnn-projects/actions/workflows/05-fine-grained-image-classification-vgg16.yml)
-[![Vercel](https://img.shields.io/badge/live%20demo-Vercel-black)](ADD_VERCEL_URL)
-[![TensorFlow.js](https://img.shields.io/badge/inference-TensorFlow.js-ff6f00)](https://www.tensorflow.org/js)
+[![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-VGG16-orange.svg)](https://www.tensorflow.org/)
+[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-orange.svg)](https://www.tensorflow.org/js)
+[![Vercel](https://img.shields.io/badge/Vercel-Live%20Demo-black.svg)](https://vgg16-fine-grained-image-classifica.vercel.app/)
+[![CI](https://github.com/unit-mole/cnn-projects/actions/workflows/05-fine-grained-image-classification-vgg16.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/05-fine-grained-image-classification-vgg16.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-A complete CNN portfolio project that converts the supplied VGG16 transfer-learning notebook and trained Keras model into a modular Python package, tested TensorFlow.js model bundle, responsive static browser app, Vercel deployment, and optional Gradio fallback.
+An end-to-end computer vision project that uses **VGG16 transfer learning** to classify CIFAR-10 cat and dog images. The project includes reproducible image preprocessing, data augmentation, a frozen ImageNet feature extractor, baseline comparison, model evaluation, TensorFlow.js conversion, and a polished browser application deployed on Vercel.
 
-> **Responsible-use notice:** This project is for educational and portfolio demonstration only. It may confuse visually similar categories, especially when images are unclear, cropped, low-quality, or outside the training distribution. Do not use it as the sole basis for medical, legal, safety-critical, security, hiring, insurance, financial, or production decisions. Do not upload private, sensitive, confidential, copyrighted, or personally identifiable images. Predictions are machine-learning outputs, not guaranteed truth.
+**Status:** Portfolio-ready, CI-validated, and deployed  
+**Live demo:** [Open the VGG16 browser classifier](https://vgg16-fine-grained-image-classifica.vercel.app/)  
+**Repository:** [Open Project 05 on GitHub](https://github.com/unit-mole/cnn-projects/tree/main/05-fine-grained-image-classification-vgg16)  
+**Primary stack:** Python · TensorFlow · Keras · VGG16 · TensorFlow.js · JavaScript · HTML · CSS · Vercel
 
-## Live links
+---
 
-- **Vercel browser demo:** `ADD_VERCEL_URL`
-- **Optional Hugging Face fallback:** `ADD_HUGGING_FACE_SPACE_URL`
-- **Training notebook:** `ADD_COLAB_OR_KAGGLE_URL`
-- **GitHub repository:** `ADD_GITHUB_PROJECT_URL`
+## Responsible Use
 
-## Project objective
+This project is for educational and portfolio demonstration purposes only.
 
-The practical question is:
+- The model can confuse visually similar categories, particularly when images are unclear, cropped, low-resolution, poorly lit, or different from the training distribution.
+- Predictions are machine-learning estimates and should not be interpreted as guaranteed truth.
+- The model should not be used as the sole basis for medical, legal, safety-critical, security, hiring, insurance, financial, or production decisions.
+- Do not upload private, sensitive, confidential, copyrighted, or personally identifiable images to a public demo.
+- Real-world computer vision systems require stronger validation, monitoring, data governance, human review, and domain-specific testing.
 
-> Given an image, can a pretrained CNN distinguish between two visually similar animal categories and communicate uncertainty responsibly?
+---
 
-The supplied implementation is specifically a **binary CIFAR-10 cat-versus-dog classifier**. It is a useful fine-grained-style discrimination problem because both classes share visual features such as fur, four-legged body structure, eyes, ears, and household backgrounds. It is not presented as a many-species or breed-level dataset; the documentation deliberately preserves the actual scope of the uploaded files.
+## Business Problem
 
-## Why fine-grained classification is harder
+Image-based workflows often require people to distinguish categories that share similar visual characteristics. Manual review can become slow, inconsistent, and difficult to scale.
 
-Standard image classification often separates visibly different categories. Fine-grained classification separates visually similar categories and must rely on subtle texture, shape, color pattern, object-part, or small-defect cues. This makes probability ranking, confusion analysis, visual error review, and limitation reporting especially important.
+This project answers:
 
-## Actual dataset
+> Given an image, can a transfer-learned VGG16 model distinguish whether it is more visually similar to a cat or a dog and communicate the model's confidence transparently?
 
-The notebook filters CIFAR-10 to source class `3` (cat) and source class `5` (dog).
+The deployed pipeline returns:
 
-| Property | Value |
+- Predicted class
+- Confidence score
+- Class probabilities
+- Browser inference time
+- Prediction interpretation
+- Similar-class uncertainty context
+- Responsible-use guidance
+
+The project is also relevant to quality-data and inspection use cases such as product-variant classification, defect-type recognition, visual review automation, and image-based quality analytics.
+
+---
+
+## Project Objective
+
+Build a professional computer vision solution that can:
+
+1. Load and validate image data.
+2. Filter CIFAR-10 into cat and dog classes.
+3. Create reproducible training, validation, and test sets.
+4. Apply safe image augmentation.
+5. Reuse ImageNet features through VGG16 transfer learning.
+6. Compare the deep-learning model against a simple baseline.
+7. Evaluate accuracy, precision, recall, F1-score, and confusion patterns.
+8. Save and reload model artifacts.
+9. Convert the Keras model into TensorFlow.js format.
+10. Run inference entirely inside a web browser.
+11. Deploy the static application through Vercel without a Python backend.
+12. Present results in a recruiter-friendly portfolio format.
+
+---
+
+## Dataset
+
+The project uses **CIFAR-10**, filtered to the following two classes:
+
+| Encoded label | Class | Description |
+|---:|---|---|
+| 0 | Cat | CIFAR-10 cat images |
+| 1 | Dog | CIFAR-10 dog images |
+
+### Dataset split
+
+| Split | Images |
+|---|---:|
+| Training | 8,000 |
+| Validation | 2,000 |
+| Test | 2,000 |
+| **Total** | **12,000** |
+
+### Training class distribution
+
+| Class | Count | Share |
+|---|---:|---:|
+| Cat | 4,005 | 50.06% |
+| Dog | 3,995 | 49.94% |
+
+The training subset is effectively balanced, so aggressive imbalance correction is unnecessary. Stratified evaluation and per-class metrics are still important because overall accuracy can hide class-specific weaknesses.
+
+The full public dataset is not stored in the repository. It is loaded through TensorFlow/Keras utilities during training. Only safe sample images and generated outputs should be committed.
+
+---
+
+## Tools and Technologies
+
+| Area | Technology |
 |---|---|
-| Source | CIFAR-10, filtered |
-| Native format | RGB arrays |
-| Native image size | 32×32×3 |
-| Classes | `cat`, `dog` |
-| Training images | 8,000 |
-| Validation images | 2,000 |
-| Test images | 2,000 |
-| Training distribution | 4,005 cat / 3,995 dog |
-| Test distribution | 1,000 cat / 1,000 dog |
-| Task | Binary image classification |
+| Language | Python, JavaScript |
+| Deep learning | TensorFlow, Keras |
+| CNN architecture | VGG16 |
+| Transfer learning | ImageNet-pretrained frozen backbone |
+| Data processing | NumPy, pandas |
+| Image preprocessing | TensorFlow image layers, VGG16 preprocessing |
+| Evaluation | scikit-learn, Matplotlib |
+| Browser inference | TensorFlow.js |
+| Frontend | HTML, CSS, JavaScript |
+| Hosting | Vercel |
+| Testing / CI | pytest, import checks, artifact validation, GitHub Actions |
+| Model persistence | `.keras`, JSON, TensorFlow.js `model.json` and binary shards |
 
-The classes are effectively balanced, so no aggressive oversampling is needed. The modular loader nevertheless supports a reproducible stratified split and includes class-weight calculation for future datasets.
+---
 
-## Results
+## Project Workflow
 
-| Model | Validation accuracy | Test accuracy | Macro F1 | Notes |
-|---|---:|---:|---:|---|
-| Flattened pixels + logistic regression | 56.65% | 57.20% | — | Simple baseline |
-| **VGG16 transfer learning** | **85.55%** | **86.95%** | **86.95%** | Frozen ImageNet backbone |
+```text
+CIFAR-10 dataset
+        │
+        ▼
+Filter cat and dog classes
+        │
+        ▼
+Validate arrays and class mapping
+        │
+        ▼
+Train / validation / test split
+        │
+        ▼
+Safe image augmentation
+        │
+        ▼
+Resize 32×32 images to 96×96
+        │
+        ▼
+VGG16 preprocessing
+        │
+        ▼
+Frozen ImageNet VGG16 feature extractor
+        │
+        ▼
+Dense classification head
+        │
+        ▼
+Training and validation monitoring
+        │
+        ▼
+Evaluation and error analysis
+        │
+        ▼
+Save Keras model and metadata
+        │
+        ▼
+Convert model to TensorFlow.js
+        │
+        ▼
+Static browser inference
+        │
+        ▼
+Vercel deployment
+```
 
-Per-class test results:
+---
+
+## Image Preprocessing
+
+The same model assumptions are preserved across training, Python inference, and browser inference.
+
+### Processing sequence
+
+1. Read an RGB image.
+2. Validate the image format.
+3. Convert the image to three color channels.
+4. Resize the image to the required model dimensions.
+5. Convert values to the expected floating-point representation.
+6. Apply VGG16-compatible preprocessing.
+7. Add the batch dimension.
+8. Run inference.
+9. Convert softmax output into class probabilities.
+
+### Input path
+
+```text
+Uploaded image
+      ↓
+RGB conversion
+      ↓
+Resize to 32×32 input representation
+      ↓
+Model resizing layer to 96×96
+      ↓
+VGG16 BGR mean subtraction
+      ↓
+Softmax probabilities
+```
+
+The original CIFAR-10 images are `32×32×3`. Inside the model, images are resized to `96×96×3` before they pass through the VGG16 backbone.
+
+---
+
+## Data Augmentation
+
+The training pipeline applies deliberately moderate augmentation:
+
+- Horizontal flip
+- Small rotation
+- Small zoom
+
+These transformations improve generalization without aggressively removing the visual details required for classification.
+
+The project avoids heavy cropping, blur, and extreme color distortion because those operations can remove discriminative image information or change the visual meaning of a sample.
+
+---
+
+## VGG16 Architecture
+
+```text
+Input image: 32×32×3
+        ↓
+Training-only augmentation
+        ↓
+Resize to 96×96×3
+        ↓
+VGG16 preprocessing
+        ↓
+Frozen VGG16 backbone
+ImageNet weights, include_top=False
+        ↓
+Flatten
+        ↓
+Dense: 256, ReLU
+        ↓
+Batch normalization
+        ↓
+Dropout: 0.50
+        ↓
+Dense: 128, ReLU
+        ↓
+Dropout: 0.40
+        ↓
+Dense: 2, Softmax
+        ↓
+Cat / Dog probabilities
+```
+
+### Why VGG16?
+
+VGG16 is a convolutional neural network known for repeatedly using small `3×3` convolution filters. Early layers learn simple visual features such as edges and textures, while deeper layers learn more complex shapes and object parts.
+
+Using transfer learning allows the project to reuse general visual features learned from ImageNet instead of training a large CNN entirely from scratch.
+
+---
+
+## Transfer-Learning Strategy
+
+The model uses a two-part design:
+
+1. **Frozen VGG16 backbone**  
+   The ImageNet-pretrained convolutional layers act as a feature extractor.
+
+2. **Custom classification head**  
+   Dense, batch-normalization, dropout, and softmax layers adapt the extracted features to the two target classes.
+
+### Training configuration
+
+- Optimizer: Adam
+- Initial learning rate: `0.001`
+- Loss: categorical cross-entropy
+- Maximum epochs: `15`
+- Batch size: `128`
+- Early stopping on validation accuracy
+- Reduce learning rate on validation-loss plateau
+- Restore best validation weights
+
+Freezing the backbone lowers training cost and reduces the risk of overfitting on the relatively small filtered dataset.
+
+---
+
+## Model Results
+
+### Baseline comparison
+
+| Model | Validation accuracy | Test accuracy |
+|---|---:|---:|
+| Logistic Regression baseline | 56.65% | 57.20% |
+| **VGG16 transfer model** | **85.55%** | **86.95%** |
+
+The VGG16 transfer-learning model improves test accuracy by **29.75 percentage points** over the baseline.
+
+### Summary metrics
+
+| Metric | Result |
+|---|---:|
+| Test accuracy | **86.95%** |
+| Macro F1-score | **86.95%** |
+| Baseline test accuracy | **57.20%** |
+| Model parameters | **15.9 million** |
+
+### Per-class performance
 
 | Class | Precision | Recall | F1-score | Support |
 |---|---:|---:|---:|---:|
 | Cat | 87.59% | 86.10% | 86.84% | 1,000 |
 | Dog | 86.33% | 87.80% | 87.06% | 1,000 |
 
-Confusion matrix:
+The balanced test support makes the per-class results directly comparable.
 
-| Actual \ Predicted | Cat | Dog |
-|---|---:|---:|
-| Cat | 861 | 139 |
-| Dog | 122 | 878 |
+> **Top-2 note:** Top-2 accuracy is not emphasized for this binary classifier because both available classes are necessarily included in the top two predictions.
 
-The uploaded metrics report top-2 accuracy of 100%. Because this experiment has exactly two classes, top-2 always includes every class and is not a meaningful ranking achievement. The project therefore highlights test accuracy, macro F1, per-class recall, and confusion patterns instead.
+---
 
-## VGG16 architecture
+## Evaluation Approach
 
-VGG16 is a convolutional neural network known for repeated small 3×3 filters. Early layers learn edges and textures; deeper layers combine them into more complex object-part patterns. Transfer learning reuses ImageNet features and adapts them to the custom cat-versus-dog task.
+The project evaluates more than accuracy alone:
+
+- Accuracy
+- Per-class precision
+- Per-class recall
+- Per-class F1-score
+- Macro F1-score
+- Confusion matrix
+- Classification report
+- Baseline comparison
+- Correct and incorrect prediction examples
+- Confidence review
+- Similar-class uncertainty analysis
+
+### Why these metrics matter
+
+- **Accuracy** measures overall correctness.
+- **Precision** measures the reliability of predictions for a class.
+- **Recall** measures how many true examples of a class were captured.
+- **F1-score** balances precision and recall.
+- **Macro F1** gives equal importance to each class.
+- **Confusion analysis** shows whether one class is systematically mistaken for another.
+- **Confidence review** helps identify uncertain and potentially misleading predictions.
+
+---
+
+## Similar-Class Confidence Logic
+
+The browser app compares the highest and second-highest class probabilities.
 
 ```text
-32×32 RGB image
-    ↓
-Safe training augmentation
-    ↓
-Resize to 96×96
-    ↓
-VGG16 ImageNet preprocessing
-    ↓
-Frozen VGG16 convolutional backbone
-    ↓
-Flatten
-    ↓
-Dense 256 + Batch Normalization + Dropout 0.50
-    ↓
-Dense 128 + Dropout 0.40
-    ↓
-2-unit Softmax output
+If top probability − second probability < 0.15:
+    show an uncertainty warning
 ```
 
-| Model property | Value |
+When probabilities are close, the interface can explain that the image contains visual evidence associated with both classes.
+
+This avoids presenting every prediction as equally certain.
+
+---
+
+## TensorFlow.js Browser Demo
+
+The primary deployment uses **Vercel + TensorFlow.js**.
+
+The model runs directly inside the visitor's browser:
+
+```text
+User selects an image
+        ↓
+JavaScript decodes the image
+        ↓
+Browser preprocessing
+        ↓
+TensorFlow.js loads model.json
+        ↓
+Binary model shards are loaded
+        ↓
+model.predict() runs locally
+        ↓
+Cat and dog probabilities are displayed
+```
+
+### Browser features
+
+- Drag-and-drop image upload
+- File browser
+- Packaged cat sample
+- Packaged dog sample
+- Image preview
+- Predicted class
+- Confidence ring
+- Class-probability bars
+- Inference time
+- Plain-language interpretation
+- Model card and metrics
+- Responsible-use information
+- No Python backend
+
+Because inference runs in the browser, uploaded images do not need to be sent to a project-specific prediction server.
+
+---
+
+## Live Application
+
+**Vercel deployment:**  
+[https://vgg16-fine-grained-image-classifica.vercel.app/](https://vgg16-fine-grained-image-classifica.vercel.app/)
+
+### Project Overview
+
+![VGG16 Browser Application Overview](images/project_overview.png)
+
+### Cat Prediction
+
+![VGG16 Cat Prediction](images/cat_prediction_demo.png)
+
+### Dog Prediction
+
+![VGG16 Dog Prediction](images/dog_prediction_demo.png)
+
+The packaged examples verify that both prediction paths work in the deployed browser application.
+
+---
+
+## Model Artifacts
+
+| Artifact | Purpose |
 |---|---|
-| Total parameters | 15,928,770 |
-| Trainable parameters | 1,213,570 |
-| Frozen parameters | 14,715,200 |
-| Optimizer | Adam |
-| Learning rate | 0.001 |
-| Loss | Categorical cross-entropy |
-| Requested epochs | 15 |
-| Batch size | 128 |
-| Backbone | ImageNet VGG16, frozen |
+| `models/vgg16_fine_grained_classification_model.keras` | Complete trained Keras model |
+| `models/vgg16_browser_inference.keras` | Browser-oriented Keras export |
+| `models/class_mapping.json` | Encoded class labels |
+| `models/model_metadata.json` | Model and preprocessing configuration |
+| `models/tfjs_model/model.json` | TensorFlow.js model graph and manifest |
+| `models/tfjs_model/group1-shard*.bin` | TensorFlow.js weight shards |
+| `web/metadata.json` | Frontend model metadata |
+| `web/tfjs_model/model.json` | Model loaded by the deployed app |
+| `web/tfjs_model/group1-shard*.bin` | Browser model weights |
 
-The original experiment did not unfreeze the backbone. An optional conservative block-5 fine-tuning helper is included for future experimentation, but no unmeasured fine-tuning result is claimed.
+Large model files may generate GitHub size warnings. Git LFS can be used for large `.keras` files where appropriate.
 
-## Image preprocessing
+---
 
-Training/Python source model:
+## Run the Browser App Locally
 
-1. Decode as RGB.
-2. Resize to 32×32.
-3. Normalize pixels to `[0, 1]`.
-4. Inside the model, resize to 96×96.
-5. Multiply back to `[0, 255]` and apply `tf.keras.applications.vgg16.preprocess_input`.
+The static website does not require a Python ML backend.
 
-Browser model:
+### 1. Open the project
 
-1. Decode uploaded image as RGB with `tf.browser.fromPixels`.
-2. Resize to 32×32, then 96×96 with bilinear interpolation.
-3. Reverse RGB to BGR.
-4. Subtract VGG16 ImageNet means `[103.939, 116.779, 123.68]`.
-5. Run the flattened TensorFlow.js model.
+```bat
+cd /d "cnn-projects\05-fine-grained-image-classification-vgg16"
+```
 
-The same class order (`cat`, then `dog`) and preprocessing metadata are saved in `models/model_metadata.json` and `web/metadata.json`.
+### 2. Start a local web server with Python
 
-## Data augmentation
+```bat
+python -m http.server 8000 --directory web
+```
 
-The notebook uses deliberately restrained augmentation:
-
-- horizontal flip,
-- small rotation (`0.06` fraction),
-- small zoom (`10%`).
-
-These transformations provide variation without heavy blur, crop, or color distortion that could remove the subtle visual signals needed for similar-class discrimination.
-
-## Evaluation approach
-
-The project includes:
-
-- accuracy,
-- macro and weighted F1,
-- per-class precision, recall, and F1,
-- confusion matrix,
-- training/validation curves,
-- correct and misclassified prediction galleries,
-- high-confidence wrong examples,
-- close top-two probability warning,
-- baseline comparison.
-
-The notebook includes very confident mistakes, including several wrong predictions above 99% confidence. This is why the interface treats confidence as model output—not calibrated certainty—and includes a responsible-use warning.
-
-## TensorFlow.js conversion
-
-The original Keras model embeds augmentation and Keras 3 preprocessing operations. To make deployment more robust:
-
-1. The learned VGG16 backbone and dense-head weights were transferred into a browser-only inference graph.
-2. Training-only augmentation and preprocessing layers were removed from the exported graph.
-3. Equivalent preprocessing was implemented explicitly in `web/app.js`.
-4. Source-model and browser-model predictions were checked in Python; the maximum observed absolute difference was `0.0` for the packaging validation batch.
-5. The TensorFlow.js bundle was written as `model.json` plus sixteen weight shards.
-
-The browser bundle is about 60.8 MiB, so the first load may be slower than a lightweight MobileNet demo. The included Gradio app is the fallback when full-browser VGG16 performance is unsuitable.
-
-## Browser prediction output
-
-The static app displays:
-
-- input image preview,
-- predicted class,
-- confidence score,
-- all available class probabilities,
-- a warning when the top-two probability gap is below `0.15`,
-- prediction interpretation,
-- model card and limitations.
-
-The interface says **class probabilities**, not “top five,” because this actual model has only two output classes.
-
-## Project structure
+Open:
 
 ```text
-05-fine-grained-image-classification-vgg16/
-├── app/                         # Optional Gradio fallback
-├── archive/
-├── data/
-│   ├── README_data.md
-│   └── sample_images/
-├── images/
-├── models/
-│   ├── vgg16_fine_grained_classification_model.keras
-│   ├── vgg16_browser_inference.keras
-│   ├── class_mapping.json
-│   ├── model_metadata.json
-│   └── tfjs_model/
-├── notebooks/
-├── outputs/
-├── scripts/
-├── src/
-├── tests/
-├── web/
-│   ├── index.html
-│   ├── style.css
-│   ├── app.js
-│   ├── metadata.json
-│   ├── sample_images/
-│   └── tfjs_model/
-├── app.py
-├── Dockerfile
-├── FILE_MANIFEST.csv
-├── package.json
-├── requirements.txt
-├── vercel.json
-└── README_VERCEL.md
+http://localhost:8000
 ```
 
-The project-specific GitHub Actions workflow is correctly placed at the monorepo root:
+Do not open `web/index.html` by double-clicking it. Serving the folder over HTTP avoids browser restrictions when loading the TensorFlow.js model files.
 
-```text
-cnn-projects/.github/workflows/05-fine-grained-image-classification-vgg16.yml
-```
-
-## Run the browser demo locally
+### Optional Node.js method
 
 ```bash
-git clone ADD_GITHUB_REPOSITORY_URL
-cd cnn-projects/05-fine-grained-image-classification-vgg16
-python scripts/validate_project.py
-python scripts/run_local_web_server.py --port 8000
-```
-
-Open `http://127.0.0.1:8000`. Do not open `web/index.html` directly with a `file://` URL because model-shard requests require an HTTP server.
-
-Node alternative:
-
-```bash
-npm install
-npm run validate
 npm run dev
 ```
 
-## Run Python inference
+---
 
-```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
-pip install -r requirements.txt
-python -c "from src.classification_pipeline import classify_image; print(classify_image('data/sample_images/cat_sample.png'))"
+## Run the Python Pipeline Locally
+
+### 1. Create a virtual environment
+
+**Windows**
+
+```bat
+py -3.11 -m venv .venv
+.venv\Scripts\activate
 ```
 
-## Retrain and evaluate
+**macOS / Linux**
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+```
+
+### 2. Install dependencies
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+### 3. Run tests
+
+```bash
+python -m pytest -q
+python -m compileall src tests scripts
+```
+
+### 4. Train the model
 
 ```bash
 python scripts/train_model.py
+```
+
+### 5. Evaluate the model
+
+```bash
 python scripts/evaluate_model.py
 ```
 
-VGG16 training is compute-intensive. A GPU-enabled Colab/Kaggle environment is preferable to GitHub Actions or a small local CPU.
-
-## Reconvert to TensorFlow.js
+### 6. Convert to TensorFlow.js
 
 ```bash
-python scripts/export_model.py
 python scripts/convert_to_tfjs.py
-python scripts/validate_tfjs_artifacts.py
 ```
 
-The packaged TensorFlow.js bundle is already present; reconversion is needed only after retraining or changing the architecture.
+---
 
-## Deploy on Vercel
+## Vercel Deployment
 
-See [`README_VERCEL.md`](README_VERCEL.md). Configure the Vercel project root as:
+| Setting | Value |
+|---|---|
+| Repository | `unit-mole/cnn-projects` |
+| Branch | `main` |
+| Root directory | `05-fine-grained-image-classification-vgg16` |
+| Application preset | `Other` |
+| Build command | `npm run build` |
+| Output directory | `web` |
+| Install command | Skipped through `vercel.json` |
+| Environment variables | None |
+| Node.js runtime | `24.x` |
+| Live application | https://vgg16-fine-grained-image-classifica.vercel.app/ |
+
+The deployment publishes the static `web` folder. Python dependencies are not installed because the deployed website uses TensorFlow.js rather than server-side TensorFlow.
+
+See `README_VERCEL.md` for the detailed deployment and troubleshooting guide.
+
+---
+
+## GitHub Actions
+
+The project workflow is stored at:
 
 ```text
-05-fine-grained-image-classification-vgg16
+.github/workflows/05-fine-grained-image-classification-vgg16.yml
 ```
 
-The included `vercel.json` publishes the `web/` directory.
+The CI pipeline performs lightweight portfolio checks:
 
-## Optional Hugging Face fallback
+- Install CI dependencies
+- Run Python tests
+- Compile/import Python modules
+- Validate frontend files
+- Confirm `web/index.html`, `web/style.css`, and `web/app.js`
+- Confirm TensorFlow.js `model.json`
+- Confirm binary model shards
+- Avoid full VGG16 retraining in GitHub Actions
 
-See [`README_HUGGINGFACE.md`](README_HUGGINGFACE.md). The fallback loads the full Keras model on a Python backend and serves a Gradio interface.
+---
 
-## Error analysis and limitations
+## Project Structure
 
-Observed error themes include:
+```text
+cnn-projects/
+├── .github/
+│   └── workflows/
+│       └── 05-fine-grained-image-classification-vgg16.yml
+│
+└── 05-fine-grained-image-classification-vgg16/
+    ├── .streamlit/
+    ├── app/
+    ├── archive/
+    ├── data/
+    │   ├── sample_images/
+    │   └── README_data.md
+    ├── images/
+    │   ├── project_overview.png
+    │   ├── cat_prediction_demo.png
+    │   └── dog_prediction_demo.png
+    ├── models/
+    │   ├── vgg16_fine_grained_classification_model.keras
+    │   ├── vgg16_browser_inference.keras
+    │   ├── class_mapping.json
+    │   ├── model_metadata.json
+    │   └── tfjs_model/
+    ├── notebooks/
+    ├── outputs/
+    ├── scripts/
+    ├── src/
+    ├── tests/
+    ├── web/
+    │   ├── index.html
+    │   ├── style.css
+    │   ├── app.js
+    │   ├── metadata.json
+    │   ├── sample_images/
+    │   └── tfjs_model/
+    ├── Dockerfile
+    ├── package.json
+    ├── vercel.json
+    ├── README.md
+    ├── README_VERCEL.md
+    ├── README_HUGGINGFACE.md
+    ├── requirements.txt
+    └── train_model.py
+```
 
-- low native CIFAR-10 resolution,
-- visually similar ears, fur, face shapes, and backgrounds,
-- partial or cropped animals,
-- background bias,
-- high-confidence wrong predictions,
-- domain shift from arbitrary web or phone images,
-- no probability calibration study,
-- binary rather than many-class fine-grained labeling,
-- a large browser model and slower initial load.
+---
 
-## Future improvements
+## Limitations
 
-1. Add a true multi-breed or product-variant dataset with verified redistribution rights.
-2. Fine-tune VGG16 block 5 with a low learning rate and report measured results.
-3. Add temperature scaling or another probability-calibration analysis.
-4. Compare VGG16 with MobileNetV2 and EfficientNet under the same split.
-5. Quantize a browser bundle and measure accuracy, download size, and latency.
-6. Add Grad-CAM only after validating the implementation against the exported model.
-7. Add automated browser smoke tests with Playwright in a suitable CI environment.
+- The task contains only two classes.
+- CIFAR-10 images are low resolution.
+- The model may learn background or dataset-specific visual shortcuts.
+- Confidence scores are not guarantees of correctness.
+- The VGG16 browser model is relatively large and may load slowly on weak connections.
+- Real-world cat and dog photographs can differ significantly from CIFAR-10 images.
+- The project does not currently include formal probability calibration.
+- The frozen backbone was not extensively fine-tuned.
+- Broader fine-grained categories would require more classes and higher-resolution images.
 
-## Portfolio positioning
+---
 
-**One-line description**
+## Future Improvements
 
-> Built and deployed a VGG16 transfer-learning image classifier with TensorFlow.js browser inference, confusion analysis, responsible uncertainty messaging, and Vercel-ready static hosting.
+- Add calibration metrics and reliability diagrams.
+- Fine-tune selected upper VGG16 blocks.
+- Compare VGG16 with MobileNetV2, ResNet, and EfficientNet.
+- Add Grad-CAM explainability examples.
+- Add higher-resolution fine-grained datasets.
+- Quantize or compress the TensorFlow.js model.
+- Add progressive model-loading feedback.
+- Add accessibility and mobile-performance audits.
+- Expand from binary classification to multi-class species, breeds, products, or defect types.
+- Add automated browser tests.
+- Add model monitoring and version metadata.
+- Create a Hugging Face Spaces fallback for the full Keras model.
 
-**Pinned-repository description**
+---
 
-> End-to-end CNN portfolio with VGG16 transfer learning, CIFAR-10 cat/dog classification, 86.95% test accuracy, TensorFlow.js conversion, browser-side predictions, CI validation, and Vercel deployment.
+## Skills Demonstrated
 
-**Skills demonstrated**
+- Convolutional neural networks
+- VGG16 architecture
+- Transfer learning
+- Image preprocessing
+- Data augmentation
+- Binary image classification
+- TensorFlow and Keras
+- Model evaluation
+- Per-class metric analysis
+- Baseline comparison
+- Error and confidence analysis
+- Model persistence
+- TensorFlow.js conversion
+- Browser-based machine learning
+- HTML, CSS, and JavaScript
+- Static web deployment
+- Vercel monorepo configuration
+- GitHub Actions
+- Responsible AI communication
+- Professional ML project organization
 
-CNN modeling · transfer learning · VGG16 · image preprocessing · safe augmentation · baseline comparison · class-wise evaluation · confusion/error analysis · Keras serialization · TensorFlow.js · JavaScript · static deployment · Vercel · GitHub Actions
+---
 
-For a Quality Data Scientist, the same workflow maps naturally to product-variant recognition, defect-type classification, visual inspection analytics, and image-assisted quality review.
+## Portfolio Positioning
+
+**One-line description:**  
+VGG16 transfer-learning classifier that distinguishes CIFAR-10 cats and dogs and performs TensorFlow.js inference entirely inside a Vercel-hosted browser application.
+
+**Pinned-project description:**  
+End-to-end computer vision project featuring VGG16 transfer learning, image preprocessing, baseline comparison, class-level evaluation, TensorFlow.js conversion, browser-based inference, GitHub Actions, and Vercel deployment.
+
+This project supports a transition from Quality Data Science toward broader Data Science, Machine Learning, Computer Vision, Applied AI, Analytics Engineering, and Quality Analytics roles.
+
+Its techniques connect naturally to:
+
+- Automated visual inspection
+- Product-variant classification
+- Defect-category classification
+- Subtle visual-difference recognition
+- Image-based anomaly review
+- Quality-control analytics
+- Applied AI for inspection workflows
+
+---
+
+## Author
+
+**Anmol Tripathi**
+
+Quality Data Scientist building a professional portfolio across Data Science, Machine Learning, Computer Vision, Applied AI, Analytics Engineering, and Quality Analytics.
