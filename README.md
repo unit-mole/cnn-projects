@@ -33,13 +33,13 @@ The portfolio is designed to demonstrate skills relevant to Data Science, Machin
 
 | No. | Project | Architecture / Problem Type | Deployment | Status |
 |---:|---|---|---|---|
-| 1 | [Medical Image Segmentation using U-Net](01-image-segmentation-unet-medical-imaging/) | U-Net binary medical-image segmentation and pixel-level mask prediction | Hugging Face Spaces + Gradio | Completed |
+| 1 | [Medical Image Segmentation using U-Net](01-image-segmentation-unet-medical-imaging/) | U-Net binary medical-image segmentation and pixel-level mask prediction | [Vercel + TensorFlow.js](https://medical-image-segmentation-unet.vercel.app/) | Completed and deployed |
 | 2 | [Object Detection using CNN](02-object-detection-using-cnn/) | CNN-based object localization, bounding-box prediction, and browser visualization | [Vercel + TensorFlow.js](https://cnn-object-detection.vercel.app/) | Completed and deployed |
-| 3 | [DenseNet Medical Image Classification](03-densenet-medical-image-classification/) | DenseNet-based medical-image classification with reusable feature propagation | Hugging Face Spaces + Gradio · Kaggle training notebook | Completed |
+| 3 | [DenseNet Medical Image Classification](03-densenet-medical-image-classification/) | DenseNet-based medical-image classification with reusable feature propagation | [GitHub Pages + TensorFlow.js](https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/) | Completed and deployed |
 | 4 | [Image Classification using ResNet](04-image-classification-resnet/) | Residual CNN image classification with TensorFlow.js browser inference | [GitHub Pages + TensorFlow.js](https://unit-mole.github.io/cnn-projects/) | Completed and deployed |
 | 5 | [Fine-Grained Image Classification using VGG16](05-fine-grained-image-classification-vgg16/) | VGG16 transfer learning for fine-grained visual classification | [Vercel + TensorFlow.js](https://vgg16-fine-grained-image-classifica.vercel.app/) | Completed and deployed |
 | 6 | [Satellite Image Segmentation using U-Net](06-satellite-image-segmentation-unet/) | U-Net binary semantic segmentation for synthetic satellite-style urban regions | [Vercel + TensorFlow.js](https://satellite-image-segmentation-unet.vercel.app/) | Completed and deployed |
-| 7 | [Image Classification using AlexNet Transfer Learning](07-image-classification-alexnet-transfer-learning/) | AlexNet-inspired transfer learning and browser-based image classification | [Planned GitHub Pages + TensorFlow.js demo](https://unit-mole.github.io/cnn-projects/07-image-classification-alexnet-transfer-learning/) | In progress |
+| 7 | [Image Classification using AlexNet Transfer Learning](07-image-classification-alexnet-transfer-learning/) | AlexNet-inspired transfer learning and browser-based image classification | Deployment pending | In progress |
 
 > Project 07 is included in the portfolio structure and deployment roadmap while its final trained model and production browser assets are being completed. The listed Project 07 URL is the planned GitHub Pages location and may remain unavailable until the final deployment is published.
 
