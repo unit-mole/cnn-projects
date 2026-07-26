@@ -26,9 +26,9 @@ env:
 
 jobs:
   test:
-    name: Test U-Net project
+    name: Validate Python and Vercel browser app
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -44,7 +44,12 @@ jobs:
             01-image-segmentation-unet-medical-imaging/requirements-training.txt
             01-image-segmentation-unet-medical-imaging/requirements-dev.txt
 
-      - name: Install dependencies
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Python dependencies
         working-directory: ${{ env.PROJECT_DIR }}
         run: |
           python -m pip install --upgrade pip
@@ -55,22 +60,24 @@ jobs:
         run: |
           python -m compileall -q app.py gradio_app.py src scripts tests
 
-      - name: Run unit tests
+      - name: Run Python unit tests
         working-directory: ${{ env.PROJECT_DIR }}
         run: |
           python -m pytest -q
 
-      - name: Validate Gradio app import
+      - name: Validate Python inference and model artifact
         working-directory: ${{ env.PROJECT_DIR }}
         run: |
-          python -c "import app; assert app.demo is not None; print('Gradio app import: OK')"
-
-      - name: Validate inference module import
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: |
-          python -c "from src.inference_pipeline import InferenceEngine; print('Inference import: OK')"
-
-      - name: Run one-image model smoke test
-        working-directory: ${{ env.PROJECT_DIR }}
-        run: |
+          python -c "from src.inference_pipeline import InferenceEngine; print('Inference import OK')"
           python scripts/smoke_test.py
+
+      - name: Validate TensorFlow.js export
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          python scripts/validate_tfjs_export.py
+
+      - name: Validate JavaScript syntax and Vercel static bundle
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          node --check web/app.js
+          npm run build
