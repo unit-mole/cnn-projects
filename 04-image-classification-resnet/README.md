@@ -4,14 +4,14 @@
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange.svg)](https://www.tensorflow.org/)
 [![Keras](https://img.shields.io/badge/Keras-ResNet50-red.svg)](https://keras.io/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-ffca28.svg)](https://www.tensorflow.org/js)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-2ea44f.svg)](https://unit-mole.github.io/cnn-projects/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-2ea44f.svg)](https://unit-mole.github.io/cnn-projects/04-image-classification-resnet/)
 [![04-image-classification-resnet.yml](https://github.com/unit-mole/cnn-projects/actions/workflows/04-image-classification-resnet.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/04-image-classification-resnet.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 An end-to-end computer vision project that uses **ResNet50 transfer learning** to classify images across the **100 CIFAR-100 categories**. The repository includes reproducible preprocessing, model training, evaluation, saved artifacts, TensorFlow.js conversion, browser-based inference, automated validation, and deployment through GitHub Pages.
 
 **Status:** Portfolio-ready and deployed  
-**Live demo:** [Open the ResNet50 Browser Image Classifier](https://unit-mole.github.io/cnn-projects/)  
+**Live demo:** [Open the ResNet50 Browser Image Classifier](https://unit-mole.github.io/cnn-projects/04-image-classification-resnet/)  
 **Primary stack:** Python · TensorFlow · Keras · ResNet50 · TensorFlow.js · JavaScript · HTML · CSS · GitHub Actions · GitHub Pages
 
 ---
@@ -309,7 +309,7 @@ No Python backend is required. The uploaded image is processed locally by the br
 
 ### Live Application
 
-[![Open Live Demo](https://img.shields.io/badge/Open-Live%20ResNet50%20Demo-2ea44f?style=for-the-badge)](https://unit-mole.github.io/cnn-projects/)
+[![Open Live Demo](https://img.shields.io/badge/Open-Live%20ResNet50%20Demo-2ea44f?style=for-the-badge)](https://unit-mole.github.io/cnn-projects/04-image-classification-resnet/)
 
 ### Application Overview
 
@@ -493,7 +493,7 @@ python scripts/convert_to_tfjs.py
 - **Deployment branch:** `gh-pages`
 - **Published folder:** `04-image-classification-resnet/web/`
 - **GitHub Pages source:** `gh-pages` → `/(root)`
-- **Live application:** https://unit-mole.github.io/cnn-projects/
+- **Live application:** https://unit-mole.github.io/cnn-projects/04-image-classification-resnet/
 
 The GitHub Actions workflow:
 

@@ -1,0 +1,88 @@
+name: CNN Projects — Combined GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "03-densenet-medical-image-classification/web/**"
+      - "04-image-classification-resnet/web/**"
+      - "07-image-classification-alexnet-transfer-learning/web/**"
+      - ".github/workflows/cnn-projects-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build combined Pages site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Verify project web applications
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "03-densenet-medical-image-classification/web/index.html"
+          test -f "04-image-classification-resnet/web/index.html"
+          test -f "07-image-classification-alexnet-transfer-learning/web/index.html"
+
+      - name: Build combined static site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+
+          # Preserve Project 7 at the repository root.
+          cp -a "07-image-classification-alexnet-transfer-learning/web/." "_site/"
+
+          # Publish each application at its own permanent subpath.
+          mkdir -p "_site/03-densenet-medical-image-classification"
+          cp -a "03-densenet-medical-image-classification/web/." \
+            "_site/03-densenet-medical-image-classification/"
+
+          mkdir -p "_site/04-image-classification-resnet"
+          cp -a "04-image-classification-resnet/web/." \
+            "_site/04-image-classification-resnet/"
+
+          mkdir -p "_site/07-image-classification-alexnet-transfer-learning"
+          cp -a "07-image-classification-alexnet-transfer-learning/web/." \
+            "_site/07-image-classification-alexnet-transfer-learning/"
+
+          touch "_site/.nojekyll"
+
+          echo "Combined Pages tree:"
+          find _site -maxdepth 3 -type f | sort
+
+      - name: Upload combined GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy combined Pages site
+    runs-on: ubuntu-latest
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
