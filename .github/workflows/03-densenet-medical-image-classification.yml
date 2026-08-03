@@ -1,40 +1,43 @@
-name: 03-densenet-medical-image-classification.yml
+name: 03 DenseNet Medical Image Classification CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "03-densenet-medical-image-classification/**"
       - ".github/workflows/03-densenet-medical-image-classification.yml"
   pull_request:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "03-densenet-medical-image-classification/**"
       - ".github/workflows/03-densenet-medical-image-classification.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: 03-densenet-medical-image-classification-pages
-  cancel-in-progress: false
+  group: project-03-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
-    name: Lightweight project validation
+    name: Validate Project 03
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+
     defaults:
       run:
         working-directory: 03-densenet-medical-image-classification
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
           cache: pip
@@ -48,61 +51,14 @@ jobs:
       - name: Validate project structure and Keras archives
         run: python scripts/validate_project.py
 
-      - name: Validate GitHub Pages source
+      - name: Validate browser application source
         run: python scripts/validate_web_demo.py
 
       - name: Run unit tests without retraining
-        run: pytest
+        run: python -m pytest -q
 
       - name: Check browser JavaScript syntax
         run: node --check web/assets/app.js
 
-  publish-browser-demo:
-    name: Publish browser demo to gh-pages
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: validate
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    defaults:
-      run:
-        working-directory: 03-densenet-medical-image-classification
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python for TensorFlow.js conversion
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-          cache-dependency-path: 03-densenet-medical-image-classification/requirements-pages.txt
-
-      - name: Install TensorFlow.js converter
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --no-cache-dir -r requirements-pages.txt
-
-      - name: Convert Keras browser model to TensorFlow.js
-        env:
-          TF_CPP_MIN_LOG_LEVEL: "2"
-          TF_USE_LEGACY_KERAS: "1"
-        run: |
-          python scripts/convert_browser_model.py \
-            --source models/densenet121_medical_browser.h5 \
-            --output web/model \
-            --quantization-bytes 2
-
-      - name: Validate generated TensorFlow.js files
-        run: python scripts/validate_web_demo.py --require-model
-
-      - name: Publish Project 03 into the existing GitHub Pages site
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./03-densenet-medical-image-classification/web
-          destination_dir: 03-densenet-medical-image-classification
-          keep_files: true
-          enable_jekyll: false
-          commit_message: "Deploy Project 03 DenseNet TensorFlow.js demo"
+      - name: Confirm Project 03 web entry point
+        run: test -f web/index.html

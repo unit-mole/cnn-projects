@@ -1,4 +1,4 @@
-name: 04 ResNet Image Classification CI and Pages
+name: 04 ResNet Image Classification CI
 
 on:
   push:
@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: resnet-pages-${{ github.ref }}
+  group: project-04-ci-${{ github.ref }}
   cancel-in-progress: true
 
 env:
@@ -27,8 +27,9 @@ env:
 
 jobs:
   validate:
-    name: Lightweight project validation
+    name: Validate Project 04
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
@@ -55,7 +56,7 @@ jobs:
       - name: Validate project and TensorFlow.js artifacts
         run: python "$PROJECT_DIR/scripts/validate_project.py" --project-dir "$PROJECT_DIR"
 
-      - name: Confirm required browser files exist
+      - name: Confirm required browser files
         shell: bash
         run: |
           set -euo pipefail
@@ -65,46 +66,5 @@ jobs:
           test -f "$PROJECT_DIR/web/metadata.json"
           test -f "$PROJECT_DIR/web/tfjs_model/model.json"
           find "$PROJECT_DIR/web/tfjs_model" -maxdepth 1 -name "*.bin" -print -quit | grep -q .
-          echo "All required GitHub Pages files are present."
-
-  publish:
-    name: Publish browser demo to gh-pages branch
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: validate
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Prepare static site
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf _site
-          mkdir -p _site
-          cp -R "$PROJECT_DIR/web/." _site/
-          touch _site/.nojekyll
-          test -f _site/index.html
-          test -f _site/app.js
-          test -f _site/tfjs_model/model.json
-          echo "Static site prepared successfully."
-
-      - name: Publish to gh-pages branch
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          cd _site
-          git init
-          git checkout -b gh-pages
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add --all
-          git commit -m "Deploy ResNet browser demo from ${GITHUB_SHA}"
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git push --force origin gh-pages
+          node --check "$PROJECT_DIR/web/app.js"
+          echo "Project 04 validation passed."

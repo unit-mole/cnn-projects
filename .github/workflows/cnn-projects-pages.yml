@@ -5,9 +5,9 @@ on:
     branches:
       - main
     paths:
-      - "03-densenet-medical-image-classification/web/**"
-      - "04-image-classification-resnet/web/**"
-      - "07-image-classification-alexnet-transfer-learning/web/**"
+      - "03-densenet-medical-image-classification/**"
+      - "04-image-classification-resnet/**"
+      - "07-image-classification-alexnet-transfer-learning/**"
       - ".github/workflows/cnn-projects-pages.yml"
   workflow_dispatch:
 
@@ -22,67 +22,102 @@ concurrency:
 
 jobs:
   build:
-    name: Build combined Pages site
+    name: Build combined Pages artifact
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 40
 
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+      - name: Set up Python for Project 03 browser conversion
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: 03-densenet-medical-image-classification/requirements-pages.txt
 
-      - name: Verify project web applications
+      - name: Build Project 03 TensorFlow.js browser model
+        working-directory: 03-densenet-medical-image-classification
+        env:
+          TF_CPP_MIN_LOG_LEVEL: "2"
+          TF_USE_LEGACY_KERAS: "1"
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --no-cache-dir -r requirements-pages.txt
+          python scripts/convert_browser_model.py             --source models/densenet121_medical_browser.h5             --output web/model             --quantization-bytes 2
+          python scripts/validate_web_demo.py --require-model
+
+      - name: Verify all three browser applications
         shell: bash
         run: |
           set -euo pipefail
-          test -f "03-densenet-medical-image-classification/web/index.html"
-          test -f "04-image-classification-resnet/web/index.html"
-          test -f "07-image-classification-alexnet-transfer-learning/web/index.html"
 
-      - name: Build combined static site
+          test -f "03-densenet-medical-image-classification/web/index.html"
+          test -f "03-densenet-medical-image-classification/web/model/model.json"
+          find "03-densenet-medical-image-classification/web/model"             -maxdepth 1 -name "*.bin" -print -quit | grep -q .
+
+          test -f "04-image-classification-resnet/web/index.html"
+          test -f "04-image-classification-resnet/web/tfjs_model/model.json"
+          find "04-image-classification-resnet/web/tfjs_model"             -maxdepth 1 -name "*.bin" -print -quit | grep -q .
+
+          test -f "07-image-classification-alexnet-transfer-learning/web/index.html"
+          test -f "07-image-classification-alexnet-transfer-learning/web/model/model.onnx"
+          test -f "07-image-classification-alexnet-transfer-learning/web/evaluation_metrics.json"
+
+          echo "All project web applications are ready."
+
+      - name: Build one combined static site
         shell: bash
         run: |
           set -euo pipefail
           rm -rf _site
           mkdir -p _site
 
-          # Preserve Project 7 at the repository root.
+          # Project 7 remains available at the repository Pages root.
           cp -a "07-image-classification-alexnet-transfer-learning/web/." "_site/"
 
-          # Publish each application at its own permanent subpath.
+          # Each project also receives a permanent dedicated URL.
           mkdir -p "_site/03-densenet-medical-image-classification"
-          cp -a "03-densenet-medical-image-classification/web/." \
-            "_site/03-densenet-medical-image-classification/"
+          cp -a "03-densenet-medical-image-classification/web/."             "_site/03-densenet-medical-image-classification/"
 
           mkdir -p "_site/04-image-classification-resnet"
-          cp -a "04-image-classification-resnet/web/." \
-            "_site/04-image-classification-resnet/"
+          cp -a "04-image-classification-resnet/web/."             "_site/04-image-classification-resnet/"
 
           mkdir -p "_site/07-image-classification-alexnet-transfer-learning"
-          cp -a "07-image-classification-alexnet-transfer-learning/web/." \
-            "_site/07-image-classification-alexnet-transfer-learning/"
+          cp -a "07-image-classification-alexnet-transfer-learning/web/."             "_site/07-image-classification-alexnet-transfer-learning/"
 
           touch "_site/.nojekyll"
 
-          echo "Combined Pages tree:"
+          test -f "_site/index.html"
+          test -f "_site/03-densenet-medical-image-classification/index.html"
+          test -f "_site/04-image-classification-resnet/index.html"
+          test -f "_site/07-image-classification-alexnet-transfer-learning/index.html"
+
+          echo "Combined GitHub Pages artifact:"
           find _site -maxdepth 3 -type f | sort
 
-      - name: Upload combined GitHub Pages artifact
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload one combined Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: _site
 
   deploy:
     name: Deploy combined Pages site
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
+    timeout-minutes: 15
 
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy combined artifact
         id: deployment
         uses: actions/deploy-pages@v4
