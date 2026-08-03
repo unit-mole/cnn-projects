@@ -1,85 +1,373 @@
 # CNN Projects
 
-A structured computer-vision portfolio containing seven Convolutional Neural Network projects across medical image segmentation, object detection, medical image classification, residual learning, fine-grained classification, satellite image segmentation, transfer learning, and client-side browser inference.
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-ff6f00.svg)](https://www.tensorflow.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.x-ee4c2c.svg)](https://pytorch.org/)
+[![Keras](https://img.shields.io/badge/Keras-Deep%20Learning-d00000.svg)](https://keras.io/)
+[![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-ffca28.svg)](https://www.tensorflow.org/js)
+[![ONNX Runtime Web](https://img.shields.io/badge/ONNX%20Runtime-Browser%20Inference-005ced.svg)](https://onnxruntime.ai/docs/get-started/with-javascript/web.html)
+[![Vercel](https://img.shields.io/badge/Vercel-4%20Live%20Apps-black.svg)](https://vercel.com/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-3%20Live%20Apps-222222.svg)](https://unit-mole.github.io/cnn-projects/)
+[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Project--Specific%20CI-2088ff.svg)](https://github.com/unit-mole/cnn-projects/actions)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Portfolio status:** 6 completed projects · 1 final project in progress  
+A structured computer-vision portfolio containing **seven completed Convolutional Neural Network projects** across medical-image segmentation, object detection, medical-image classification, residual learning, fine-grained classification, satellite-image segmentation, transfer learning, model comparison, explainability, and browser-based inference.
+
+Each project is developed as an end-to-end case study with task-specific preprocessing, model training or transfer learning, evaluation, reusable source code, deployment assets, automated validation, responsible-use guidance, and a publicly accessible application.
+
+**Portfolio status:** 7 completed and deployed projects  
 **Repository owner:** [Anmol Tripathi](https://github.com/unit-mole)  
-**Repository:** [unit-mole/cnn-projects](https://github.com/unit-mole/cnn-projects)
+**Deployment portfolio:** 4 Vercel applications · 3 GitHub Pages applications
 
 ---
 
 ## Portfolio Objective
 
-This repository demonstrates how Convolutional Neural Networks and established computer-vision architectures can be applied to practical image-based problems. Each project is developed as an end-to-end case study containing:
+This repository demonstrates how Convolutional Neural Networks and modern computer-vision architectures can be applied across classification, detection, segmentation, transfer learning, explainability, and browser-side deployment.
 
-- a clearly defined computer-vision, analytical, or applied-AI problem;
-- reproducible image, mask, annotation, and label preprocessing;
-- leakage-aware training, validation, and test design;
-- CNN, U-Net, DenseNet, ResNet, VGG16, AlexNet, and transfer-learning workflows;
-- task-appropriate baseline comparison and evaluation;
-- saved model, metadata, label-mapping, preprocessing, and browser-inference artifacts;
-- modular and reusable training, evaluation, prediction, and visualization code;
-- interactive demonstrations using Vercel, TensorFlow.js, GitHub Pages, Hugging Face Spaces, or Gradio;
-- Kaggle-ready notebooks where training evidence and GPU execution are useful;
-- automated tests and project-specific GitHub Actions CI;
-- local execution, Docker, and deployment guidance;
-- honest discussion of assumptions, synthetic-data constraints, limitations, responsible use, and future improvements.
+Each project is designed to move beyond notebook-only experimentation and generally contains:
 
-The portfolio is designed to demonstrate skills relevant to Data Science, Machine Learning, Applied AI, Computer Vision, Deep Learning, Quality Analytics, Visual Inspection Analytics, Remote Sensing Analytics, Analytics Engineering, and image-based automation roles.
+- a clearly defined computer-vision problem;
+- reproducible image preprocessing;
+- deterministic data splitting where applicable;
+- a task-appropriate CNN architecture;
+- transfer learning or from-scratch training;
+- task-specific evaluation metrics;
+- model comparison where meaningful;
+- saved reports, charts, predictions, and deployment assets;
+- modular source code and reusable utilities;
+- automated testing or GitHub Actions validation;
+- an interactive public demonstration;
+- responsible-use guidance;
+- transparent limitations and future improvements.
+
+The portfolio is intended to demonstrate skills relevant to:
+
+- Data Science;
+- Machine Learning;
+- Applied Artificial Intelligence;
+- Computer Vision;
+- Deep Learning;
+- Image Analytics;
+- Quality Analytics;
+- Analytics Engineering;
+- AI application development;
+- browser-based machine learning deployment.
 
 ---
 
-## CNN Portfolio Projects
+## Completed Projects
 
-| No. | Project | Architecture / Problem Type | Deployment | Status |
+| No. | Project | Computer-Vision Problem | Primary Deployment | Status |
 |---:|---|---|---|---|
-| 1 | [Medical Image Segmentation using U-Net](01-image-segmentation-unet-medical-imaging/) | U-Net binary medical-image segmentation and pixel-level mask prediction | [Vercel + TensorFlow.js](https://medical-image-segmentation-unet.vercel.app/) | Completed and deployed |
-| 2 | [Object Detection using CNN](02-object-detection-using-cnn/) | CNN-based object localization, bounding-box prediction, and browser visualization | [Vercel + TensorFlow.js](https://cnn-object-detection.vercel.app/) | Completed and deployed |
-| 3 | [DenseNet Medical Image Classification](03-densenet-medical-image-classification/) | DenseNet-based medical-image classification with reusable feature propagation | [GitHub Pages + TensorFlow.js](https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/) | Completed and deployed |
-| 4 | [Image Classification using ResNet](04-image-classification-resnet/) | Residual CNN image classification with TensorFlow.js browser inference | [GitHub Pages + TensorFlow.js](https://unit-mole.github.io/cnn-projects/) | Completed and deployed |
-| 5 | [Fine-Grained Image Classification using VGG16](05-fine-grained-image-classification-vgg16/) | VGG16 transfer learning for fine-grained visual classification | [Vercel + TensorFlow.js](https://vgg16-fine-grained-image-classifica.vercel.app/) | Completed and deployed |
-| 6 | [Satellite Image Segmentation using U-Net](06-satellite-image-segmentation-unet/) | U-Net binary semantic segmentation for synthetic satellite-style urban regions | [Vercel + TensorFlow.js](https://satellite-image-segmentation-unet.vercel.app/) | Completed and deployed |
-| 7 | [Image Classification using AlexNet Transfer Learning](07-image-classification-alexnet-transfer-learning/) | AlexNet-inspired transfer learning and browser-based image classification | Deployment pending | In progress |
+| 1 | [Medical Image Segmentation with U-Net](01-image-segmentation-unet-medical-imaging/) | Pixel-level medical-image segmentation | Vercel | [Live Demo](https://medical-image-segmentation-unet.vercel.app/) |
+| 2 | [Object Detection Using CNN](02-object-detection-using-cnn/) | Object localization and classification | Vercel | [Live Demo](https://cnn-object-detection.vercel.app/) |
+| 3 | [DenseNet Medical Image Classification](03-densenet-medical-image-classification/) | Transfer-learning medical-image classification | GitHub Pages | [Live Demo](https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/) |
+| 4 | [Image Classification with ResNet50 and TensorFlow.js](04-image-classification-resnet/) | Residual-network image classification and browser inference | GitHub Pages | [Live Demo](https://unit-mole.github.io/cnn-projects/04-image-classification-resnet/) |
+| 5 | [Fine-Grained Image Classification with VGG16](05-fine-grained-image-classification-vgg16/) | Fine-grained visual-category classification | Vercel | [Live Demo](https://vgg16-fine-grained-image-classifica.vercel.app/) |
+| 6 | [Satellite Image Segmentation with U-Net](06-satellite-image-segmentation-unet/) | Semantic segmentation of satellite imagery | Vercel | [Live Demo](https://satellite-image-segmentation-unet.vercel.app/) |
+| 7 | [CNN Model Comparison with AlexNet-Style Networks and MobileNetV2](07-image-classification-alexnet-transfer-learning/) | From-scratch CNN comparison, transfer learning, explainability, and ONNX deployment | GitHub Pages | [Live Demo](https://unit-mole.github.io/cnn-projects/) |
 
-> Project 07 is included in the portfolio structure and deployment roadmap while its final trained model and production browser assets are being completed. The listed Project 07 URL is the planned GitHub Pages location and may remain unavailable until the final deployment is published.
+---
+
+## Portfolio at a Glance
+
+| Coverage Area | Projects |
+|---|---|
+| Medical-image segmentation | Project 01 |
+| Object detection | Project 02 |
+| Medical-image classification | Project 03 |
+| Residual learning | Project 04 |
+| Fine-grained image classification | Project 05 |
+| Satellite-image segmentation | Project 06 |
+| From-scratch CNN development | Project 07 |
+| Transfer learning | Projects 03, 04, 05, and 07 |
+| U-Net architecture | Projects 01 and 06 |
+| Dense connectivity | Project 03 |
+| Residual networks | Project 04 |
+| VGG architecture | Project 05 |
+| AlexNet-style architecture | Project 07 |
+| MobileNetV2 fine-tuning | Project 07 |
+| Explainability | Project 07 |
+| TensorFlow.js browser inference | Projects 03 and 04 |
+| ONNX Runtime Web | Project 07 |
+| Static deployment | Projects 03, 04, and 07 |
+| Full web application deployment | Projects 01, 02, 05, and 06 |
+| Automated validation | All seven projects |
 
 ---
 
 ## What the Portfolio Covers
 
-The seven projects are intentionally varied so that the repository demonstrates multiple forms of CNN-based computer vision rather than repeating one image-classification workflow.
+The projects are intentionally varied so that the repository demonstrates multiple CNN families, application domains, training strategies, evaluation methods, and deployment patterns.
 
 ### Image Segmentation
 
-- **Medical Image Segmentation using U-Net** predicts a binary mask for a target region in a medical-style image and demonstrates image-mask alignment, segmentation preprocessing, overlap metrics, and visual overlays.
-- **Satellite Image Segmentation using U-Net** produces pixel-level urban-region masks from synthetic satellite-style RGB tiles and demonstrates browser-based segmentation, probability maps, mask overlays, threshold adjustment, and downloadable predictions.
+- **Medical Image Segmentation with U-Net** demonstrates pixel-level prediction for medical imagery.
+- **Satellite Image Segmentation with U-Net** applies semantic segmentation to geospatial and satellite-image data.
 
-These projects demonstrate encoder-decoder architectures, skip connections, image-mask pairing, nearest-neighbor mask resizing, pixel normalization, sigmoid outputs, mask thresholding, Dice coefficient, IoU, probability maps, overlays, error analysis, and responsible interpretation of pixel-level predictions.
+These projects demonstrate:
 
-### Object Detection and Localization
+- encoder-decoder CNNs;
+- skip connections;
+- pixel-level classification;
+- segmentation masks;
+- image-mask preprocessing;
+- Dice-oriented evaluation;
+- Intersection over Union;
+- qualitative overlay inspection;
+- deployment of segmentation results.
 
-- **Object Detection using CNN** identifies target regions through bounding boxes and presents the result through an interactive browser application.
+### Object Detection
 
-This project demonstrates image annotation handling, bounding-box representation, localization logic, confidence output, visual detection overlays, browser inference, and deployment of a lightweight computer-vision interface.
+- **Object Detection Using CNN** demonstrates the combined tasks of locating objects and assigning classes.
 
-### Medical Image Classification
+This project demonstrates:
 
-- **DenseNet Medical Image Classification** demonstrates densely connected convolutional blocks, feature reuse, multi-class prediction, confidence interpretation, and healthcare-specific responsible-use communication.
+- bounding-box prediction;
+- class prediction;
+- image annotation;
+- confidence thresholds;
+- non-maximum suppression concepts;
+- localization and classification evaluation;
+- browser-facing detection results.
 
-This project demonstrates image classification, DenseNet architecture, class mapping, data augmentation, confusion-matrix analysis, class-wise evaluation, model persistence, Gradio deployment, and Kaggle-based training evidence.
+### Image Classification
 
-### Residual and Fine-Grained Classification
+- **DenseNet Medical Image Classification** demonstrates dense connectivity and medical-image transfer learning.
+- **ResNet50 Image Classification** demonstrates residual learning and TensorFlow.js deployment.
+- **Fine-Grained Image Classification with VGG16** focuses on visually similar categories.
+- **Project 07** compares from-scratch CNNs with frozen and fine-tuned MobileNetV2.
 
-- **ResNet Image Classification** uses residual connections to improve gradient flow and supports static TensorFlow.js inference through GitHub Pages.
-- **VGG16 Fine-Grained Image Classification** uses transfer learning and browser inference to distinguish visually similar categories.
+These projects demonstrate:
 
-These projects demonstrate residual learning, skip connections, pretrained feature extraction, fine-tuning, image resizing, normalization, Top-K probabilities, client-side inference, static hosting, and model conversion for the browser.
+- image preprocessing;
+- convolutional feature extraction;
+- class-probability estimation;
+- transfer learning;
+- partial fine-tuning;
+- controlled model comparison;
+- class-level evaluation;
+- browser-side inference.
 
-### Transfer Learning with AlexNet
+### Explainability and Robustness
 
-- **AlexNet Transfer Learning** is the final portfolio project and is designed to demonstrate classic CNN design, transfer learning, data augmentation, classification evaluation, TensorFlow.js export, and static browser deployment.
+Project 07 extends classification beyond aggregate accuracy by including:
 
-The project is already represented in the monorepo and portfolio roadmap while final model training and deployment work is completed.
+- confusion matrices;
+- per-class precision, recall, and F1;
+- high-confidence error analysis;
+- Grad-CAM visualizations;
+- corruption and robustness testing;
+- calibration metrics;
+- model-size and latency comparison.
+
+### Deployment Engineering
+
+The portfolio uses two deployment strategies:
+
+- **Vercel** for four interactive web applications;
+- **GitHub Pages** for three static browser-inference applications.
+
+The GitHub Pages applications are built into one combined deployment artifact so that Projects 03, 04, and 07 remain online simultaneously without overwriting one another.
+
+---
+
+## Project Summaries
+
+### 01 — Medical Image Segmentation with U-Net
+
+[![Open Project 01](https://img.shields.io/badge/Open-Project%2001-2ea44f.svg)](01-image-segmentation-unet-medical-imaging/)
+[![Live Demo](https://img.shields.io/badge/Vercel-Live%20Demo-black.svg)](https://medical-image-segmentation-unet.vercel.app/)
+
+This project applies a U-Net-style encoder-decoder CNN to medical-image segmentation. It focuses on predicting a pixel-level mask rather than one class for the entire image.
+
+**Key capabilities:**
+
+- medical-image preprocessing;
+- image-mask alignment;
+- U-Net encoder-decoder architecture;
+- skip connections;
+- segmentation-mask prediction;
+- Dice and overlap-oriented evaluation;
+- qualitative image-mask visualization;
+- interactive web deployment.
+
+---
+
+### 02 — Object Detection Using CNN
+
+[![Open Project 02](https://img.shields.io/badge/Open-Project%2002-2ea44f.svg)](02-object-detection-using-cnn/)
+[![Live Demo](https://img.shields.io/badge/Vercel-Live%20Demo-black.svg)](https://cnn-object-detection.vercel.app/)
+
+This project demonstrates object detection by combining visual feature extraction with object localization and class prediction.
+
+**Key capabilities:**
+
+- image upload and validation;
+- object localization;
+- bounding-box rendering;
+- class-confidence presentation;
+- detection-result visualization;
+- reusable inference workflow;
+- interactive Vercel application.
+
+---
+
+### 03 — DenseNet Medical Image Classification
+
+[![Open Project 03](https://img.shields.io/badge/Open-Project%2003-2ea44f.svg)](03-densenet-medical-image-classification/)
+[![Live Demo](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-222222.svg)](https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/)
+
+This project uses DenseNet transfer learning for medical-image classification and publishes a browser-based application through GitHub Pages.
+
+**Key capabilities:**
+
+- DenseNet architecture;
+- dense feature reuse;
+- transfer learning;
+- medical-image preprocessing;
+- class-level evaluation;
+- confusion-matrix analysis;
+- TensorFlow.js browser model;
+- static GitHub Pages deployment.
+
+---
+
+### 04 — Image Classification with ResNet50 and TensorFlow.js
+
+[![Open Project 04](https://img.shields.io/badge/Open-Project%2004-2ea44f.svg)](04-image-classification-resnet/)
+[![Live Demo](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-222222.svg)](https://unit-mole.github.io/cnn-projects/04-image-classification-resnet/)
+
+This project uses a ResNet50 transfer-learning pipeline and deploys the converted model for direct browser inference with TensorFlow.js.
+
+**Key capabilities:**
+
+- residual connections;
+- ResNet50 transfer learning;
+- image classification;
+- model evaluation;
+- TensorFlow.js conversion;
+- browser-side preprocessing;
+- local browser inference;
+- GitHub Pages deployment.
+
+---
+
+### 05 — Fine-Grained Image Classification with VGG16
+
+[![Open Project 05](https://img.shields.io/badge/Open-Project%2005-2ea44f.svg)](05-fine-grained-image-classification-vgg16/)
+[![Live Demo](https://img.shields.io/badge/Vercel-Live%20Demo-black.svg)](https://vgg16-fine-grained-image-classifica.vercel.app/)
+
+This project uses VGG16 transfer learning for fine-grained classification, where categories can share similar visual structures and require more detailed feature discrimination.
+
+**Key capabilities:**
+
+- VGG16 architecture;
+- transfer learning;
+- fine-grained category recognition;
+- image augmentation;
+- class-level evaluation;
+- prediction-confidence presentation;
+- interactive Vercel deployment.
+
+---
+
+### 06 — Satellite Image Segmentation with U-Net
+
+[![Open Project 06](https://img.shields.io/badge/Open-Project%2006-2ea44f.svg)](06-satellite-image-segmentation-unet/)
+[![Live Demo](https://img.shields.io/badge/Vercel-Live%20Demo-black.svg)](https://satellite-image-segmentation-unet.vercel.app/)
+
+This project applies a U-Net segmentation pipeline to satellite imagery for pixel-level scene understanding.
+
+**Key capabilities:**
+
+- satellite-image preprocessing;
+- geospatial image segmentation;
+- U-Net architecture;
+- image-mask visualization;
+- overlap-oriented evaluation;
+- prediction overlays;
+- interactive Vercel application.
+
+---
+
+### 07 — CNN Model Comparison with AlexNet-Style Networks and MobileNetV2
+
+[![Open Project 07](https://img.shields.io/badge/Open-Project%2007-2ea44f.svg)](07-image-classification-alexnet-transfer-learning/)
+[![Live Demo](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-222222.svg)](https://unit-mole.github.io/cnn-projects/)
+
+This project compares a Simple CNN, an AlexNet-style CNN trained from scratch, frozen MobileNetV2, and partially fine-tuned MobileNetV2 on a controlled four-class image-classification task. The strongest model is selected using macro F1, exported to ONNX, explained with Grad-CAM, tested for robustness, and deployed through ONNX Runtime Web.
+
+**Key capabilities:**
+
+- Simple CNN baseline;
+- AlexNet-style CNN from scratch;
+- MobileNetV2 transfer learning;
+- partial fine-tuning;
+- controlled four-model comparison;
+- accuracy, balanced accuracy, precision, recall, and F1;
+- top-2 accuracy and ROC-AUC;
+- calibration metrics;
+- robustness analysis;
+- Grad-CAM explainability;
+- ONNX export;
+- browser inference;
+- GitHub Pages deployment.
+
+**Selected deployment model:** Fine-tuned MobileNetV2  
+**Test accuracy:** 91.03%  
+**Macro F1:** 90.89%  
+**Top-2 accuracy:** 98.74%
+
+---
+
+## CNN Architecture Coverage
+
+| Architecture Family | Demonstrated Through |
+|---|---|
+| U-Net | Projects 01 and 06 |
+| Generic CNN feature extraction | Projects 02 and 07 |
+| DenseNet | Project 03 |
+| ResNet50 | Project 04 |
+| VGG16 | Project 05 |
+| AlexNet-style CNN | Project 07 |
+| MobileNetV2 | Project 07 |
+| Encoder-decoder segmentation | Projects 01 and 06 |
+| Residual learning | Project 04 |
+| Dense connectivity | Project 03 |
+| Depthwise-separable convolution | Project 07 |
+| Transfer learning | Projects 03, 04, 05, and 07 |
+| From-scratch CNN training | Project 07 |
+
+---
+
+## Evaluation Coverage
+
+The projects use evaluation methods aligned with the actual task instead of relying on one universal metric.
+
+| Task | Evaluation Methods |
+|---|---|
+| Image segmentation | Dice coefficient, Intersection over Union, pixel overlap, qualitative mask review |
+| Object detection | Localization quality, class confidence, predicted boxes, qualitative inspection |
+| Image classification | Accuracy, precision, recall, macro F1, weighted F1, confusion matrices |
+| Fine-grained classification | Class-level metrics, confidence analysis, error review |
+| Model comparison | Controlled splits, macro F1, parameters, size, latency |
+| Calibration | Negative log likelihood, Brier score, expected calibration error |
+| Robustness | Corruption-specific macro F1 and drop from clean performance |
+| Explainability | Grad-CAM activation overlays |
+| Browser deployment | Required-file validation, model loading, JavaScript syntax, static-asset checks |
+
+### Why multiple evaluation methods matter
+
+- Accuracy alone can hide weak minority-class performance.
+- Segmentation requires pixel-level overlap measures.
+- Detection must evaluate both localization and category prediction.
+- Fine-grained classes often require per-class error analysis.
+- Softmax confidence is not automatically a calibrated probability.
+- Latency and model size affect deployment feasibility.
+- Browser performance depends on hardware, runtime, and model format.
+- Explainability visualizations support inspection but do not prove causal reasoning.
 
 ---
 
@@ -87,333 +375,112 @@ The project is already represented in the monorepo and portfolio roadmap while f
 
 ### End-to-End Computer-Vision Delivery
 
-Every project is structured to move beyond notebook-only experimentation. The repository demonstrates:
+The repository demonstrates the complete path from an idea to a public application:
 
-- business and analytical problem definition;
-- reproducible image, mask, annotation, and label preparation;
-- image resizing, color conversion, normalization, and augmentation;
-- train, validation, and test separation;
-- CNN architecture development and evaluation;
-- saved Keras models, TensorFlow.js models, metadata, labels, thresholds, and preprocessing settings;
-- reusable classification, detection, segmentation, and visualization pipelines;
-- manual upload and safe sample-image inference;
-- downloadable masks or visual prediction outputs where appropriate;
-- local execution;
-- cloud and static-site deployment;
-- CI-based validation.
+- problem definition;
+- dataset acquisition;
+- image validation;
+- preprocessing;
+- augmentation;
+- deterministic splitting;
+- architecture selection;
+- transfer learning or from-scratch training;
+- checkpoint preservation;
+- evaluation;
+- error analysis;
+- saved artifacts;
+- reusable inference code;
+- testing;
+- CI validation;
+- application development;
+- public deployment;
+- documentation;
+- responsible-use communication.
 
-### CNN Architecture Diversity
+### Model Selection Based on Evidence
 
-The repository covers several major CNN design patterns:
-
-- U-Net encoder-decoder segmentation;
-- skip connections for spatial-detail preservation;
-- DenseNet feature reuse through dense connectivity;
-- ResNet residual learning;
-- VGG16 transfer learning;
-- AlexNet-inspired convolutional classification;
-- custom CNN localization and object-detection logic;
-- Keras-to-TensorFlow.js browser-model conversion.
-
-### Correct Image and Mask Processing
-
-Computer-vision systems require consistent preprocessing. The projects emphasize:
-
-- RGB and grayscale handling;
-- fixed input-shape validation;
-- image normalization;
-- aspect-ratio and resizing decisions;
-- nearest-neighbor resizing for segmentation masks;
-- label and class-order consistency;
-- aligned geometric augmentation for images and masks;
-- safe handling of invalid uploads and unsupported formats;
-- consistent training and inference preprocessing;
-- saved preprocessing configuration in model metadata.
-
-### Evaluation Based on the Actual Problem
-
-The projects use metrics that match each computer-vision task rather than relying on one headline accuracy value.
+The projects do not assume that the largest or newest architecture is automatically the best.
 
 Examples include:
 
-- Dice coefficient, IoU, pixel accuracy, precision, recall, and F1 for segmentation;
-- confidence scores, class-wise precision, recall, F1, confusion matrices, and ROC analysis for classification;
-- localization quality, bounding-box visualization, confidence interpretation, and detection review for object detection;
-- Top-1 and Top-K predictions for browser classifiers;
-- baseline comparisons to determine whether a CNN adds measurable value;
-- visual overlays, probability maps, error maps, and weak-prediction examples;
-- inference-time and browser-runtime reporting.
+- transfer-learning models evaluated against task-specific baselines;
+- Project 07 comparison of four CNN strategies;
+- deployment selection based on macro F1 rather than only accuracy;
+- robustness testing before presenting the selected model;
+- ONNX and browser artifacts validated before deployment;
+- model-size and latency trade-offs documented.
 
 ### Reliable and Reusable Engineering
 
-The repository includes practices required for dependable inference:
+The repository includes practices needed for dependable experimentation and inference:
 
-- training and inference preprocessing consistency;
-- saved image size, channel order, normalization method, label mapping, and threshold configuration;
-- modular source files rather than notebook-only logic;
-- pretrained application startup without automatic retraining;
-- safe sample data for public demonstrations;
-- automated preprocessing and inference tests;
+- modular source files;
+- reusable preprocessing;
+- deterministic seeds;
+- consistent feature and label mappings;
+- safe handling of invalid inputs;
+- metadata and configuration recording;
+- training-history preservation;
+- checkpoint and artifact verification;
+- project-specific tests;
 - project-specific GitHub Actions workflows;
-- lightweight CI that avoids full model retraining;
-- GitHub-safe data and model-artifact management;
-- Git LFS or external model hosting guidance where needed;
-- static browser deployment without a Python backend where feasible.
-
-### Deployment Diversity
-
-The portfolio intentionally demonstrates multiple delivery approaches:
-
-| Platform | Demonstrated Through |
-|---|---|
-| Vercel | Object Detection, VGG16 Fine-Grained Classification, Satellite U-Net Segmentation |
-| TensorFlow.js | Browser-based classification, detection, and segmentation |
-| GitHub Pages | ResNet browser inference and planned AlexNet deployment |
-| Hugging Face Spaces | Gradio-based model demonstrations |
-| Gradio | Upload-driven image prediction interfaces |
-| Kaggle Notebooks | Training, evaluation, GPU execution, and reproducibility |
-| GitHub Actions | Project-specific CI and deployment validation |
-| Docker | Reproducible local or container-based execution where useful |
-
-This diversity shows that the portfolio covers not only model development but also practical model packaging and deployment.
+- one controlled combined GitHub Pages deployment;
+- large-file and virtual-environment protection through `.gitignore`;
+- deployment assets separated from training environments.
 
 ---
 
-## Project Highlights
+## Deployment Diversity
 
-### 01 — Medical Image Segmentation using U-Net
+The seven projects intentionally use two deployment approaches.
 
-```text
-Medical-style input image
-          │
-          ▼
-Image and mask preprocessing
-          │
-          ▼
-U-Net encoder
-          │
-          ▼
-Bottleneck
-          │
-          ▼
-U-Net decoder with skip connections
-          │
-          ▼
-Predicted binary segmentation mask
-```
+| Platform | Projects | Purpose |
+|---|---:|---|
+| Vercel | 4 | Interactive web applications for segmentation, detection, and classification |
+| GitHub Pages | 3 | Static TensorFlow.js and ONNX browser-inference applications |
 
-**Core capabilities**
+### Live Applications
 
-- Image-mask pairing
-- Binary segmentation
-- U-Net architecture
-- Dice and IoU evaluation
-- Predicted-mask overlays
-- Gradio-ready inference
-- Medical responsible-use communication
+| Project | Platform | URL |
+|---|---|---|
+| Project 01 | Vercel | https://medical-image-segmentation-unet.vercel.app/ |
+| Project 02 | Vercel | https://cnn-object-detection.vercel.app/ |
+| Project 03 | GitHub Pages | https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/ |
+| Project 04 | GitHub Pages | https://unit-mole.github.io/cnn-projects/04-image-classification-resnet/ |
+| Project 05 | Vercel | https://vgg16-fine-grained-image-classifica.vercel.app/ |
+| Project 06 | Vercel | https://satellite-image-segmentation-unet.vercel.app/ |
+| Project 07 | GitHub Pages | https://unit-mole.github.io/cnn-projects/ |
 
-### 02 — Object Detection using CNN
-
-```text
-Uploaded image
-      │
-      ▼
-Image preprocessing
-      │
-      ▼
-CNN feature extraction
-      │
-      ▼
-Object localization
-      │
-      ▼
-Bounding box and confidence output
-      │
-      ▼
-Vercel browser visualization
-```
-
-**Live demo:** https://cnn-object-detection.vercel.app/
-
-### 03 — DenseNet Medical Image Classification
-
-```text
-Medical-style image
-        │
-        ▼
-Preprocessing and augmentation
-        │
-        ▼
-Dense convolution blocks
-        │
-        ▼
-Feature transition layers
-        │
-        ▼
-Global feature aggregation
-        │
-        ▼
-Class probabilities
-```
-
-**Core capabilities**
-
-- Dense connectivity
-- Transfer learning
-- Class-wise evaluation
-- Confidence interpretation
-- Gradio application
-- Kaggle-ready training workflow
-
-### 04 — ResNet Image Classification
-
-```text
-Uploaded image
-      │
-      ▼
-Browser preprocessing
-      │
-      ▼
-Residual CNN blocks
-      │
-      ▼
-TensorFlow.js inference
-      │
-      ▼
-Top prediction and confidence
-```
-
-**Live demo:** https://unit-mole.github.io/cnn-projects/
-
-### 05 — VGG16 Fine-Grained Image Classification
-
-```text
-Uploaded image
-      │
-      ▼
-Resize and normalize
-      │
-      ▼
-VGG16 feature extractor
-      │
-      ▼
-Fine-grained classification head
-      │
-      ▼
-Browser probability output
-```
-
-**Live demo:** https://vgg16-fine-grained-image-classifica.vercel.app/
-
-### 06 — Satellite Image Segmentation using U-Net
-
-```text
-Satellite-style RGB tile
-          │
-          ▼
-64 × 64 RGB preprocessing
-          │
-          ▼
-Compact U-Net
-          │
-          ▼
-Pixel probability map
-          │
-          ▼
-Binary mask and visual overlay
-          │
-          ▼
-TensorFlow.js browser inference
-```
-
-**Live demo:** https://satellite-image-segmentation-unet.vercel.app/
-
-The current portfolio model uses procedurally generated satellite-style tiles. Its near-perfect synthetic test metrics validate the pipeline but should not be interpreted as evidence of real-world remote-sensing performance.
-
-### 07 — AlexNet Transfer Learning
-
-```text
-Input image
-     │
-     ▼
-Image augmentation and normalization
-     │
-     ▼
-AlexNet-inspired convolution blocks
-     │
-     ▼
-Transfer-learning classifier
-     │
-     ▼
-TensorFlow.js model export
-     │
-     ▼
-Static browser deployment
-```
-
-**Planned demo:** https://unit-mole.github.io/cnn-projects/07-image-classification-alexnet-transfer-learning/
-
-**Current status:** Final model training, evaluation, browser artifact export, and production deployment are in progress.
+This demonstrates the ability to select a deployment method based on runtime needs rather than using one platform for every project.
 
 ---
 
-## Business and Quality Analytics Translation
+## GitHub Pages Deployment Architecture
 
-The applications do not stop at raw model outputs. Depending on the project, they provide:
+Projects 03, 04, and 07 share one repository-level GitHub Pages site.
 
-- predicted image classes;
-- Top-K class probabilities;
-- object bounding boxes;
-- localization confidence;
-- medical-style segmentation masks;
-- satellite-style urban-region masks;
-- probability maps;
-- mask overlays;
-- segmented-area measurements;
-- browser inference timing;
-- downloadable prediction artifacts;
-- model and baseline comparisons;
-- visual error interpretations;
-- limitations and responsible-use statements.
+```text
+Combined GitHub Pages artifact
+│
+├── /                                      → Project 07
+├── /03-densenet-medical-image-classification/
+├── /04-image-classification-resnet/
+└── /07-image-classification-alexnet-transfer-learning/
+```
 
-This demonstrates the ability to translate technical computer-vision outputs into information that can be understood by data scientists, quality engineers, analysts, operations teams, managers, and other business stakeholders.
+Only the combined workflow performs the Pages deployment:
 
-The portfolio also connects naturally to the user's current Quality Data Scientist background through:
+```text
+.github/workflows/cnn-projects-pages.yml
+```
 
-- automated visual inspection;
-- defect and anomaly localization;
-- region-of-interest detection;
-- image-based monitoring;
-- affected-area measurement;
-- segmentation-based quality assessment;
-- classification-based triage;
-- automated image review;
-- spatial and visual analytics;
-- applied AI for quality workflows.
-
----
-
-## Responsible Model Communication
-
-Each project documents its intended scope and limitations. The repository avoids presenting educational portfolio models as production-ready medical, geospatial, surveillance, industrial inspection, legal, public-safety, or operational decision systems without additional:
-
-- domain validation;
-- representative real-world data;
-- bias and robustness analysis;
-- calibration;
-- monitoring;
-- security controls;
-- privacy safeguards;
-- governance;
-- human oversight.
-
-Synthetic and demonstration datasets are clearly identified where used. Public demos should not receive confidential, private, restricted, or sensitive images.
+The individual Project 03, 04, and 07 workflows perform validation only. This prevents one project from overwriting the other deployed applications.
 
 ---
 
 ## Repository Convention
 
-The repository is organized as a monorepo. Each project generally follows this structure:
+The repository is organized as a monorepo.
 
 ```text
 cnn-projects/
@@ -425,7 +492,8 @@ cnn-projects/
 │       ├── 04-image-classification-resnet.yml
 │       ├── 05-fine-grained-image-classification-vgg16.yml
 │       ├── 06-satellite-image-segmentation-unet.yml
-│       └── 07-image-classification-alexnet-transfer-learning.yml
+│       ├── 07-image-classification-alexnet-transfer-learning.yml
+│       └── cnn-projects-pages.yml
 │
 ├── 01-image-segmentation-unet-medical-imaging/
 ├── 02-object-detection-using-cnn/
@@ -434,51 +502,160 @@ cnn-projects/
 ├── 05-fine-grained-image-classification-vgg16/
 ├── 06-satellite-image-segmentation-unet/
 ├── 07-image-classification-alexnet-transfer-learning/
-│
 ├── .gitignore
 ├── LICENSE
 └── README.md
 ```
 
-A project may contain:
+A typical individual project may contain:
 
 ```text
 project-folder/
-├── app/
-├── archive/
-├── assets/
 ├── data/
 ├── images/
-├── kaggle/
 ├── models/
 ├── notebooks/
 ├── outputs/
 ├── scripts/
 ├── src/
 ├── tests/
-├── tfjs_model/
-├── app.py
-├── gradio_app.py
-├── index.html
-├── Dockerfile
+├── web/
+├── deployment configuration
 ├── README.md
-├── README_HOSTING.md
-├── README_HUGGINGFACE.md
-├── README_VERCEL.md
 ├── requirements.txt
-├── requirements-dev.txt
-└── train_model.py
+└── supporting metadata and reports
 ```
 
-The exact files vary by project, but the standards remain consistent:
+The exact files differ by task, but the standards remain consistent:
 
 - reproducible workflows;
 - modular code;
-- deployable pretrained inference;
+- task-appropriate evaluation;
+- public deployment;
 - automated validation;
-- clear documentation;
 - safe repository practices;
-- transparent model assumptions and limitations.
+- transparent limitations;
+- portfolio-quality documentation.
+
+---
+
+## Continuous Integration
+
+The repository uses project-specific GitHub Actions workflows.
+
+Depending on the project, CI validates:
+
+- required folder and file structure;
+- Python source syntax;
+- JavaScript syntax;
+- JSON validity;
+- notebook JSON validity;
+- pytest test suites;
+- model configuration;
+- static application assets;
+- README image references;
+- TensorFlow.js model presence;
+- ONNX model presence and size;
+- browser deployment paths;
+- oversized files;
+- accidental checkpoint or secret inclusion.
+
+Project workflows run only when their relevant project folders or workflow files change.
+
+The repository-level Pages workflow:
+
+1. checks out the repository;
+2. prepares the Project 03 browser model when required;
+3. verifies browser assets for Projects 03, 04, and 07;
+4. assembles one combined `_site` directory;
+5. uploads one Pages artifact;
+6. deploys that artifact through the `github-pages` environment.
+
+[![Open GitHub Actions](https://img.shields.io/badge/Open-GitHub%20Actions-2088ff?style=for-the-badge)](https://github.com/unit-mole/cnn-projects/actions)
+
+---
+
+## Run a Project Locally
+
+Each project contains detailed setup instructions. The general workflow is:
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/unit-mole/cnn-projects.git
+cd cnn-projects
+```
+
+### 2. Enter a project
+
+```bash
+cd 07-image-classification-alexnet-transfer-learning
+```
+
+Replace the folder name with the project you want to run.
+
+### 3. Create a virtual environment
+
+**Windows**
+
+```bat
+py -3.12 -m venv .venv
+call .venv\Scripts\activate.bat
+```
+
+**macOS / Linux**
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+```
+
+### 4. Install project dependencies
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+Some training workflows use a separate file such as:
+
+```bash
+python -m pip install -r requirements-training.txt
+```
+
+### 5. Follow the selected project README
+
+Projects may run through:
+
+- Jupyter notebooks;
+- Python scripts;
+- local HTTP servers;
+- static browser applications;
+- Vercel development servers.
+
+Always follow the instructions in the selected project's `README.md`.
+
+---
+
+## Responsible Use
+
+This repository is intended for education, experimentation, technical demonstration, and portfolio presentation.
+
+General limitations include:
+
+- image datasets may not represent real deployment populations;
+- pretrained models can inherit biases from their original training data;
+- medical-image demonstrations are not clinical diagnostic systems;
+- segmentation masks may miss or falsely include regions;
+- object detectors may miss small, occluded, or unsupported objects;
+- confidence scores may not be calibrated probabilities;
+- visual models may fail on out-of-distribution images;
+- browser performance varies by device and runtime;
+- benchmark results should not be generalized beyond the evaluated configuration;
+- portfolio models are not automatically production-ready;
+- no application should be used as the sole basis for medical, safety-critical, financial, legal, hiring, insurance, quality-release, or production decisions.
+
+Important outputs should be verified through trusted sources, domain expertise, and additional validation.
 
 ---
 
@@ -486,140 +663,61 @@ The exact files vary by project, but the standards remain consistent:
 
 | Area | Demonstrated Through |
 |---|---|
-| Binary medical image segmentation | Project 01 U-Net |
-| Object detection and localization | Project 02 CNN |
-| Dense feature reuse | Project 03 DenseNet |
-| Medical-style image classification | Project 03 DenseNet |
-| Residual learning | Project 04 ResNet |
-| Fine-grained visual classification | Project 05 VGG16 |
-| Satellite-style semantic segmentation | Project 06 U-Net |
-| Transfer learning | DenseNet, VGG16, and AlexNet projects |
-| Encoder-decoder modeling | U-Net segmentation projects |
-| Skip connections | U-Net and ResNet projects |
-| Image-mask pairing | Medical and satellite segmentation |
-| Binary mask preprocessing | U-Net projects |
-| Data augmentation | Classification and segmentation training |
-| Browser inference | Projects 02, 04, 05, 06, and planned Project 07 |
-| Client-side privacy | TensorFlow.js browser applications |
-| Model conversion | Keras to TensorFlow.js |
-| Static deployment | Vercel and GitHub Pages |
-| Interactive Python deployment | Hugging Face Spaces + Gradio |
-| Training evidence | Kaggle-ready notebooks |
-| Segmentation evaluation | Dice, IoU, precision, recall, F1 |
-| Classification evaluation | Accuracy, precision, recall, F1, confusion matrices |
-| Detection review | Bounding boxes, confidence, visual localization |
-| Visual interpretation | Masks, overlays, probability maps, and prediction panels |
-| Testing and CI/CD | pytest, validation scripts, syntax checks, and GitHub Actions |
-| Reproducible packaging | Requirements files, Docker, metadata, and run scripts |
+| Medical-image segmentation | Project 01 |
+| Object detection | Project 02 |
+| Medical-image classification | Project 03 |
+| Dense connectivity | Project 03 |
+| Residual learning | Project 04 |
+| TensorFlow.js browser inference | Projects 03 and 04 |
+| Fine-grained image classification | Project 05 |
+| Satellite-image segmentation | Project 06 |
+| U-Net architecture | Projects 01 and 06 |
+| CNN training from scratch | Project 07 |
+| AlexNet-style architecture | Project 07 |
+| MobileNetV2 fine-tuning | Project 07 |
+| Controlled model comparison | Project 07 |
+| Calibration analysis | Project 07 |
+| Grad-CAM explainability | Project 07 |
+| Robustness evaluation | Project 07 |
+| ONNX conversion | Project 07 |
+| ONNX Runtime Web | Project 07 |
+| Vercel deployment | Projects 01, 02, 05, and 06 |
+| GitHub Pages deployment | Projects 03, 04, and 07 |
+| CI/CD | All seven projects |
 
 ---
 
 ## Core Skills Demonstrated
 
-`Convolutional Neural Networks` · `CNN` · `Computer Vision` · `Deep Learning` · `Image Classification` · `Image Segmentation` · `Semantic Segmentation` · `Object Detection` · `Object Localization` · `Bounding Boxes` · `Medical Image Analysis` · `Satellite Image Analysis` · `Remote Sensing Analytics` · `U-Net` · `DenseNet` · `ResNet` · `VGG16` · `AlexNet` · `Transfer Learning` · `Fine-Tuning` · `Encoder-Decoder Networks` · `Skip Connections` · `Dense Connections` · `Residual Learning` · `Image Preprocessing` · `Mask Preprocessing` · `Data Augmentation` · `Image-Mask Alignment` · `Pixel-Level Prediction` · `Probability Maps` · `Mask Overlays` · `Dice Coefficient` · `Intersection over Union` · `Precision` · `Recall` · `F1-score` · `Confusion Matrix` · `Baseline Comparison` · `Error Analysis` · `Responsible AI Communication` · `TensorFlow` · `Keras` · `TensorFlow.js` · `OpenCV` · `NumPy` · `pandas` · `scikit-learn` · `Matplotlib` · `Pillow` · `Gradio` · `Hugging Face Spaces` · `Kaggle Notebooks` · `Vercel` · `GitHub Pages` · `JavaScript` · `HTML` · `CSS` · `Docker` · `Testing` · `GitHub Actions` · `CI/CD` · `Browser Inference` · `Privacy-Aware Deployment` · `Quality Analytics` · `Visual Inspection Analytics` · `Business Translation`
+`Convolutional Neural Networks` · `Computer Vision` · `Deep Learning` · `Python` · `TensorFlow` · `Keras` · `PyTorch` · `torchvision` · `Image Segmentation` · `Object Detection` · `Image Classification` · `Medical Imaging` · `Satellite Imaging` · `U-Net` · `DenseNet` · `ResNet50` · `VGG16` · `AlexNet` · `MobileNetV2` · `Transfer Learning` · `Fine-Tuning` · `Data Augmentation` · `Class-Weighted Training` · `Accuracy` · `Precision` · `Recall` · `F1-Score` · `Dice Coefficient` · `Intersection over Union` · `Confusion Matrices` · `Calibration` · `Robustness Testing` · `Grad-CAM` · `TensorFlow.js` · `ONNX` · `ONNX Runtime Web` · `JavaScript` · `HTML` · `CSS` · `Vercel` · `GitHub Pages` · `Testing` · `GitHub Actions` · `CI/CD` · `Responsible AI Communication`
 
 ---
 
-## Local Setup
+## Portfolio Positioning
 
-Clone the repository:
+**One-line description:** Seven end-to-end CNN projects spanning medical and satellite segmentation, object detection, DenseNet, ResNet50, VGG16, AlexNet-style networks, MobileNetV2 transfer learning, explainability, TensorFlow.js, ONNX browser inference, Vercel, and GitHub Pages deployment.
 
-```bash
-git clone https://github.com/unit-mole/cnn-projects.git
-cd cnn-projects
-```
+**Pinned repository description:** Professional computer-vision portfolio featuring seven deployed CNN projects across segmentation, detection, classification, transfer learning, from-scratch architecture development, model comparison, Grad-CAM, robustness evaluation, TensorFlow.js, ONNX Runtime Web, project-specific CI, Vercel, and GitHub Pages.
 
-Open the required project:
+This portfolio connects naturally to a Quality Data Scientist background because computer-vision systems can support:
 
-```bash
-cd 06-satellite-image-segmentation-unet
-```
-
-Create and activate a virtual environment.
-
-**Windows**
-
-```bat
-py -3.11 -m venv .venv
-.venv\Scripts\activate
-```
-
-**macOS / Linux**
-
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-```
-
-Install the project dependencies:
-
-```bash
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Run the project-specific tests:
-
-```bash
-python -m pytest -q
-```
-
-Launch instructions differ by project and are documented inside each project-level `README.md`.
+- visual inspection;
+- defect localization;
+- product categorization;
+- medical-image research demonstrations;
+- satellite-image analysis;
+- automated quality checks;
+- image-based anomaly detection;
+- inspection-workflow support;
+- structured model evaluation and release governance.
 
 ---
 
-## Portfolio Roadmap
+## License
 
-| Project | Current Stage | Next Milestone |
-|---|---|---|
-| 01 Medical U-Net | Completed | Add or confirm public Hugging Face Spaces link |
-| 02 Object Detection CNN | Deployed | Maintain Vercel browser demo |
-| 03 DenseNet Medical Classification | Completed | Add or confirm public Hugging Face Spaces link |
-| 04 ResNet Classification | Deployed | Maintain GitHub Pages demo |
-| 05 VGG16 Fine-Grained Classification | Deployed | Maintain Vercel browser demo |
-| 06 Satellite U-Net Segmentation | Deployed | Maintain Vercel TensorFlow.js demo |
-| 07 AlexNet Transfer Learning | In progress | Finish training, export TensorFlow.js artifacts, and publish planned static demo |
+This repository is distributed under the [MIT License](LICENSE).
 
----
-
-## GitHub Repository Description
-
-```text
-End-to-end CNN computer-vision portfolio featuring U-Net segmentation, object detection, DenseNet medical classification, ResNet browser inference, VGG16 fine-grained classification, satellite segmentation, AlexNet transfer learning, TensorFlow/Keras models, automated testing, and deployment-ready demos.
-```
-
-### Suggested GitHub Topics
-
-```text
-cnn
-convolutional-neural-networks
-computer-vision
-deep-learning
-image-segmentation
-semantic-segmentation
-object-detection
-image-classification
-medical-imaging
-satellite-image-segmentation
-remote-sensing
-unet
-densenet
-resnet
-vgg16
-alexnet
-transfer-learning
-tensorflow
-keras
-tensorflowjs
-gradio
-huggingface-spaces
-vercel
-github-pages
-kaggle-notebooks
-machine-learning
-data-science
-portfolio-projects
-```
+Individual models, datasets, and third-party libraries remain subject to their original licenses and usage conditions.
 
 ---
 
@@ -627,9 +725,3 @@ portfolio-projects
 
 **Anmol Tripathi**  
 Quality Data Scientist | Data Science | Machine Learning | Applied AI | Computer Vision | Analytics Engineering | Quality Analytics
-
----
-
-## License
-
-This repository is released under the MIT License. Individual datasets or third-party model assets may have separate licenses and usage requirements. See the project-level documentation for details.
