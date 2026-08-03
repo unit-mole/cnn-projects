@@ -1,4 +1,0 @@
-# This project deploys as a static TensorFlow.js application, not Streamlit.
-# The file is retained only to match the portfolio monorepo's standard layout.
-[server]
-headless = true
