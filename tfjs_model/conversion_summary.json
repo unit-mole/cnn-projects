@@ -1,0 +1,16 @@
+{
+  "source_h5": "models/resnet50_cifar100_browser.h5",
+  "model_json": "web/tfjs_model/model.json",
+  "format": "layers-model",
+  "weight_count": 326,
+  "total_weight_bytes": 98760592,
+  "shard_size_bytes": 4194304,
+  "shard_count": 24,
+  "model_json_sha256": "baead1e959bc02ac1c4c7c36dca713f8e28af85aeb0433a92b457d8abb29eed1",
+  "structural_validation": "passed",
+  "verification": {
+    "manifest_paths_exist": true,
+    "weight_stream_matches_ordered_h5_arrays": true,
+    "browser_model_equivalence_check": "see outputs/metrics/browser_model_equivalence.json"
+  }
+}
