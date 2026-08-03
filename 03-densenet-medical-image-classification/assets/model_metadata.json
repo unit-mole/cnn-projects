@@ -1,0 +1,30 @@
+{
+  "project": "03-densenet-medical-image-classification",
+  "title": "DenseNet121 Medical Image Classification Browser Demo",
+  "deployment": "GitHub Pages + TensorFlow.js",
+  "model_format": "TensorFlow.js LayersModel generated from Keras HDF5 during GitHub Actions",
+  "source_artifact": "models/densenet121_medical_browser.h5",
+  "architecture": "DenseNet121 frozen ImageNet backbone with GlobalAveragePooling2D, Dense(256), BatchNormalization, Dropout(0.5), and Dense(2, softmax)",
+  "input_shape": [96, 96, 3],
+  "classes": ["normal_like", "pneumonia_like"],
+  "preprocessing": {
+    "browser_compatibility_resize": [28, 28],
+    "model_resize": [96, 96],
+    "color_mode": "RGB",
+    "pixel_scale": "[0, 1]",
+    "imagenet_mean": [0.485, 0.456, 0.406],
+    "imagenet_std": [0.229, 0.224, 0.225]
+  },
+  "dataset_status": "synthetic_proxy_not_clinical",
+  "dataset": "Fashion-MNIST-derived binary proxy used by the attached executed notebook",
+  "recorded_metrics": {
+    "densenet_validation_accuracy": 0.9598749876022339,
+    "densenet_test_accuracy": 0.9563999772071838,
+    "densenet_test_auc": 0.9933711290359497,
+    "macro_f1": 0.9481,
+    "weighted_f1": 0.9564
+  },
+  "medical_disclaimer": "This project is for educational and portfolio demonstration purposes only. It is not a medical diagnostic tool. Do not use the model to diagnose, treat, prevent, or manage any medical condition. Do not upload private, sensitive, confidential, or personally identifiable medical images. Predictions are machine-learning outputs, not medical advice.",
+  "live_url": "https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/",
+  "repository_url": "https://github.com/unit-mole/cnn-projects"
+}
