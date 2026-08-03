@@ -1,0 +1,20 @@
+{
+  "accuracy": 0.8736,
+  "balanced_accuracy": 0.8834375000000001,
+  "macro_precision": 0.8632830134853434,
+  "macro_recall": 0.8834375000000001,
+  "macro_f1": 0.8716412566974636,
+  "weighted_f1": 0.8733383251522476,
+  "top2_accuracy": 0.9746,
+  "roc_auc_ovr_macro": 0.9802435,
+  "negative_log_likelihood": 0.3341312110424042,
+  "brier_score": 0.183687810672643,
+  "expected_calibration_error": 0.006774910029768964,
+  "parameters_total": 2553348,
+  "parameters_trainable": 329476,
+  "state_dict_size_mb": 9.985788345336914,
+  "latency_mean_ms": 2.378261001431383,
+  "latency_median_ms": 2.3461499949917197,
+  "latency_p95_ms": 2.6165449584368616,
+  "training_seconds": 351.2751278000069
+}

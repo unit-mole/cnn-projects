@@ -1,0 +1,8 @@
+{
+  "name": "cnn-pytorch-onnx-browser-demo",
+  "private": true,
+  "version": "3.0.0",
+  "description": "ONNX Runtime Web demo for the selected PyTorch CNN classifier.",
+  "scripts": {"serve": "npx http-server web -p 8000 -c-1", "check": "node --check web/app.js"},
+  "devDependencies": {"http-server": "^14.1.1"}
+}

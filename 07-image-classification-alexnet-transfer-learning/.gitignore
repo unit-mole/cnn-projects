@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+data/cifar-10-batches-py/
+models/checkpoints/
+models/simple_cnn.pt
+models/alexnet_style.pt
+models/mobilenetv2_frozen.pt
+models/mobilenetv2_finetuned.pt
+data/cifar-10-python.tar.gz
+data/cifar-10-batches-py/

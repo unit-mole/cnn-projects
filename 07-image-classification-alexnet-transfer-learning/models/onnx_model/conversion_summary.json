@@ -1,0 +1,30 @@
+{
+  "selected_model": "mobilenetv2_finetuned",
+  "input_name": "input",
+  "output_name": "logits",
+  "input_shape": [
+    1,
+    3,
+    96,
+    96
+  ],
+  "class_names": [
+    "living",
+    "nature",
+    "transport",
+    "urban"
+  ],
+  "normalization": {
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "onnx_size_mb": 9.721721649169922
+}

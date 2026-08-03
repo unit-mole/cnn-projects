@@ -1,0 +1,46 @@
+{
+  "source": "CIFAR-10 regrouped into four semantic categories",
+  "image_size": [
+    96,
+    96
+  ],
+  "train_images": 42000,
+  "validation_images": 8000,
+  "test_images": 10000,
+  "class_names": [
+    "living",
+    "nature",
+    "transport",
+    "urban"
+  ],
+  "train_distribution": {
+    "living": 8400,
+    "nature": 16800,
+    "transport": 8400,
+    "urban": 8400
+  },
+  "validation_distribution": {
+    "living": 1600,
+    "nature": 3200,
+    "transport": 1600,
+    "urban": 1600
+  },
+  "test_distribution": {
+    "living": 2000,
+    "nature": 4000,
+    "transport": 2000,
+    "urban": 2000
+  },
+  "normalization": {
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  }
+}

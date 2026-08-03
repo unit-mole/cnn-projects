@@ -1,0 +1,7 @@
+{
+  "selected_model": "mobilenetv2_finetuned",
+  "selection_metric": "macro_f1",
+  "macro_f1": 0.9088788040166588,
+  "state_dict_size_mb": 9.986723899841309,
+  "checkpoint": "models\\deployment_model.pt"
+}

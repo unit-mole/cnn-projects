@@ -1,0 +1,6 @@
+{
+  "status": "not_run_in_generated_package",
+  "message": "Run the PyTorch master notebook or scripts/run_full_experiment.py on the local RTX system to generate the controlled results.",
+  "framework": "PyTorch",
+  "deployment_format": "ONNX"
+}

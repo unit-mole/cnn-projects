@@ -1,0 +1,210 @@
+{
+  "generated_at_utc": "2026-08-03T16:59:26.554470+00:00",
+  "source": "Local RTX experiment outputs",
+  "selected_model": {
+    "key": "mobilenetv2_finetuned",
+    "display_name": "MobileNetV2 fine-tuned",
+    "selection_metric": "macro_f1",
+    "selection_metric_value": 0.9088788040166588,
+    "checkpoint": "models\\deployment_model.pt",
+    "summary": "MobileNetV2 fine-tuned achieved the strongest macro F1 among the eligible candidates and was exported to ONNX for browser deployment. The AlexNet-style model remains the primary from-scratch architecture comparison.",
+    "metrics": {
+      "model": "mobilenetv2_finetuned",
+      "accuracy": 0.9103,
+      "balanced_accuracy": 0.9151250000000001,
+      "macro_precision": 0.9039639283791323,
+      "macro_recall": 0.9151250000000001,
+      "macro_f1": 0.9088788040166588,
+      "weighted_f1": 0.9099660498834142,
+      "top2_accuracy": 0.9874,
+      "roc_auc_ovr_macro": 0.9894224218750001,
+      "negative_log_likelihood": 0.23274146020412445,
+      "brier_score": 0.12928233327843236,
+      "expected_calibration_error": 0.006608553531765908,
+      "parameters_total": 2553348,
+      "parameters_trainable": 1855556,
+      "state_dict_size_mb": 9.986723899841309,
+      "latency_mean_ms": 3.118657001759857,
+      "latency_median_ms": 2.7126500208396465,
+      "latency_p95_ms": 4.340455000055953,
+      "training_seconds": 238.68528109998442,
+      "display_name": "MobileNetV2 fine-tuned"
+    }
+  },
+  "leaderboard": [
+    {
+      "model": "mobilenetv2_finetuned",
+      "accuracy": 0.9103,
+      "balanced_accuracy": 0.9151250000000001,
+      "macro_precision": 0.9039639283791323,
+      "macro_recall": 0.9151250000000001,
+      "macro_f1": 0.9088788040166588,
+      "weighted_f1": 0.9099660498834142,
+      "top2_accuracy": 0.9874,
+      "roc_auc_ovr_macro": 0.9894224218750001,
+      "negative_log_likelihood": 0.23274146020412445,
+      "brier_score": 0.12928233327843236,
+      "expected_calibration_error": 0.006608553531765908,
+      "parameters_total": 2553348,
+      "parameters_trainable": 1855556,
+      "state_dict_size_mb": 9.986723899841309,
+      "latency_mean_ms": 3.118657001759857,
+      "latency_median_ms": 2.7126500208396465,
+      "latency_p95_ms": 4.340455000055953,
+      "training_seconds": 238.68528109998442,
+      "display_name": "MobileNetV2 fine-tuned"
+    },
+    {
+      "model": "alexnet_style",
+      "accuracy": 0.9024,
+      "balanced_accuracy": 0.9001875,
+      "macro_precision": 0.9030964358310627,
+      "macro_recall": 0.9001875,
+      "macro_f1": 0.9013792089699696,
+      "weighted_f1": 0.9019069386045471,
+      "top2_accuracy": 0.9839,
+      "roc_auc_ovr_macro": 0.9838821197916667,
+      "negative_log_likelihood": 0.45073768496513367,
+      "brier_score": 0.16553271791025864,
+      "expected_calibration_error": 0.06878619625270371,
+      "parameters_total": 4011844,
+      "parameters_trainable": 4011844,
+      "state_dict_size_mb": 15.315815925598145,
+      "latency_mean_ms": 0.4111689986893907,
+      "latency_median_ms": 0.4050999996252358,
+      "latency_p95_ms": 0.4720849829027429,
+      "training_seconds": 679.0164452000172,
+      "display_name": "AlexNet-style CNN"
+    },
+    {
+      "model": "mobilenetv2_frozen",
+      "accuracy": 0.8736,
+      "balanced_accuracy": 0.8834375000000001,
+      "macro_precision": 0.8632830134853434,
+      "macro_recall": 0.8834375000000001,
+      "macro_f1": 0.8716412566974636,
+      "weighted_f1": 0.8733383251522476,
+      "top2_accuracy": 0.9746,
+      "roc_auc_ovr_macro": 0.9802435,
+      "negative_log_likelihood": 0.3341312110424042,
+      "brier_score": 0.183687810672643,
+      "expected_calibration_error": 0.006774910029768964,
+      "parameters_total": 2553348,
+      "parameters_trainable": 329476,
+      "state_dict_size_mb": 9.985788345336914,
+      "latency_mean_ms": 2.378261001431383,
+      "latency_median_ms": 2.3461499949917197,
+      "latency_p95_ms": 2.6165449584368616,
+      "training_seconds": 351.2751278000069,
+      "display_name": "MobileNetV2 frozen"
+    },
+    {
+      "model": "simple_cnn",
+      "accuracy": 0.8635,
+      "balanced_accuracy": 0.8755,
+      "macro_precision": 0.8587832784206192,
+      "macro_recall": 0.8755,
+      "macro_f1": 0.8659004371799129,
+      "weighted_f1": 0.8638192220229758,
+      "top2_accuracy": 0.9796,
+      "roc_auc_ovr_macro": 0.9758183697916667,
+      "negative_log_likelihood": 0.35062673687934875,
+      "brier_score": 0.19911478676420666,
+      "expected_calibration_error": 0.008159619313478462,
+      "parameters_total": 315844,
+      "parameters_trainable": 315844,
+      "state_dict_size_mb": 1.2151384353637695,
+      "latency_mean_ms": 0.3838150011142716,
+      "latency_median_ms": 0.3318499948363751,
+      "latency_p95_ms": 0.7402899878798053,
+      "training_seconds": 482.9828522000462,
+      "display_name": "Simple CNN"
+    }
+  ],
+  "per_class_metrics": [
+    {
+      "class_name": "living",
+      "precision": 0.8765368852459017,
+      "recall": 0.8555,
+      "f1_score": 0.8658906882591093,
+      "support": 2000
+    },
+    {
+      "class_name": "nature",
+      "precision": 0.9388830347734457,
+      "recall": 0.891,
+      "f1_score": 0.9143150333504361,
+      "support": 4000
+    },
+    {
+      "class_name": "transport",
+      "precision": 0.8968824940047961,
+      "recall": 0.935,
+      "f1_score": 0.9155446756425949,
+      "support": 2000
+    },
+    {
+      "class_name": "urban",
+      "precision": 0.9035532994923858,
+      "recall": 0.979,
+      "f1_score": 0.9397648188144948,
+      "support": 2000
+    }
+  ],
+  "robustness": [
+    {
+      "condition": "clean",
+      "label": "Clean images",
+      "macro_f1": 0.9017269527203687,
+      "drop_from_clean": 0.0
+    },
+    {
+      "condition": "gaussian_noise",
+      "label": "Gaussian noise",
+      "macro_f1": 0.3971032026853243,
+      "drop_from_clean": 0.5046237500350444
+    },
+    {
+      "condition": "darkness",
+      "label": "Reduced brightness",
+      "macro_f1": 0.8974101700505634,
+      "drop_from_clean": 0.004316782669805286
+    },
+    {
+      "condition": "brightness",
+      "label": "Increased brightness",
+      "macro_f1": 0.8982293305649365,
+      "drop_from_clean": 0.003497622155432256
+    },
+    {
+      "condition": "blur",
+      "label": "Blur",
+      "macro_f1": 0.8607630511824025,
+      "drop_from_clean": 0.04096390153796625
+    },
+    {
+      "condition": "rotation_90",
+      "label": "90\u00b0 rotation",
+      "macro_f1": 0.7352946103709133,
+      "drop_from_clean": 0.16643234234945548
+    }
+  ],
+  "visuals": {
+    "leaderboard": "evaluation/model_leaderboard.png",
+    "confusion_matrix": "evaluation/selected_confusion_matrix.png",
+    "gradcam": "evaluation/selected_gradcam.png",
+    "training_accuracy": "evaluation/selected_training_accuracy.png",
+    "training_loss": "evaluation/selected_training_loss.png"
+  },
+  "methodology": {
+    "selection_metric": "macro_f1",
+    "same_split_for_all_models": true,
+    "same_test_set_for_all_models": true,
+    "test_set_size": 10000,
+    "notes": [
+      "Macro F1 is the primary ranking metric because the semantic groups are imbalanced.",
+      "Latency was measured locally on the configured CUDA device and is not browser latency.",
+      "The static browser demo uses the selected ONNX model through ONNX Runtime Web."
+    ]
+  }
+}

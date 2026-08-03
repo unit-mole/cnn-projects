@@ -1,0 +1,39 @@
+{
+  "living": {
+    "precision": 0.7485406376290974,
+    "recall": 0.8335,
+    "f1-score": 0.7887390584338775,
+    "support": 2000.0
+  },
+  "nature": {
+    "precision": 0.8996138996138996,
+    "recall": 0.8155,
+    "f1-score": 0.8554943613952268,
+    "support": 4000.0
+  },
+  "transport": {
+    "precision": 0.8693540553666829,
+    "recall": 0.895,
+    "f1-score": 0.8819906380881991,
+    "support": 2000.0
+  },
+  "urban": {
+    "precision": 0.9176245210727969,
+    "recall": 0.958,
+    "f1-score": 0.9373776908023483,
+    "support": 2000.0
+  },
+  "accuracy": 0.8635,
+  "macro avg": {
+    "precision": 0.8587832784206192,
+    "recall": 0.8755,
+    "f1-score": 0.8659004371799129,
+    "support": 10000.0
+  },
+  "weighted avg": {
+    "precision": 0.8669494026592752,
+    "recall": 0.8635,
+    "f1-score": 0.8638192220229758,
+    "support": 10000.0
+  }
+}

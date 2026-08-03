@@ -1,0 +1,51 @@
+{
+  "project_name": "AlexNet-Style CNN vs MobileNetV2 Transfer Learning",
+  "subtitle": "Controlled PyTorch CNN comparison with ONNX browser inference and transparent evaluation",
+  "dataset": {
+    "name": "CIFAR-10 semantic groups",
+    "class_names": [
+      "living",
+      "nature",
+      "transport",
+      "urban"
+    ],
+    "warning": "These labels are regrouped CIFAR-10 object categories, not a true high-resolution scene dataset. Performance on arbitrary real-world photographs may differ from the reported test-set results."
+  },
+  "candidate_models": [
+    "Simple CNN from scratch",
+    "AlexNet-style CNN from scratch",
+    "MobileNetV2 frozen transfer learning",
+    "MobileNetV2 partial fine-tuning"
+  ],
+  "preprocessing": {
+    "browser_size": [
+      96,
+      96
+    ],
+    "channels": 3,
+    "color_mode": "RGB",
+    "normalization": "ImageNet mean/std",
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ]
+  },
+  "evaluation": {
+    "results_file": "evaluation_metrics.json",
+    "selection_metric": "macro_f1",
+    "test_set_size": 10000
+  },
+  "deployment": {
+    "selected_model": "mobilenetv2_finetuned",
+    "format": "ONNX",
+    "runtime": "ONNX Runtime Web",
+    "status": "Model exported and validated for static GitHub Pages deployment."
+  },
+  "responsible_use": "Educational portfolio demonstration only. Predictions may be wrong and must not be used as the sole basis for medical, legal, safety-critical, security, hiring, insurance, financial, quality-release, or production decisions."
+}

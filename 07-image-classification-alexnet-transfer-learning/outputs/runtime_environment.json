@@ -1,0 +1,9 @@
+{
+  "python_device": "cuda",
+  "torch_version": "2.13.0+cu130",
+  "cuda_available": true,
+  "cuda_version": "13.0",
+  "gpu_name": "NVIDIA GeForce RTX 5090",
+  "gpu_count": 1,
+  "mixed_precision": true
+}

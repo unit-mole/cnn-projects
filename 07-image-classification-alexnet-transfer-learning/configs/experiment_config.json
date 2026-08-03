@@ -1,0 +1,38 @@
+{
+  "project_version": "3.0.0",
+  "seed": 42,
+  "validation_size": 8000,
+  "batch_size": 128,
+  "num_workers": 0,
+  "image_size": 96,
+  "models": {
+    "simple_cnn": {
+      "epochs": 22,
+      "learning_rate": 0.001
+    },
+    "alexnet_style": {
+      "epochs": 30,
+      "learning_rate": 0.0005
+    },
+    "mobilenetv2_frozen": {
+      "epochs": 15,
+      "learning_rate": 0.001
+    },
+    "mobilenetv2_finetuned": {
+      "epochs": 10,
+      "learning_rate": 2e-05,
+      "unfreeze_last_blocks": 4
+    }
+  },
+  "early_stopping_patience": 5,
+  "reduce_lr_patience": 2,
+  "robustness_sample_size": 1500,
+  "latency_warmup_runs": 20,
+  "latency_timed_runs": 100,
+  "deployment": {
+    "max_model_size_mb": 100,
+    "selection_metric": "macro_f1",
+    "format": "ONNX",
+    "browser_runtime": "ONNX Runtime Web"
+  }
+}

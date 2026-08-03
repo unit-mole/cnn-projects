@@ -1,0 +1,26 @@
+{
+  "clean": {
+    "macro_f1": 0.9017269527203687,
+    "drop_from_clean": 0.0
+  },
+  "gaussian_noise": {
+    "macro_f1": 0.3971032026853243,
+    "drop_from_clean": 0.5046237500350444
+  },
+  "darkness": {
+    "macro_f1": 0.8974101700505634,
+    "drop_from_clean": 0.004316782669805286
+  },
+  "brightness": {
+    "macro_f1": 0.8982293305649365,
+    "drop_from_clean": 0.003497622155432256
+  },
+  "blur": {
+    "macro_f1": 0.8607630511824025,
+    "drop_from_clean": 0.04096390153796625
+  },
+  "rotation_90": {
+    "macro_f1": 0.7352946103709133,
+    "drop_from_clean": 0.16643234234945548
+  }
+}
