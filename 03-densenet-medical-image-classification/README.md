@@ -4,7 +4,7 @@
 [![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-FF6F00.svg)](https://www.tensorflow.org/)
 [![DenseNet121](https://img.shields.io/badge/CNN-DenseNet121-0A66C2.svg)](https://keras.io/api/applications/densenet/)
 [![TensorFlow.js](https://img.shields.io/badge/TensorFlow.js-Browser%20Inference-FF6F00.svg)](https://www.tensorflow.org/js)
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-2EA44F.svg)](https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-2EA44F.svg)]([https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/](https://unit-mole.github.io/cnn-projects/03-densenet-medical-image-classification/))
 [![Project 03 CI and Pages](https://github.com/unit-mole/cnn-projects/actions/workflows/03-densenet-medical-image-classification.yml/badge.svg)](https://github.com/unit-mole/cnn-projects/actions/workflows/03-densenet-medical-image-classification.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
